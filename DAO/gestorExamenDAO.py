@@ -21,3 +21,6 @@ class GestorExamenDAO(ConexionBD):
         finally:
             self.cerrarConexion()
 
+if __name__ == '__main__':
+    ge = GestorExamenDAO()
+    ge.agregarPregunta("primera pregunta",(("primera respuesta",1),("segunda respuesta",1)))
