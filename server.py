@@ -42,11 +42,7 @@ def sirveDirectorioSTATIC(path):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        LoginDAO.iniciarSesion(request.form['username'], request.form['password'])
-        
-            return redirect(url_for('index'))
-        else:
-            return redirect(url_for('login'))
+        (Usuario, session) = LoginDAO.iniciarSesion(request.form['username'], request.form['password'])
     return render_template('login.html')
 
 app.run(debug=True)
