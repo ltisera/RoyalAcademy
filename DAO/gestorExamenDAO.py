@@ -1,16 +1,22 @@
 import mysql.connector
-from DAO.ConexionBD import ConexionBD
+from ConexionBD import ConexionBD
 
 class GestorExamenDAO(ConexionBD):
     def __int__(self):
         pass
-    
+    """
+    entradas:
+        -descripcion: descripcion de la pregunta
+        -respuestas(tupla): (descripcion,esCorrecto)
+            -descripcion: lo que dice la respuesta
+            -esCorrecto: si la respuesta es correcta, valores 0 o 1
+    """
     def agregarPregunta(self, descripcion, respuestas):
         try:
             self.crearConexion()
-            self._micur.execute("insert into pregunta(descripcion) values (%s)",descripcion)
+            self._micur.execute("insert into pregunta(descripcion) values (%s)",(descripcion,))
             idpregunta = self._micur.lastrowid
-            queryRespuestas="insert into respuesta(idpregunta,descripcion,esCorrecta) values (%s,%s,b'%s')"
+            queryRespuestas="insert into respuestamodelo(idpregunta,descripcion,esCorrecta) values (%s,%s,b'%s')"
             for resp in respuestas:
                 self._micur.execute(queryRespuestas,(idpregunta,resp[0],resp[1]))
             self._bd.commit()
