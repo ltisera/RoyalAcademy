@@ -1,8 +1,8 @@
 from flask import session
 
-from ConexionBD import ConexionBD
-from Usuario import Usuario
-
+from DAO.ConexionBD import ConexionBD
+from DAO.Usuario import Usuario
+from mysql.connector import Error
 
 class LoginDAO(ConexionBD):
     """docstring for ClassName"""
@@ -20,7 +20,7 @@ class LoginDAO(ConexionBD):
                     session['loggedin'] = True
                     session['id'] = usuario['idUsuario']
                     session['username'] = usuario['email']
-        except mysql.connector.errors.IntegrityError as e:
+        except Error as e:
             print("Error al conectar con la BD", e)
         finally:
             self.cerrarConexion()

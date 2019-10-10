@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy')
+sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy\DAO')
 sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 
 #from DAO.pasajeroDAO import PasajeroDAO
