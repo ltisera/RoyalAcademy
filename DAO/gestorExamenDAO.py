@@ -27,6 +27,24 @@ class GestorExamenDAO(ConexionBD):
         finally:
             self.cerrarConexion()
 
+    def traerPreguntas(self):
+        listaPreguntas = []
+        try:
+            self.crearConexion()
+            self._micur.execute("select * from pregunta")
+            for (idPregunta,descripcion) in self._micur:
+                pregunta={}
+                pregunta["idpregunta"] = idPregunta
+                pregunta["descripcion"] = descripcion
+                listaPreguntas.append(pregunta)
+        except mysql.connector.errors.IntegrityError as err:
+            print("DANGER ALGO OCURRIO: " + str(err))
+        finally:
+            self.cerrarConexion()
+        if len(listaPreguntas)==0:
+            listaPreguntas = None
+        return listaPreguntas
 if __name__ == '__main__':
     ge = GestorExamenDAO()
-    ge.agregarPregunta("primera pregunta",(("primera respuesta",1),("segunda respuesta",1)))
+    #ge.agregarPregunta("segunda pregunta",(("primera respuesta",1),("segunda respuesta",1)))
+    print("")
