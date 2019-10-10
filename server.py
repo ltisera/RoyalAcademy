@@ -1,6 +1,7 @@
 import sys
-#sys.path.append('D:\DropBox\Dropbox\FAcultad\Sistemas Distribuidos\odbcViajes\odbcViajes')
-#sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
+
+sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy')
+sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 
 #from DAO.pasajeroDAO import PasajeroDAO
 from flask import Flask, render_template, send_from_directory, request, jsonify, Response
@@ -41,8 +42,13 @@ def sirveDirectorioSTATIC(path):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    print("DBGGGGGGGG")
+    print(request.form)
+    print("DBG END")
+    (Usuario, session) = (None, None)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        print("Estoy entrando wacxhoooo")
         (Usuario, session) = LoginDAO.iniciarSesion(request.form['username'], request.form['password'])
-    return render_template('login.html')
+    return jsonify(Usuario, session),200
 
 app.run(debug=True)

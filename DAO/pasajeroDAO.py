@@ -1,6 +1,6 @@
-from DAO.pasajero import Pasajero
+from pasajero import Pasajero
 import mysql.connector
-from DAO.ConexionBD import ConexionBD
+from ConexionBD import ConexionBD
 
 
 class PasajeroDAO(ConexionBD):
