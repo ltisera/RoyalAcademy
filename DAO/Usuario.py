@@ -31,7 +31,7 @@ class Usuario():
     def password(self, password):
         self._password = str(password)
 
-   	@property
+    @property
     def tipoUsuario(self):
         return self._tipoUsuario
 
