@@ -42,13 +42,15 @@ def sirveDirectorioSTATIC(path):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    ldao = LoginDAO()
     print("DBGGGGGGGG")
     print(request.form)
     print("DBG END")
-    (Usuario, session) = (None, None)
+    
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
         print("Estoy entrando wacxhoooo")
-        (Usuario, session) = LoginDAO.iniciarSesion(request.form['username'], request.form['password'])
-    return jsonify(Usuario, session),200
+        usuarioDevuelto = ldao.iniciarSesion(request.form['username'], request.form['password'])
+        
+    return jsonify(usuarioDevuelto),200
 
 app.run(debug=True)

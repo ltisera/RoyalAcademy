@@ -10,20 +10,21 @@ class LoginDAO(ConexionBD):
         pass
 
     def iniciarSesion(self, username, password):
-        usuario = Usuario()
+        usrRespuesta = None
         try:
             self.crearConexion()
             if self._bd.is_connected():
                 self._micur.execute('SELECT * FROM usuario WHERE email = %s AND password = %s', (username, password))
                 usuario = self._micur.fetchone()
-                if usuario:
-                    session['loggedin'] = True
-                    session['id'] = usuario['idUsuario']
-                    session['username'] = usuario['email']
+                if(usuario is not None):
+                    usrRespuesta = {}
+                    usrRespuesta['loggedin'] = True
+                    usrRespuesta['id'] = usuario[0]
+                    usrRespuesta['username'] = usuario[1]
         except Error as e:
             print("Error al conectar con la BD", e)
         finally:
             self.cerrarConexion()
-            return (usuario,session)
+        return usrRespuesta
 
         

@@ -9,7 +9,7 @@ $(document).on('click', "#idLogueate", function() {
         data: {"username": $("#idTxtUssr").val(),
                 "password": $("#idTxtPass").val()
             },
-        success:function(response){console.log("BIEN")},
+        success:function(response){console.log(response)},
         error:function(response){console.log("MAL")}
     });
 });
