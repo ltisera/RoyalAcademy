@@ -1,8 +1,8 @@
 import sys
-
-#sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy')
-#sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
-from CONFIGS.configs import getConfigDB
+sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy')
+sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
+from DAO.CONFIGS.configs import getConfigDB
+>>>>>>> d0cedd0a88c8ca102058be29c41ba2be37bc2a49
 import mysql.connector
 from mysql.connector import Error
 
