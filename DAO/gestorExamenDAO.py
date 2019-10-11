@@ -10,6 +10,9 @@ class GestorExamenDAO(ConexionBD):
         -respuestas(tupla): (descripcion,esCorrecto)
             -descripcion: lo que dice la respuesta
             -esCorrecto: si la respuesta es correcta, valores 0 o 1
+    ejemplo:
+        agregarPregunta("De que color es el gato",(("blanco",0),("negro",1),("soy Daltonico",0)))
+        {{"De que color es el gato"},{{"blanco",0},{"negro",1},{"soy Daltonico",0}}}
     """
     def agregarPregunta(self, descripcion, respuestas):
         try:
