@@ -4,7 +4,7 @@ sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\
 sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 
 #from DAO.pasajeroDAO import PasajeroDAO
-from flask import Flask, render_template, send_from_directory, request, jsonify, Response
+from flask import Flask, render_template, send_from_directory, request, jsonify, Response , redirect , url_for
 from DAO.LoginDAO import LoginDAO
 
 app = Flask(__name__, static_folder='static', static_url_path='')
@@ -22,6 +22,10 @@ def index():
 def traerCiudades():
     return jsonify("HolaEnzo"), 200
 
+
+@app.route('/alumno', methods=['GET'])
+def alumno():
+    return render_template('alumno.html')
 
 # Otros
 
@@ -51,6 +55,17 @@ def login():
         print("Estoy entrando wacxhoooo")
         usuarioDevuelto = ldao.iniciarSesion(request.form['username'], request.form['password'])
         
+        if(usuarioDevuelto):
+            if(usuarioDevuelto['tipoUsuario'] == 'alumno'):
+                return redirect(url_for('alumno'))
+            if(usuarioDevuelto['tipoUsuario'] == 'profesor'):
+                print('se logueo profesor')
+            if(usuarioDevuelto['tipoUsuario'] == 'ag'):
+                print('se logueo admin general')    
+        else: 
+            print('no se encuentra registrado. Por favor registrarse')
+        
+                
     return jsonify(usuarioDevuelto),200
 
 app.run(debug=True)

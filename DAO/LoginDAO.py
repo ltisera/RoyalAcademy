@@ -21,6 +21,7 @@ class LoginDAO(ConexionBD):
                     usrRespuesta['loggedin'] = True
                     usrRespuesta['id'] = usuario[0]
                     usrRespuesta['username'] = usuario[1]
+                    usrRespuesta['tipoUsuario'] = usuario[3]
         except Error as e:
             print("Error al conectar con la BD", e)
         finally:

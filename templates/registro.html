@@ -1,7 +1,6 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="static/js/jquery-3.4.1.js"></script>
-<script src="static/js/index.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
 <!--
@@ -17,7 +16,8 @@
 body, html {
     height: 100%;
     background-repeat: no-repeat;
-    background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+    background: #2B3E29;
+    /*#3E82B0  #42683F*/
 }
 
 .card-container.card {
@@ -57,9 +57,9 @@ body, html {
     height: 96px;
     margin: 0 auto 10px;
     display: block;
-    -moz-border-radius: 25%;
-    -webkit-border-radius: 25%;
-    border-radius: 25%;
+    -moz-border-radius: ;
+    -webkit-border-radius: ;
+    border-radius: ;
 }
 
 /*
@@ -89,7 +89,9 @@ body, html {
 }
 
 .form-signin #inputEmail,
-.form-signin #inputPassword {
+.form-signin #inputPassword,
+.form-signin #inputNombre,
+.form-signin #inputApellido {
     direction: ltr;
     height: 44px;
     font-size: 16px;
@@ -149,28 +151,27 @@ body, html {
 .forgot-password:focus{
     color: rgb(12, 97, 33);
 }</style>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 </head>
+
+    
     <div class="container">
+        
         <div class="card card-container">
             <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
-            <img id="profile-img" class="profile-img-card" src="{{ url_for('static',filename='img/loginIcon.png')}}" />
+            <img id="profile-img" class="profile-img-card" src="{{ url_for('static',filename='img/agregar.png')}}" />
+            
             <p id="profile-name" class="profile-name-card"></p>
-            <form class="form-signin" action="/login" method="post">
-                <span id="reauth-email" class="reauth-email"></span>
-                <input type="text" id="idTxtUssr" class="form-control" placeholder="Email" required autofocus>
-                <input id="idTxtPass" type="password"  class="form-control" placeholder="password" required>
-                <div id="remember" class="checkbox">
-                </div>
-                <input class="btn btn-lg btn-primary btn-block btn-signin" id="idLogueate" type="button" value="logueate" >Ingresar</input>
+            <form class="form-signin" action="/envioRegistro" method="post">
+                <input type="text" name="name" id="inputNombre" class="form-control" placeholder="Nombre" required autofocus>
+                <input type="text" name="apellido" id="inputApellido" class="form-control" placeholder="Apellido" required autofocus>
+                <span id="reauth-email"  class="reauth-email"></span>
+                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="contraseÃ±a" required>
+                <input type="password" name="repetPassword" id="inputPassword" class="form-control" placeholder="repita contraseÃ±a" required>
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Registrarse</button>
             </form><!-- /form -->
-            <a href="#" class="forgot-password">
-               Olvidaste tu contraseÃ±a?
-            </a>
-            <div class="clsMain">
-	
-            </div>
         </div><!-- /card-container -->
     </div><!-- /container -->
-
