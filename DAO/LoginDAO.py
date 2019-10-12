@@ -1,8 +1,8 @@
 from flask import session
 
-from ConexionBD import ConexionBD
-from Usuario import Usuario
-
+from DAO.ConexionBD import ConexionBD
+from DAO.Usuario import Usuario
+from mysql.connector import Error
 
 class LoginDAO(ConexionBD):
     """docstring for ClassName"""
@@ -10,20 +10,22 @@ class LoginDAO(ConexionBD):
         pass
 
     def iniciarSesion(self, username, password):
-        usuario = Usuario()
+        usrRespuesta = None
         try:
             self.crearConexion()
             if self._bd.is_connected():
                 self._micur.execute('SELECT * FROM usuario WHERE email = %s AND password = %s', (username, password))
                 usuario = self._micur.fetchone()
-                if usuario:
-                    session['loggedin'] = True
-                    session['id'] = usuario['idUsuario']
-                    session['username'] = usuario['email']
-        except mysql.connector.errors.IntegrityError as e:
+                if(usuario is not None):
+                    usrRespuesta = {}
+                    usrRespuesta['loggedin'] = True
+                    usrRespuesta['id'] = usuario[0]
+                    usrRespuesta['username'] = usuario[1]
+                    usrRespuesta['tipoUsuario'] = usuario[3]
+        except Error as e:
             print("Error al conectar con la BD", e)
         finally:
             self.cerrarConexion()
-            return (usuario,session)
+        return usrRespuesta
 
         
