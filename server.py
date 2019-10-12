@@ -18,14 +18,24 @@ def index():
     return render_template('login.html')
 
 
-@app.route('/holaEnzo', methods=['GET', 'POST'])
-def traerCiudades():
-    return jsonify("HolaEnzo"), 200
-
-
 @app.route('/alumno', methods=['GET'])
 def alumno():
     return render_template('alumno.html')
+
+
+@app.route('/docente', methods=['GET'])
+def docente():
+    return render_template('profesor.html')
+
+
+@app.route('/ag', methods=['GET'])
+def ag():
+    return render_template('alumno.html')    
+
+
+@app.route('/registro', methods=['GET'])
+def registro():
+    return render_template('registro.html') 
 
 # Otros
 
@@ -47,23 +57,18 @@ def sirveDirectorioSTATIC(path):
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     ldao = LoginDAO()
-    print("DBGGGGGGGG")
-    print(request.form)
-    print("DBG END")
-    
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        print("Estoy entrando wacxhoooo")
-        usuarioDevuelto = ldao.iniciarSesion(request.form['username'], request.form['password'])
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        usuarioDevuelto = ldao.iniciarSesion(request.form['email'], request.form['password'])
         
         if(usuarioDevuelto):
             if(usuarioDevuelto['tipoUsuario'] == 'alumno'):
                 return redirect(url_for('alumno'))
             if(usuarioDevuelto['tipoUsuario'] == 'profesor'):
-                print('se logueo profesor')
+                return redirect(url_for('docente'))
             if(usuarioDevuelto['tipoUsuario'] == 'ag'):
-                print('se logueo admin general')    
+                return redirect(url_for('ag'))
         else: 
-            print('no se encuentra registrado. Por favor registrarse')
+            return redirect(url_for('registro'))
         
                 
     return jsonify(usuarioDevuelto),200
