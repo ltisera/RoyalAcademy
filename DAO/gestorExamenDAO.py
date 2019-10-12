@@ -2,7 +2,7 @@ import mysql.connector
 from ConexionBD import ConexionBD
 
 class GestorExamenDAO(ConexionBD):
-    def __int__(self):
+    def __init__(self):
         pass
     """
     entradas:
@@ -30,15 +30,14 @@ class GestorExamenDAO(ConexionBD):
         finally:
             self.cerrarConexion()
 
+    """Trae las preguntas pero sin las respuestas"""
     def traerPreguntas(self):
         listaPreguntas = []
         try:
             self.crearConexion()
+            self.cursorDict()
             self._micur.execute("select * from pregunta")
-            for (idPregunta,descripcion) in self._micur:
-                pregunta={}
-                pregunta["idpregunta"] = idPregunta
-                pregunta["descripcion"] = descripcion
+            for pregunta in self._micur:
                 listaPreguntas.append(pregunta)
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
@@ -47,24 +46,27 @@ class GestorExamenDAO(ConexionBD):
         if len(listaPreguntas)==0:
             listaPreguntas = None
         return listaPreguntas
-
-    def traerPreguntas2(self):
-        listaPreguntas = []
+    
+    """ Trae las respuestas de una pregunta """
+    def traerRespuestas(self, idpregunta):
+        listaRespuestas = []
         try:
             self.crearConexion()
-            cursor = self._bd.cursor(dictionary=True, buffered=True)
-            cursor.execute("select * from pregunta")
-            for pregunta in cursor:
-                listaPreguntas.append(pregunta)
+            self.cursorDict()
+            self._micur.execute("select * from respuestamodelo r where r.idPregunta=%s" , (idpregunta,))
+            for respuesta in self._micur:
+                listaRespuestas.append(respuesta)
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
         finally:
             self.cerrarConexion()
-        if len(listaPreguntas)==0:
-            listaPreguntas = None
-        return listaPreguntas
+        if len(listaRespuestas)==0:
+            listaRespuestas = None
+        return listaRespuestas
+
+    def crearExamenManual(self, listaPreguntas):
+        pass
 if __name__ == '__main__':
     ge = GestorExamenDAO()
     #ge.agregarPregunta("segunda pregunta",(("primera respuesta",1),("segunda respuesta",1)))
-    print(ge.traerPreguntas())
-    print(ge.traerPreguntas2())
+    print(ge.traerRespuestas(5))
