@@ -3,22 +3,53 @@
 /*Estilos de index*/
 body {margin:0;}
 
-.clsHeader > *{
-	overflow: hidden;
+.clsHeader {
+	vertical-align: top;
 	position: fixed;
 	width: 100%;
 }
 
+
+.clsBarra {
+	width: 100%;
+	height: 30px;
+	background-color: rgba(36,78,132);
+	text-align: right;
+	color: white;
+	padding: 5px;
+}
+
+.clsBarra > label {
+	margin-right: 10px;
+}
+
+.clsLogo {
+	width: 100%;
+	top: 30px;
+	height: 100px;
+	background-color: rgba(0,0,0);
+	color: rgba(36,78,132);
+	padding: 5px;
+}
+.clsLoginBox{
+	border-style: solid;
+	border-width: 2px;	
+	height: 80px;
+	width: 80px;
+	border-color: rgb(139, 139, 139);
+	background-color: rgb(192, 191, 133);
+}
 .clsMenu {
+
 	background-color: #333;
 	width: 100%;
-	top: 130px;
+	
 	height: 50px;
 }
 
 .clsMenu a {
 	float: left;
-	display: block;
+	display: flex;
 	color: #f2f2f2;
 	text-align: center;
 	padding: 14px 16px;
@@ -31,33 +62,18 @@ body {margin:0;}
 	color: black;
 }
 
+
 .clsMain {
 	padding: 15px;
-	margin-top: 170px;
+	padding-top: 200px;
+	margin-left: 15%;
+	margin-right: 15%;
+	text-align: center;
+
 }
 
-.clsBarra {
-	top: 0px;
-	height: 30px;
-	background-color: rgba(36,78,132);
-	text-align: right;
-	color: white;
-	padding: 5px;
-}
-
-.clsBarra > * {
-	margin-right: 10px;
-}
-
-.clsLogo {
-	top: 30px;
-	height: 100px;
-	background-color: rgba(0,0,0);
-	color: rgba(36,78,132);
-	padding: 5px;
-}
-.clsColIzquierda{
-    float: left;
+.clsColIzquierda {
+	float: left;
     width: 30%;
 }
 .clsColDerecha{

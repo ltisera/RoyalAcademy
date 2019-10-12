@@ -1,9 +1,10 @@
 import sys
-
+import os
 sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy\DAO')
 sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 
 #from DAO.pasajeroDAO import PasajeroDAO
+
 from flask import Flask, render_template, send_from_directory, request, jsonify, Response
 from DAO.LoginDAO import LoginDAO
 
@@ -22,8 +23,24 @@ def index():
 def traerCiudades():
     return jsonify("HolaEnzo"), 200
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    ldao = LoginDAO()
+    print("DBGGGGGGGG")
+    print(request.form)
+    print("DBG END")
+    
+    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
+        print("Estoy entrando wacxhoooo")
+        usuarioDevuelto = ldao.iniciarSesion(request.form['username'], request.form['password'])
+        
+    return jsonify(usuarioDevuelto),200
 
 # Otros
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static/recursos/iconos'),'favicon.ico')
+
 
 @app.route('/static/<path:path>')
 def sirveDirectorioSTATIC(path):
@@ -40,17 +57,5 @@ def sirveDirectorioSTATIC(path):
     directorio = "static/" + directorio
     return send_from_directory(directorio, arc)
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    ldao = LoginDAO()
-    print("DBGGGGGGGG")
-    print(request.form)
-    print("DBG END")
-    
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        print("Estoy entrando wacxhoooo")
-        usuarioDevuelto = ldao.iniciarSesion(request.form['username'], request.form['password'])
-        
-    return jsonify(usuarioDevuelto),200
 
 app.run(debug=True)
