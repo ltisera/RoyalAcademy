@@ -1,10 +1,10 @@
 import sys
 
-sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy')
+sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy\DAO')
 sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 
 #from DAO.pasajeroDAO import PasajeroDAO
-from flask import Flask, render_template, send_from_directory, request, jsonify, Response
+from flask import Flask, render_template, send_from_directory, request, jsonify, Response , redirect , url_for
 from DAO.LoginDAO import LoginDAO
 
 app = Flask(__name__, static_folder='static', static_url_path='')
@@ -18,10 +18,24 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/holaEnzo', methods=['GET', 'POST'])
-def traerCiudades():
-    return jsonify("HolaEnzo"), 200
+@app.route('/alumno', methods=['GET'])
+def alumno():
+    return render_template('alumno.html')
 
+
+@app.route('/docente', methods=['GET'])
+def docente():
+    return render_template('profesor.html')
+
+
+@app.route('/ag', methods=['GET'])
+def ag():
+    return render_template('alumno.html')    
+
+
+@app.route('/registro', methods=['GET'])
+def registro():
+    return render_template('registro.html') 
 
 # Otros
 
@@ -42,13 +56,21 @@ def sirveDirectorioSTATIC(path):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print("DBGGGGGGGG")
-    print(request.form)
-    print("DBG END")
-    (Usuario, session) = (None, None)
-    if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
-        print("Estoy entrando wacxhoooo")
-        (Usuario, session) = LoginDAO.iniciarSesion(request.form['username'], request.form['password'])
-    return jsonify(Usuario, session),200
+    ldao = LoginDAO()
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
+        usuarioDevuelto = ldao.iniciarSesion(request.form['email'], request.form['password'])
+        
+        if(usuarioDevuelto):
+            if(usuarioDevuelto['tipoUsuario'] == 'alumno'):
+                return redirect(url_for('alumno'))
+            if(usuarioDevuelto['tipoUsuario'] == 'profesor'):
+                return redirect(url_for('docente'))
+            if(usuarioDevuelto['tipoUsuario'] == 'ag'):
+                return redirect(url_for('ag'))
+        else: 
+            return redirect(url_for('registro'))
+        
+                
+    return jsonify(usuarioDevuelto),200
 
 app.run(debug=True)
