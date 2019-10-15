@@ -21,7 +21,7 @@ USE `RoyalAcademyDB` ;
 -- Table `RoyalAcademyDB`.`sede`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `RoyalAcademyDB`.`sede` (
-  `idSede` INT(11) NOT NULL,
+  `idSede` INT(11) NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`idSede`))
 ENGINE = InnoDB
@@ -32,7 +32,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `RoyalAcademyDB`.`carrera`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `RoyalAcademyDB`.`carrera` (
-  `idCarrera` INT(11) NOT NULL,
+  `idCarrera` INT(11) NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NULL DEFAULT NULL,
   `idSede` INT(11) NOT NULL,
   PRIMARY KEY (`idCarrera`),
@@ -48,7 +48,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `RoyalAcademyDB`.`examen`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `RoyalAcademyDB`.`examen` (
-  `idExamen` INT(11) NOT NULL,
+  `idExamen` INT(11) NOT NULL AUTO_INCREMENT,
   `fecha` DATETIME NULL DEFAULT NULL,
   `idCarrera` INT(11) NOT NULL,
   `tema` VARCHAR(45) NULL DEFAULT NULL,
@@ -68,7 +68,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `RoyalAcademyDB`.`pregunta`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `RoyalAcademyDB`.`pregunta` (
-  `idPregunta` INT(11) NOT NULL,
+  `idPregunta` INT(11) NOT NULL AUTO_INCREMENT,
   `descripcion` VARCHAR(100) NULL DEFAULT NULL,
   PRIMARY KEY (`idPregunta`))
 ENGINE = InnoDB
@@ -79,7 +79,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `RoyalAcademyDB`.`imagen`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `RoyalAcademyDB`.`imagen` (
-  `idImagen` INT(11) NOT NULL,
+  `idImagen` INT(11) NOT NULL AUTO_INCREMENT,
   `idPregunta` INT(11) NULL DEFAULT NULL,
   `Imagencol` BLOB NOT NULL,
   PRIMARY KEY (`idImagen`),
@@ -95,7 +95,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `RoyalAcademyDB`.`usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `RoyalAcademyDB`.`usuario` (
-  `idUsuario` INT(11) NOT NULL,
+  `idUsuario` INT(11) NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(45) NULL DEFAULT NULL,
   `password` VARCHAR(45) NULL DEFAULT NULL,
   `tipoUsuario` ENUM('profesor', 'alumno', 'ag', 'ap', 'as') NULL DEFAULT NULL,
@@ -173,7 +173,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `RoyalAcademyDB`.`respuestamodelo`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `RoyalAcademyDB`.`respuestamodelo` (
-  `idRespuesta` INT(11) NOT NULL,
+  `idRespuesta` INT(11) NOT NULL AUTO_INCREMENT,
   `idPregunta` INT(11) NOT NULL,
   `descripcion` VARCHAR(45) NOT NULL,
   `esCorrecta` BIT(1) NOT NULL,

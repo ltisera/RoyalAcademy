@@ -3,6 +3,7 @@ sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\
 sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 sys.path.append(r'C:\Users\Enzord\GitHub\RoyalAcademy')
 from DAO.CONFIGS.configs import getConfigDB
+
 import mysql.connector
 from mysql.connector import Error
 
@@ -22,6 +23,9 @@ class ConexionBD:
         connectionDict = getConfigDB()
         self._bd = mysql.connector.connect(**connectionDict)
         self._micur = self._bd.cursor()
+    
+    def cursorDict(self):
+        self._micur = self._bd.cursor(dictionary=True, buffered=True)
 
     def cerrarConexion(self):
         if(self._bd.is_connected()):
