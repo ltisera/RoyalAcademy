@@ -66,7 +66,7 @@ class AlumnoDAO(ConexionBD):
     def rendirExamen(self, idExamen):
         try:
             self.crearConexion()
-            self._micur.execute("SELECT * FROM examen e INNER JOIN preguntasporexamen pe ON e.idExamen = pe.idExamen INNER JOIN pregunta p ON p.idPregunta = pe.idPregunta INNER JOIN respuestamodelo rm ON p.idPregunta = rm.idPregunta WHERE e.idExamen = %s", idExamen)
+            self._micur.execute("SELECT * FROM examen e INNER JOIN preguntasporexamen pe ON e.idExamen = pe.idExamen INNER JOIN pregunta p ON p.idPregunta = pe.idPregunta INNER JOIN respuestamodelo rm ON p.idPregunta = rm.idPregunta WHERE e.idExamen = %s", (idExamen,))
             examen = self._micur.fetchone()
             
 
@@ -123,8 +123,7 @@ if __name__ == '__main__':
     #print("FINALIZAR EXAMEN")
     #alumnoDao.finalizarExamen(1,2)
 
-    #NO ANDA
-    #print("RENDIR EXAMEN")
-    #print(alumnoDao.rendirExamen('1'))
+    print("RENDIR EXAMEN")
+    print(alumnoDao.rendirExamen('1'))
 
         
