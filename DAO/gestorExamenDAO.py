@@ -69,7 +69,7 @@ class GestorExamenDAO(ConexionBD):
         para cada pregunta se le agrega el atributo al dict "respuestas" que
         contiene la lista de respuestas como lo trae traerRespuestas() """
     def traerPreguntasConRespuestas(self): #Filtrar por Materia Tambien??
-        listaPreguntas = self.traerPreguntas();
+        listaPreguntas = self.traerPreguntas()
         for pregunta in listaPreguntas:
             pregunta["respuestas"] = self.traerRespuestas(pregunta["idPregunta"])
         if len(listaPreguntas)==0:
