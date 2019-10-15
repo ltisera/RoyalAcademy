@@ -1,5 +1,7 @@
 import mysql.connector
+
 import random
+
 from ConexionBD import ConexionBD
 
 class GestorExamenDAO(ConexionBD):
@@ -14,6 +16,7 @@ class GestorExamenDAO(ConexionBD):
     ejemplo:
         agregarPregunta("De que color es el gato",(("blanco",0),("negro",1),("soy Daltonico",0)))
         {{"De que color es el gato"},{{"blanco",0},{"negro",1},{"soy Daltonico",0}}}
+
     """
     def agregarPregunta(self, descripcion, respuestas):
         try:
@@ -32,6 +35,7 @@ class GestorExamenDAO(ConexionBD):
             self.cerrarConexion()
 
     """Trae las preguntas pero sin las respuestas(Lista de dict)"""
+
     def traerPreguntas(self):
         listaPreguntas = []
         try:
@@ -47,7 +51,7 @@ class GestorExamenDAO(ConexionBD):
         if len(listaPreguntas)==0:
             listaPreguntas = None
         return listaPreguntas
-    
+      
     """ Trae las respuestas de una pregunta (Lista de dict)"""
     def traerRespuestas(self, idpregunta):
         listaRespuestas = []
