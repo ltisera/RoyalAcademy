@@ -77,20 +77,19 @@ class GestorExamenDAO(ConexionBD):
         contiene la lista de respuestas como lo trae traerRespuestas() """
     def traerPreguntasConRespuestas(self, materia): #Filtrar por Materia Tambien??
         listaPreguntas = self.traerPreguntas(materia)
-        for pregunta in listaPreguntas:
-            pregunta["respuestas"] = self.traerRespuestas(pregunta["idPregunta"])
-        if len(listaPreguntas)==0:
-            listaPreguntas = None
+        if listaPreguntas!=None:
+            for pregunta in listaPreguntas:
+                pregunta["respuestas"] = self.traerRespuestas(pregunta["idPregunta"])
         return listaPreguntas
 
     """ EJEMPLO:
-            crearExamenManual('2019-09-20 20:00:00', 5, 1,(5,2,4,7,14,54)) 
+            crearExamenManual('2019-09-20 20:00:00', 5, 1, "historia",(5,2,4,7,14,54)) 
     NO TESTEADO!!!!!!!
     """
-    def crearExamenManual(self, fecha, idcarrera, disponible, listaIdPreguntas): #es necesario mas parametros??
+    def crearExamenManual(self, fecha, idcarrera, disponible, materia, listaIdPreguntas): #es necesario mas parametros??
         try:
             self.crearConexion()
-            self._micur.execute("insert into examen(fecha,idCarrera,disponible) values (%s,%s,b'%s')",(fecha,idcarrera,disponible))
+            self._micur.execute("insert into examen(fecha,idCarrera,disponible,materia) values (%s,%s,b'%s',%s)",(fecha,idcarrera,disponible,materia))
             idExamen = self._micur.lastrowid
             queryPreguntas="insert into preguntasporexamen(idPregunta,idExamen) values (%s,%s)"
             for idPregunta in listaIdPreguntas:
@@ -103,16 +102,19 @@ class GestorExamenDAO(ConexionBD):
         finally:
             self.cerrarConexion()
     
-    def crearExamenAutomatico(self, fecha, idcarrera, disponible = 1):
+    def crearExamenAutomatico(self, fecha, idcarrera, materia, disponible = 1):
         try:
             self.crearConexion()
-            self._micur.execute("insert into examen(fecha,idCarrera,disponible) values (%s,%s,b'%s')",(fecha,idcarrera,disponible))
+            self._micur.execute("insert into examen(fecha,idCarrera,disponible,materia) values (%s,%s,b'%s',%s)",(fecha,idcarrera,disponible,materia))
             idExamen = self._micur.lastrowid
             queryPreguntas="insert into preguntasporexamen(idPregunta,idExamen) values (%s,%s)"
-            self._micur.execute("select idPregunta from pregunta") #filtrar por materia
+            self._micur.execute("select idPregunta from pregunta p where p.materia = %s",(materia,)) #filtrar por materia
             preguntas = self._micur.fetchall()
-            for i in range(2):
-                self._micur.execute(queryPreguntas,(random.choice(preguntas)[0],idExamen))
+            pregunta = None
+            for i in range(70):
+                pregunta = random.choice(preguntas)
+                self._micur.execute(queryPreguntas,(pregunta[0],idExamen))
+                preguntas.remove(pregunta)
             self._bd.commit()
 
         except mysql.connector.errors.IntegrityError as err:
@@ -125,5 +127,11 @@ class GestorExamenDAO(ConexionBD):
 if __name__ == '__main__':
     ge = GestorExamenDAO()
     #ge.agregarPregunta("segunda pregunta","matematica",(("primera respuesta",1),("segunda respuesta",1)))
-    #print(ge.traerPreguntasConRespuestas("matematica"))
-    #ge.crearExamenAutomatico('2019-10-10 20:00:00', 1, 1)
+    #print(ge.traerPreguntasConRespuestas("historia"))
+    ge.crearExamenAutomatico('2019-10-10 20:00:00', 1,"historia", 1)
+    
+    ########AgregarPreguntasParaTesteo
+    #materia = "filosofia"
+    #for x in range(50):
+    #    ge.agregarPregunta("pregunta"+str(x),materia,(("p"+str(x)+"resp1",0),("p"+str(x)+"resp2",1),("p"+str(x)+"resp3",0)))
+    ########
