@@ -10,18 +10,21 @@ class GestorExamenDAO(ConexionBD):
     """
     entradas:
         -descripcion: descripcion de la pregunta
+        -materia: nombre de la materia
         -respuestas(tupla): (descripcion,esCorrecto)
             -descripcion: lo que dice la respuesta
             -esCorrecto: si la respuesta es correcta, valores 0 o 1
+
+
     ejemplo:
         agregarPregunta("De que color es el gato",(("blanco",0),("negro",1),("soy Daltonico",0)))
         {{"De que color es el gato"},{{"blanco",0},{"negro",1},{"soy Daltonico",0}}}
 
     """
-    def agregarPregunta(self, descripcion, respuestas):
+    def agregarPregunta(self, descripcion, materia, respuestas):
         try:
             self.crearConexion()
-            self._micur.execute("insert into pregunta(descripcion) values (%s)",(descripcion,))
+            self._micur.execute("insert into pregunta(descripcion,materia) values (%s,%s)",(descripcion,materia))
             idpregunta = self._micur.lastrowid
             queryRespuestas="insert into respuestamodelo(idpregunta,descripcion,esCorrecta) values (%s,%s,b'%s')"
             for resp in respuestas:
@@ -34,14 +37,14 @@ class GestorExamenDAO(ConexionBD):
         finally:
             self.cerrarConexion()
 
-    """Trae las preguntas pero sin las respuestas(Lista de dict)"""
+    """Trae las preguntas de la materia pero sin las respuestas(Lista de dict)"""
 
-    def traerPreguntas(self):
+    def traerPreguntas(self, materia):
         listaPreguntas = []
         try:
             self.crearConexion()
             self.cursorDict()
-            self._micur.execute("select * from pregunta")
+            self._micur.execute("select * from pregunta p where p.materia = %s",(materia,))
             for pregunta in self._micur:
                 listaPreguntas.append(pregunta)
         except mysql.connector.errors.IntegrityError as err:
@@ -72,8 +75,8 @@ class GestorExamenDAO(ConexionBD):
     """ Trae las preguntas como el metodo traerPreguntas() pero
         para cada pregunta se le agrega el atributo al dict "respuestas" que
         contiene la lista de respuestas como lo trae traerRespuestas() """
-    def traerPreguntasConRespuestas(self): #Filtrar por Materia Tambien??
-        listaPreguntas = self.traerPreguntas()
+    def traerPreguntasConRespuestas(self, materia): #Filtrar por Materia Tambien??
+        listaPreguntas = self.traerPreguntas(materia)
         for pregunta in listaPreguntas:
             pregunta["respuestas"] = self.traerRespuestas(pregunta["idPregunta"])
         if len(listaPreguntas)==0:
@@ -121,6 +124,6 @@ class GestorExamenDAO(ConexionBD):
         
 if __name__ == '__main__':
     ge = GestorExamenDAO()
-    #ge.agregarPregunta("segunda pregunta",(("primera respuesta",1),("segunda respuesta",1)))
-    #print(ge.traerPreguntasConRespuestas())
-    ge.crearExamenAutomatico('2019-10-10 20:00:00', 1, 1)
+    #ge.agregarPregunta("segunda pregunta","matematica",(("primera respuesta",1),("segunda respuesta",1)))
+    #print(ge.traerPreguntasConRespuestas("matematica"))
+    #ge.crearExamenAutomatico('2019-10-10 20:00:00', 1, 1)
