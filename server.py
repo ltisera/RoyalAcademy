@@ -6,6 +6,7 @@ sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 #from DAO.pasajeroDAO import PasajeroDAO
 from flask import Flask, render_template, send_from_directory, request, jsonify, Response , redirect , url_for
 from DAO.LoginDAO import LoginDAO
+from DAO.gestorExamenDAO import GestorExamenDAO
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 
@@ -57,12 +58,17 @@ def sirveDirectorioSTATIC(path):
 
 @app.route('/postPregunta',methods=['GET','POST'])
 def postPregunta():
-
     descripcion = request.form['descripcion']
- #   respuestas = ((request.form['respuesta1'],request.form['valor1']),(request.form['respuesta2'],request.form['valor2']),(request.form['respuesta3'],request.form['valor3']))
-    respuestas=request.form.getlist('respuesta')
-    print("------------------------------------------------------")
-    print(request.form.getlist('valor'))
+    respuestas1=request.form.getlist('respuesta')
+    respuestas2 = []
+    examenDao = GestorExamenDAO()
+    for x in range(len(respuestas1)):
+        try:
+            if request.form["valor"+str(x+1)] == "on":
+                respuestas2.append((respuestas1[x],1))
+        except:
+            respuestas2.append((respuestas1[x],0))
+    examenDao.agregarPregunta(descripcion,"matematica",respuestas2)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
