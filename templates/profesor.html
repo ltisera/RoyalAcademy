@@ -55,9 +55,40 @@
                     <div class="collapse" id="collapseExample">
                             <div class="card card-body">
                                     <div class="container-fluid">
-                                            <h1 class="mt-4">Crear  Examen</h1>
-                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel soluta harum iure temporibus? Magnam doloremque suscipit officia, dolore quaerat incidunt quisquam aperiam labore impedit nostrum quae ad ut, consequuntur perferendis.</p>
-                                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore nulla, distinctio voluptas officia labore voluptatem repellendus commodi aliquam dignissimos debitis laboriosam asperiores tempore praesentium minus perferendis! Commodi cupiditate deserunt similique.  ID which will toggle the menu when clicked.</p>                     
+                                            <h1 class="mt-4">Crear  Pregunta</h1>
+                                             <form action="/postPregunta" method="POST">
+                                                <input class="form-control form-control-lg" name="descripcion" type="text" placeholder="Descripcion">
+                                                <br>
+
+                                                <div class="input-group ">
+                                                    <input type="text"name="respuesta" class="form-control" aria-label="Text input with checkbox">
+                                                    <div class="input-group-prepend">
+                                                          <div class="input-group-text">
+                                                            <input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
+                                                          </div>
+                                                    </div>  
+                                                </div>
+                                                <br>
+                                                <div class="input-group ">
+                                                        <input type="text" name="respuesta" class="form-control" aria-label="Text input with checkbox">
+                                                        <div class="input-group-prepend">
+                                                              <div class="input-group-text">
+                                                                <input name="valor" type="checkbox" aria-label="Checkbox for following text input">
+                                                              </div>
+                                                        </div>  
+                                                    </div>
+                                                    <br>
+                                                    <div class="input-group ">
+                                                            <input  name="respuesta" type="text" class="form-control" aria-label="Text input with checkbox">
+                                                            <div class="input-group-prepend">
+                                                                  <div class="input-group-text">
+                                                                    <input name="valor" type="checkbox" aria-label="Checkbox for following text input">
+                                                                  </div>
+                                                            </div>  
+                                                        </div>
+                                                        <br>     
+                                                        <button type="submit" class="btn btn-primary my-1">Submit</button>                                                                   
+                                             </form>                       
                                     </div>                        
                             </div>
                     </div>

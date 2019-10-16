@@ -54,6 +54,16 @@ def sirveDirectorioSTATIC(path):
     directorio = "static/" + directorio
     return send_from_directory(directorio, arc)
 
+
+@app.route('/postPregunta',methods=['GET','POST'])
+def postPregunta():
+
+    descripcion = request.form['descripcion']
+ #   respuestas = ((request.form['respuesta1'],request.form['valor1']),(request.form['respuesta2'],request.form['valor2']),(request.form['respuesta3'],request.form['valor3']))
+    respuestas=request.form.getlist('respuesta')
+    print("------------------------------------------------------")
+    print(request.form.getlist('valor'))
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     ldao = LoginDAO()
