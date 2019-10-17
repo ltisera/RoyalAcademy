@@ -2,7 +2,7 @@ CREATE DATABASE  IF NOT EXISTS `royalacademydb` /*!40100 DEFAULT CHARACTER SET u
 USE `royalacademydb`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: royalacademydb
+-- Host: localhost    Database: royalacademydb
 -- ------------------------------------------------------
 -- Server version	8.0.17
 
@@ -31,7 +31,7 @@ CREATE TABLE `carrera` (
   PRIMARY KEY (`idCarrera`),
   KEY `fk_Carrera_Sede1_idx` (`idSede`),
   CONSTRAINT `fk_Carrera_Sede1` FOREIGN KEY (`idSede`) REFERENCES `sede` (`idSede`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,15 +54,14 @@ DROP TABLE IF EXISTS `examen`;
 CREATE TABLE `examen` (
   `idExamen` int(11) NOT NULL AUTO_INCREMENT,
   `fecha` datetime DEFAULT NULL,
-  `idCarrera` int(11) NOT NULL,
   `tema` varchar(45) DEFAULT NULL,
-  `materia` varchar(45) DEFAULT NULL,
+  `idMateria` int(11) DEFAULT NULL,
   `disponible` bit(1) DEFAULT NULL,
   `notaAprobacion` int(11) DEFAULT NULL,
   PRIMARY KEY (`idExamen`),
-  KEY `fk_ExamenModelo_Carrera1_idx` (`idCarrera`),
-  CONSTRAINT `fk_ExamenModelo_Carrera1` FOREIGN KEY (`idCarrera`) REFERENCES `carrera` (`idCarrera`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `examen_materia_idx` (`idMateria`),
+  CONSTRAINT `examen_materia` FOREIGN KEY (`idMateria`) REFERENCES `materia` (`idMateria`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +70,6 @@ CREATE TABLE `examen` (
 
 LOCK TABLES `examen` WRITE;
 /*!40000 ALTER TABLE `examen` DISABLE KEYS */;
-INSERT INTO `examen` VALUES (1,'2019-10-10 00:00:00',1,'Tema1','Materia1',_binary '',NULL),(2,'2019-10-10 00:00:00',1,'Tema2','Materia1',_binary '',NULL),(3,'2019-10-10 00:00:00',2,'Tema1','Materia1',_binary '',NULL);
 /*!40000 ALTER TABLE `examen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,8 +124,34 @@ CREATE TABLE `inscripcion` (
 
 LOCK TABLES `inscripcion` WRITE;
 /*!40000 ALTER TABLE `inscripcion` DISABLE KEYS */;
-INSERT INTO `inscripcion` VALUES (1,1,_binary '\0'),(1,2,_binary ''),(2,1,_binary '\0');
 /*!40000 ALTER TABLE `inscripcion` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `materia`
+--
+
+DROP TABLE IF EXISTS `materia`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `materia` (
+  `idMateria` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) DEFAULT NULL,
+  `idCarrera` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idMateria`),
+  KEY `carrera_materia_idx` (`idCarrera`),
+  CONSTRAINT `carrera_materia` FOREIGN KEY (`idCarrera`) REFERENCES `carrera` (`idCarrera`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `materia`
+--
+
+LOCK TABLES `materia` WRITE;
+/*!40000 ALTER TABLE `materia` DISABLE KEYS */;
+INSERT INTO `materia` VALUES (1,'matematica',1),(2,'historia',2),(3,'lenguaje',1),(4,'ingles',2);
+/*!40000 ALTER TABLE `materia` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -169,9 +193,11 @@ DROP TABLE IF EXISTS `pregunta`;
 CREATE TABLE `pregunta` (
   `idPregunta` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(100) DEFAULT NULL,
-  `materia` varchar(45) NOT NULL,
-  PRIMARY KEY (`idPregunta`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `idMateria` int(11) NOT NULL,
+  PRIMARY KEY (`idPregunta`),
+  KEY `pregunta_materia_idx` (`idMateria`),
+  CONSTRAINT `pregunta_materia` FOREIGN KEY (`idMateria`) REFERENCES `materia` (`idMateria`)
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -180,7 +206,6 @@ CREATE TABLE `pregunta` (
 
 LOCK TABLES `pregunta` WRITE;
 /*!40000 ALTER TABLE `pregunta` DISABLE KEYS */;
-INSERT INTO `pregunta` VALUES (1,'Pregunta1',''),(2,'Pregunta2',''),(3,'Pregunta3',''),(4,'Pregunta4','');
 /*!40000 ALTER TABLE `pregunta` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -208,7 +233,6 @@ CREATE TABLE `preguntasporexamen` (
 
 LOCK TABLES `preguntasporexamen` WRITE;
 /*!40000 ALTER TABLE `preguntasporexamen` DISABLE KEYS */;
-INSERT INTO `preguntasporexamen` VALUES (1,1);
 /*!40000 ALTER TABLE `preguntasporexamen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,7 +281,7 @@ CREATE TABLE `respuestamodelo` (
   PRIMARY KEY (`idRespuesta`),
   KEY `fk_Respuesta_Pregunta_idx` (`idPregunta`),
   CONSTRAINT `fk_Respuesta_Pregunta` FOREIGN KEY (`idPregunta`) REFERENCES `pregunta` (`idPregunta`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=309 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -266,7 +290,6 @@ CREATE TABLE `respuestamodelo` (
 
 LOCK TABLES `respuestamodelo` WRITE;
 /*!40000 ALTER TABLE `respuestamodelo` DISABLE KEYS */;
-INSERT INTO `respuestamodelo` VALUES (1,1,'Respuesta1',_binary ''),(2,1,'Respuesta2',_binary '\0'),(3,1,'Respuesta3',_binary '');
 /*!40000 ALTER TABLE `respuestamodelo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,7 +304,7 @@ CREATE TABLE `sede` (
   `idSede` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idSede`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,7 +333,7 @@ CREATE TABLE `usuario` (
   PRIMARY KEY (`idUsuario`),
   KEY `fk_Usuario_Carrera1_idx` (`idCarrera`),
   CONSTRAINT `fk_Usuario_Carrera1` FOREIGN KEY (`idCarrera`) REFERENCES `carrera` (`idCarrera`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -322,6 +345,14 @@ LOCK TABLES `usuario` WRITE;
 INSERT INTO `usuario` VALUES (1,'user1','1234','alumno',1),(2,'user2','1234','profesor',1);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'royalacademydb'
+--
+
+--
+-- Dumping routines for database 'royalacademydb'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -332,4 +363,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-14 22:23:28
+-- Dump completed on 2019-10-17 18:09:55
