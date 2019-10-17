@@ -3,7 +3,7 @@ import sys
 sys.path.append(r'C:\Users\Enzord\GitHub\RoyalAcademy')
 import random
 
-from ConexionBD import ConexionBD
+from DAO.ConexionBD import ConexionBD
 
 class GestorExamenDAO(ConexionBD):
     def __init__(self):
