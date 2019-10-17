@@ -54,6 +54,7 @@ def sirveDirectorioSTATIC(path):
     directorio = "static/" + directorio
     return send_from_directory(directorio, arc)
 
+
 @app.route('/traerListaMaterias', methods=['GET', 'POST'])
 def traerListaMaterias():
     gedao = GestorExamenDAO()
@@ -70,6 +71,22 @@ def traerPreguntasDeMateria():
     print("PARA ESTAR SEGURO")
     print(lMaterias)
     return jsonify(lMaterias),200
+
+
+@app.route('/postPregunta',methods=['GET','POST'])
+def postPregunta():
+    descripcion = request.form['descripcion']
+    respuestas1=request.form.getlist('respuesta')
+    respuestas2 = []
+    examenDao = GestorExamenDAO()
+    for x in range(len(respuestas1)):
+        try:
+            if request.form["valor"+str(x+1)] == "on":
+                respuestas2.append((respuestas1[x],1))
+        except:
+            respuestas2.append((respuestas1[x],0))
+    examenDao.agregarPregunta(descripcion,"matematica",respuestas2)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
