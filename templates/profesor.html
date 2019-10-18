@@ -1,134 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/css/navbar.css">
-    <script src="static/js/jquery-3.4.1.js"></script>
-    <script src="static/js/profesor.js"></script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="static/css/navbar.css">
+	<link rel="stylesheet" href="static/css/estilos.css" />
+	<script src="static/js/jquery-3.4.1.js"></script>
+	<script src="static/js/profesor.js"></script>
 
 
 
-<style>
-.prueba{
-    background: rgba(36,78,132);
-}
-</style>
+	<style>
+		.prueba {
+			background: rgba(36, 78, 132);
+		}
+	</style>
 
 
 </head>
+
 <body>
-    
-        <div class="d-flex" id="wrapper">
 
-                <!-- Sidebar -->
-                <div class="bg-dark border-right" id="sidebar-wrapper">
-                  <div class="sidebar-heading text-light bg-dark">Actividades</div>
-                  <div class="list-group list-group-flush">
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" role="button" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Crear Preguntas</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" role="button" href="#collapseModeloExamen" role="button" aria-expanded="false" aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Materias</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Planilla</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Perfil</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Cerrar Sesion</a>
-                  </div>
-                </div>
-                <!-- /#sidebar-wrapper -->
-            
-                <!-- Page Content -->
-                <div id="page-content-wrapper">
-            
-                  <nav class="navbar navbar-expand-lg navbar-light p-3 mb-2  prueba text-white border-bottom">
-                    <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-            
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" aria-expanded="false" aria-controls="collapseExample">
-                      <span class="navbar-toggler-icon"></span>
-                    </button>
-            
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                        <li class="nav-item active">
-                          <a class="nav-link text-white" href="#">ICONO DEL USUARIO PROFESOR<span class="sr-only">(current)</span></a>
-                        </li>
-                      </ul>
-                    </div>
-                  </nav>
-                
-                    <div class="collapse" id="collapseExample">
-                            <div class="card card-body">
-                                    <div class="container-fluid">
-                                            <h1 class="mt-4">Crear  Pregunta</h1>
-                                             <form action="/postPregunta" method="POST">
-                                                <input class="form-control form-control-lg" name="descripcion" type="text" placeholder="Descripcion">
-                                                <br>
+	<div class="d-flex" id="wrapper">
 
-                                                <div class="input-group ">
-                                                    <input type="text"name="respuesta" class="form-control" aria-label="Text input with checkbox">
-                                                    <div class="input-group-prepend">
-                                                          <div class="input-group-text">
-                                                            <input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
-                                                          </div>
-                                                    </div>  
-                                                </div>
-                                                <br>
-                                                <div class="input-group ">
-                                                        <input type="text" name="respuesta" class="form-control" aria-label="Text input with checkbox">
-                                                        <div class="input-group-prepend">
-                                                              <div class="input-group-text">
-                                                                <input name="valor2" type="checkbox" aria-label="Checkbox for following text input">
-                                                              </div>
-                                                        </div>  
-                                                    </div>
-                                                    <br>
-                                                    <div class="input-group ">
-                                                            <input  name="respuesta" type="text" class="form-control" aria-label="Text input with checkbox">
-                                                            <div class="input-group-prepend">
-                                                                  <div class="input-group-text">
-                                                                    <input name="valor3" type="checkbox" aria-label="Checkbox for following text input">
-                                                                  </div>
-                                                            </div>  
-                                                        </div>
-                                                        <br>     
-                                                        <button type="submit" class="btn btn-primary my-1">Submit</button>                                                                   
-                                             </form>                       
-                                    </div>                        
-                            </div>
-                    </div>
-                    <div class="collapse" id="collapseModeloExamen">
-                            <div class="card card-body">
-                                    <div class="container-fluid">
-                                            <h1 class="mt-4">Modelos de Examen</h1>
-                                            <p>Selecciona la materia para crear el examen</p>
-                                            <select id="selCarrera" class="cambialee">
-                                              
-                                            </select>
-                                    </div>                        
-                            </div>
-                    </div>
+		<!-- Sidebar -->
+		<div class="bg-dark border-right" id="sidebar-wrapper">
+			<div class="sidebar-heading text-light bg-dark">Actividades</div>
+			<div class="list-group list-group-flush">
+				<a class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse"
+					role="button" href="#collapseExample" role="button" aria-expanded="false"
+					aria-controls="collapseExample">Crear Preguntas</a>
+				<a class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse"
+					role="button" href="#collapseModeloExamen" role="button" aria-expanded="false"
+					aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
+				<a class="list-group-item list-group-item-action bg-dark text-light bg-dark">Materias</a>
+				<a class="list-group-item list-group-item-action bg-dark text-light bg-dark">Planilla</a>
+				<a class="list-group-item list-group-item-action bg-dark text-light bg-dark">Perfil</a>
+				<a class="list-group-item list-group-item-action bg-dark text-light bg-dark">Cerrar Sesion</a>
+			</div>
+		</div>
+		<!-- /#sidebar-wrapper -->
 
-                </div>
-                <!-- /#page-content-wrapper -->
-            
-        </div>
-              <!-- /#wrapper -->
+		<!-- Page Content -->
+		<div id="page-content-wrapper">
+
+			<nav class="navbar navbar-expand-lg navbar-light p-3 mb-2  prueba text-white border-bottom">
+				<button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
+					data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation" aria-expanded="false" aria-controls="collapseExample">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+						<li class="nav-item active">
+							<a class="nav-link text-white" href="#">ICONO DEL USUARIO PROFESOR<span
+									class="sr-only">(current)</span></a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+
+			<div class="collapse" id="collapseExample">
+				<div class="card card-body">
+					<div class="container-fluid">
+						<div class="clsFondoCrearPregunta">
+							<h1 class="mt-4">Crear Pregunta</h1>
+							
+								<input class="form-control form-control-lg" id="idLaPregunta" type="text"
+									placeholder="Aca mete tu pregunta amibo">
+								<div id="idDivRta" class="clsFondoRta">
+									<div class="input-group clsRGlobal">
+										<input type="text" id="rta1" class="clsRta form-control"
+											aria-label="Text input with checkbox">
+										<div class="input-group-prepend">
+											<div class="input-group-text">
+												<input id="chk1" type="checkbox"
+													aria-label="Checkbox for following text input">
+											</div>
+										</div>
+									</div>
+									<div class="input-group clsRGlobal">
+										<input type="text" id="rta2" class="clsRta form-control"
+											aria-label="Text input with checkbox">
+										<div class="input-group-prepend">
+											<div class="input-group-text">
+												<input id="chk2" type="checkbox"
+													aria-label="Checkbox for following text input">
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<button id="idBtnCrearExamen"type="submit" class="btn btn-primary my-1">Crear Examen</button>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="collapse" id="collapseModeloExamen">
+				<div class="card card-body">
+					<div class="container-fluid">
+						<h1 class="mt-4">Modelos de Examen</h1>
+						<p>Selecciona la materia para crear el examen</p>
+						<select id="selCarrera" class="cambialee">
+
+						</select>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
 
 
 
-  <!-- Bootstrap core JavaScript -->
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha256-gL1ibrbVcRIHKlCO5OXOPC/lZz/gpdApgQAzskqqXp8=" crossorigin="anonymous"></script>
-  <script rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script>
-        $("#menu-toggle").click(function(e) {
-          e.preventDefault();
-          $("#wrapper").toggleClass("toggled");
-        });
-      </script>  
+	<!-- Bootstrap core JavaScript -->
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+		integrity="sha256-gL1ibrbVcRIHKlCO5OXOPC/lZz/gpdApgQAzskqqXp8=" crossorigin="anonymous"></script>
+	<script rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script>
+		$("#menu-toggle").click(function (e) {
+			e.preventDefault();
+			$("#wrapper").toggleClass("toggled");
+		});
+	</script>
 </body>
+
 </html>

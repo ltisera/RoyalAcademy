@@ -69,3 +69,18 @@ body {margin:0;}
 
 }
 /*Fin de estilos Index*/
+
+/*Fin de estilos Profesor*/
+.clsFondoCrearPregunta{
+	
+}
+.clsFondoRta{
+	border-style: solid;
+	border-width: 1px;
+	padding: 20px;
+	
+}
+.clsRGlobal{
+	margin:10px;
+}
+/*Fin de estilos Profesor*/

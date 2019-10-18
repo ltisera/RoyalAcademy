@@ -7,6 +7,7 @@ sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 from flask import Flask, render_template, send_from_directory, request, jsonify, Response , redirect , url_for
 from DAO.LoginDAO import LoginDAO
 from DAO.gestorExamenDAO import GestorExamenDAO
+import json
 app = Flask(__name__, static_folder='static', static_url_path='')
 
 
@@ -72,6 +73,21 @@ def traerPreguntasDeMateria():
     print(lMaterias)
     return jsonify(lMaterias),200
 
+@app.route('/crearPregunta',methods=['GET','POST'])
+def crearPregunta():
+    print("A ver a ver")
+    abc = json.loads(request.json)
+    
+    print("Completo")
+    print(abc)
+    print("Pregunta")
+    
+    print(abc["pregunta"])
+    print("Accedo a la lista")
+    for l in abc["lista"]:
+        print("AbcRespuesta: ", l["respuesta"])
+    
+    return jsonify(""),200
 
 @app.route('/postPregunta',methods=['GET','POST'])
 def postPregunta():
