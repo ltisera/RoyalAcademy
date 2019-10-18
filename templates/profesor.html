@@ -31,9 +31,9 @@
                 <div class="bg-dark border-right" id="sidebar-wrapper">
                   <div class="sidebar-heading text-light bg-dark">Actividades</div>
                   <div class="list-group list-group-flush">
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" role="button" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Crear Preguntas</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" role="button" href="#collapseModeloExamen" role="button" aria-expanded="false" aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" id="examenAuto"  role="button" href="/creacionExamenAutomatico">Creacion Examen Automatico</a>
+                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Crear Preguntas</a>
+                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseModeloExamen" role="button" aria-expanded="false" aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
+                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseModeloExamenAuto" role="button" aria-expanded="false" aria-controls="collapseModeloExamenAuto">Creacion Examen Automatico</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Planilla</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Perfil</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Cerrar Sesion</a>
@@ -59,8 +59,8 @@
                       </ul>
                     </div>
                   </nav>
-                
-                    <div class="collapse" id="collapseExample">
+                  <div id="contenido">
+                    <div class="collapse show" id="collapseExample" data-parent="#contenido">
                             <div class="card card-body">
                                     <div class="container-fluid">
                                             <h1 class="mt-4">Crear  Pregunta</h1>
@@ -103,19 +103,8 @@
                              
                     </div>
 
-                    <div  class="container-fluid holi"  id="FormAuto">
-                        <div class="card card-body">
-                          <form action="/PostExamenAutomatico" method="POST">
-                            <select name="materia" id="selCarrera1" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                              
-                            </select>
-                            <input type="datetime-local" name="calendar" step="1" min="2013-01-01T00:00Z" max="2013-12-31T12:00Z" value="2013-01-01T12:00">
-                            <button type="submit" >registrar</button>
-                          </form>
-                      </div>
-      
-                      </div>           
-                    <div class="collapse" id="collapseModeloExamen">
+                            
+                    <div class="collapse" id="collapseModeloExamen" data-parent="#contenido">
                             <div class="card card-body">
                                     <div class="container-fluid">
                                             <h1 class="mt-4">Modelos de Examen</h1>
@@ -127,11 +116,23 @@
                             </div>
                     </div>
 
+                    <div  class="container-fluid collapse"  id="collapseModeloExamenAuto" data-parent="#contenido">
+                      <div class="card card-body">
+                        <form action="/PostExamenAutomatico" method="POST">
+                          <select name="materia" id="selCarrera1" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                            
+                          </select>
+                          <input type="datetime-local" name="calendar" step="1" min="2013-01-01T00:00Z" max="2013-12-31T12:00Z" value="2013-01-01T12:00">
+                          <button type="submit" >registrar</button>
+                        </form>
+                    </div>
+    
+                    </div>   
+
                 </div>
                 
-                
+                </div>
                 <!-- /#page-content-wrapper -->
-               
         </div>
               <!-- /#wrapper -->
 
@@ -149,11 +150,6 @@
           e.preventDefault();
           $("#wrapper").toggleClass("toggled");
         });
-        $("#examenAuto").click(function(e) {
-          e.preventDefault();
-          $("#FormAuto").toggleClass("holi");
-        });
-        
       </script>  
 </body>
 </html>
