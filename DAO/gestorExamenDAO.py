@@ -4,6 +4,8 @@ sys.path.append(r'C:\Users\Enzord\GitHub\RoyalAcademy')
 import random
 
 from DAO.ConexionBD import ConexionBD
+from DAO.AlumnoDAO import AlumnoDAO
+
 
 class GestorExamenDAO(ConexionBD):
     def __init__(self):
@@ -188,8 +190,8 @@ class GestorExamenDAO(ConexionBD):
             for pregunta in self._micur:
                 examen["listaPreguntas"].append(pregunta)
             for pregunta in examen["listaPreguntas"]:
-                pregunta["listaRespuestas"]=[]
                 self._micur.execute("select * from respuestamodelo r where r.idPregunta=%s" , (pregunta["idPregunta"],))
+                pregunta["listaRespuestas"]= self._micur.fetchall()
 
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
@@ -212,13 +214,26 @@ class GestorExamenDAO(ConexionBD):
 
     def crearPlanillaNotas(self, idExamen):
         try:
+            modeloExamen = self.traerExamenCompleto(idExamen)
             self.crearConexion()
             self.cursorDict()
-            print("probandooo" , idExamen)
-            modeloExamen = self.traerExamenCompleto(idExamen)
-            self._micur.execute("select i.idUsuario from inscripcion where i.idExamen=%s",(idExamen,))
-        
-
+            self._micur.execute("select i.idUsuario from inscripcion i where i.idExamen = %s",(idExamen,))
+            listaUsuarios = self._micur.fetchall()
+            NotaUsuario = 0
+            for usuario in listaUsuarios:
+                NotaUsuario = 0
+                self._micur.execute("select ra.idRespuesta from respuestaalumno ra where ra.idExamen = %s and ra.idUsuario = %s",(idExamen,usuario["idUsuario"]))
+                usuario["respuestas"]=[]
+                for respuesta in self._micur:
+                    usuario["respuestas"].append(respuesta["idRespuesta"])
+                for pregunta in modeloExamen["listaPreguntas"]:
+                    preguntaBien = 1
+                    for respuesta in pregunta["listaRespuestas"]:
+                        if (usuario["respuestas"].count(respuesta["idRespuesta"])+respuesta["esCorrecta"])==1:
+                            preguntaBien = 0
+                    NotaUsuario = NotaUsuario + preguntaBien
+                self._micur.execute("insert into planillanotas (idUsuario,idExamen,notaExamen) values (%s,%s,%s)",(usuario["idUsuario"],idExamen,NotaUsuario))
+            self._bd.commit()
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
 
@@ -232,6 +247,7 @@ if __name__ == '__main__':
     idcarrera = 2
     idmateria = 1
     idexamen = 15
+    idusuario = 4
     fecha = '2019-10-10 20:00:00'
     cantidadPreguntasACrear = 70
     #ge.agregarPregunta("segunda pregunta","matematica",(("primera respuesta",1),("segunda respuesta",1)))
@@ -253,6 +269,12 @@ if __name__ == '__main__':
 
     ####### Finalizar Examen
     #ge.finalizarExamen(idexamen)
+
+    ####### Crear respuestas de alumnos para testeo
+    #examen = ge.traerExamenCompleto(idexamen)
+    #alumnodao = AlumnoDAO()
+    #for pregunta in examen["listaPreguntas"]:
+    #    alumnodao.responderPregunta(idusuario,random.choice(pregunta["listaRespuestas"])["idRespuesta"],idexamen)
 
     ####### Crear Planilla Notas
     ge.crearPlanillaNotas(idexamen)
