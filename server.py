@@ -77,6 +77,7 @@ def traerPreguntasDeMateria():
 def postPregunta():
     descripcion = request.form['descripcion']
     respuestas1=request.form.getlist('respuesta')
+    respuestas1.remove(respuestas1[len(respuestas1)-1])
     respuestas2 = []
     examenDao = GestorExamenDAO()
     print(respuestas1)
