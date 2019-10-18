@@ -114,13 +114,16 @@
 
                     <div  class="container-fluid collapse"  id="collapseModeloExamenAuto" data-parent="#contenido">
                       <div class="card card-body">
-                        <form action="/PostExamenAutomatico" method="POST">
+                        <form  id="formExamenAuto">
                           <select name="materia" id="selCarrera1" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                             
                           </select>
                           <input type="datetime-local" name="calendar" step="1" min="2013-01-01T00:00Z" max="2013-12-31T12:00Z" value="2013-01-01T12:00">
-                          <button type="submit" >registrar</button>
+                          <button type="button" id="enviarExamenAuto">registrar</button>
                         </form>
+                        <div id="respExamenAuto">
+
+                        </div>
                     </div>
     
                     </div>   

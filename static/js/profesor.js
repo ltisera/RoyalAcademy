@@ -23,7 +23,6 @@ $(document).ready(function(){
 
     $("#enviarPregunta").click( function() {
         $.post("postPregunta",$("#formPregunta").serialize(),function(res){
-            console.log(res);
             $("#divCrearPregunta").fadeOut("slow");
             if(res!=0){
                 $("#formPregunta")[0].reset();
@@ -34,13 +33,29 @@ $(document).ready(function(){
             }
             $("#respEnviarPregunta").delay(500).fadeIn("slow");
             $("#nuevaPregunta").click( function() {
-                console.log("pruebaaa");
                 $("#respEnviarPregunta").fadeOut("slow");
                 $("#divCrearPregunta").delay(500).fadeIn("slow");
             });
         });
     });
-
+    $("#enviarExamenAuto").click( function() {
+        
+        $.post("PostExamenAutomatico",$("#formExamenAuto").serialize(),function(res){
+            $("#formExamenAuto").fadeOut("slow");
+            if(res!=0){
+                $("#formExamenAuto")[0].reset();
+                $("#respExamenAuto").html('<h3>Examen Creado</h3><button type="button" id="nuevaExamenAuto" class="btn btn-primary my-1">Crear otro examen</button>');
+            }
+            else{
+                $("#respExamenAuto").html('<h3>Hubo un error</h3><button type="button" id="nuevaExamenAuto" class="btn btn-primary my-1">Reintentar</button>');
+            }
+            $("#respExamenAuto").delay(500).fadeIn("slow");
+            $("#nuevaExamenAuto").click( function() {
+                $("#respExamenAuto").fadeOut("slow");
+                $("#formExamenAuto").delay(500).fadeIn("slow");
+            });
+        });
+    });
     
 });
 
