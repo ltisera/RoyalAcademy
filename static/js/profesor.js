@@ -37,6 +37,25 @@ $(document).ready(function(){
                 $("#divCrearPregunta").delay(500).fadeIn("slow");
             });
         });
+        $("#idDivRta").html(`<div class="input-group ">
+                                                        <input type="text" name="respuesta" id="rta1" class="form-control clsRta" aria-label="Text input with checkbox">
+                                                        <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
+                                                            </div>
+                                                        </div>  
+                                                    </div>
+                                                    <br>
+                                                    <div class="input-group ">
+                                                            <input type="text" name="respuesta" id="rta2" class="form-control clsRta" aria-label="Text input with checkbox">
+                                                            <div class="input-group-prepend">
+                                                                <div class="input-group-text">
+                                                                    <input name="valor2" type="checkbox" aria-label="Checkbox for following text input">
+                                                                </div>
+                                                            </div>  
+                                                            <br>
+                          </div>
+                          <br>`)
     });
     $("#enviarExamenAuto").click( function() {
         
