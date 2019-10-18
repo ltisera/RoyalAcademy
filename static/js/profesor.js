@@ -13,6 +13,7 @@ $(document).ready(function(){
                 console.log("nommbre: " + response[i].nombre);
                 console.log("idMateria: " + response[i].idMateria);
                 $("#selCarrera").append(new Option(response[i].nombre, response[i].idMateria));
+                $("#selCarrera1").append(new Option(response[i].nombre, response[i].idMateria));
             };
             console.log("fin");
 
@@ -42,8 +43,6 @@ $(document).ready(function(){
 
     
 });
-
-
 
 function cambiador(){
     console.log("id de materia: " +  $("#selCarrera" ).val());

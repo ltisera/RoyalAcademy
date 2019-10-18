@@ -54,6 +54,18 @@ def sirveDirectorioSTATIC(path):
     directorio = "static/" + directorio
     return send_from_directory(directorio, arc)
 
+@app.route('/PostExamenAutomatico', methods=['POST'])
+def PostExamenAutomatico():
+    fecha=request.values['calendar']
+    materia =request.form['materia']
+    gedao = GestorExamenDAO()
+    gedao.crearExamenAutomatico(fecha,materia)
+    print('----------1-----------------------------------------')
+    print(materia)
+    print('----------2-----------------------------------------')
+    print(fecha)
+    return render_template('profesor.html') 
+
 
 @app.route('/traerListaMaterias', methods=['GET', 'POST'])
 def traerListaMaterias():

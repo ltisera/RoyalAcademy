@@ -16,6 +16,9 @@
 .prueba{
     background: rgba(36,78,132);
 }
+.holi{
+  display: none;
+}
 </style>
 
 
@@ -28,9 +31,9 @@
                 <div class="bg-dark border-right" id="sidebar-wrapper">
                   <div class="sidebar-heading text-light bg-dark">Actividades</div>
                   <div class="list-group list-group-flush">
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" role="button" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Crear Preguntas</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" role="button" href="#collapseModeloExamen" role="button" aria-expanded="false" aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Materias</a>
+                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Crear Preguntas</a>
+                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseModeloExamen" role="button" aria-expanded="false" aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
+                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseModeloExamenAuto" role="button" aria-expanded="false" aria-controls="collapseModeloExamenAuto">Creacion Examen Automatico</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Planilla</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Perfil</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Cerrar Sesion</a>
@@ -56,9 +59,10 @@
                       </ul>
                     </div>
                   </nav>
-                
-                    <div class="collapse" id="collapseExample">
-                            <div class="card card-body" id="divCrearPregunta">
+                  <div id="contenido">
+                    <div class="collapse show" id="collapseExample" data-parent="#contenido">
+                            <div class="card card-body">
+
                                     <div class="container-fluid">
                                             <h1 class="mt-4">Crear  Pregunta</h1>
                                              <form id="formPregunta" method="POST">
@@ -94,7 +98,9 @@
                             
                             </div>
                     </div>
-                    <div class="collapse" id="collapseModeloExamen">
+
+                            
+                    <div class="collapse" id="collapseModeloExamen" data-parent="#contenido">
                             <div class="card card-body">
                                     <div class="container-fluid">
                                             <h1 class="mt-4">Modelos de Examen</h1>
@@ -106,13 +112,27 @@
                             </div>
                     </div>
 
+                    <div  class="container-fluid collapse"  id="collapseModeloExamenAuto" data-parent="#contenido">
+                      <div class="card card-body">
+                        <form action="/PostExamenAutomatico" method="POST">
+                          <select name="materia" id="selCarrera1" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                            
+                          </select>
+                          <input type="datetime-local" name="calendar" step="1" min="2013-01-01T00:00Z" max="2013-12-31T12:00Z" value="2013-01-01T12:00">
+                          <button type="submit" >registrar</button>
+                        </form>
+                    </div>
+    
+                    </div>   
+
+                </div>
+                
                 </div>
                 <!-- /#page-content-wrapper -->
-            
         </div>
               <!-- /#wrapper -->
 
-
+      
 
   <!-- Bootstrap core JavaScript -->
   
@@ -121,7 +141,7 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script>
+    <script >
         $("#menu-toggle").click(function(e) {
           e.preventDefault();
           $("#wrapper").toggleClass("toggled");
