@@ -138,6 +138,7 @@ class GestorExamenDAO(ConexionBD):
             self.cerrarConexion()
     
     def crearExamenAutomatico(self, fecha, idMateria, disponible = 1):
+        idExamen = 0
         try:
             self.crearConexion()
             self._micur.execute("insert into examen(fecha,disponible,idMateria) values (%s,b'%s',%s)",(fecha,disponible,idMateria))
@@ -154,14 +155,17 @@ class GestorExamenDAO(ConexionBD):
 
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
+            idExamen = 0
             self._bd.rollback()
 
         except IndexError as err:
             print("No hay suficientes preguntas para el examen")
+            idExamen = 0
             print("DANGER ALGO OCURRIO: " + str(err))
         finally:
             self.cerrarConexion()
-    
+        return idExamen
+
     def traerExamenes(self, idMateria):
         listaExamenes = []
         try:
