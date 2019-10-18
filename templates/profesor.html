@@ -58,10 +58,10 @@
                   </nav>
                 
                     <div class="collapse" id="collapseExample">
-                            <div class="card card-body">
+                            <div class="card card-body" id="divCrearPregunta">
                                     <div class="container-fluid">
                                             <h1 class="mt-4">Crear  Pregunta</h1>
-                                             <form action="/postPregunta" method="POST">
+                                             <form id="formPregunta" method="POST">
                                                 <input class="form-control form-control-lg" name="descripcion" type="text" placeholder="Descripcion">
                                                 <br>
                                                 <div id="idDivRta">
@@ -86,9 +86,12 @@
                           <br>
 													
                                                 </div>
-                                                        <button type="submit" class="btn btn-primary my-1">Submit</button>                                                                   
+                                                        <button type="button" id="enviarPregunta" class="btn btn-primary my-1">Submit</button>                                                                   
                                              </form>                       
                                     </div>                        
+                            </div>
+                            <div id="respEnviarPregunta" style="display:none">
+                            
                             </div>
                     </div>
                     <div class="collapse" id="collapseModeloExamen">

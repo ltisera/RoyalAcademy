@@ -55,6 +55,7 @@ class GestorExamenDAO(ConexionBD):
 
     """
     def agregarPregunta(self, descripcion, idMateria, respuestas):
+        idpregunta = 0
         try:
             self.crearConexion()
             self._micur.execute("insert into pregunta(descripcion,idMateria) values (%s,%s)",(descripcion,idMateria))
@@ -69,6 +70,7 @@ class GestorExamenDAO(ConexionBD):
 
         finally:
             self.cerrarConexion()
+        return idpregunta
 
     """Trae las preguntas de la materia pero sin las respuestas(Lista de dict)"""
 

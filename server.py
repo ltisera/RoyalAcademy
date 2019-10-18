@@ -88,8 +88,8 @@ def postPregunta():
                 respuestas2.append((respuestas1[x],1))
         except:
             respuestas2.append((respuestas1[x],0))
-    examenDao.agregarPregunta(descripcion,1,respuestas2)
-    return render_template('profesor.html')
+    respuesta = examenDao.agregarPregunta(descripcion,1,respuestas2)
+    return jsonify(respuesta),200
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

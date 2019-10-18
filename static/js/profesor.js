@@ -19,6 +19,27 @@ $(document).ready(function(){
         },
         error:function(response){console.log("MAL")}
     });
+
+    $("#enviarPregunta").click( function() {
+        $.post("postPregunta",$("#formPregunta").serialize(),function(res){
+            console.log(res);
+            $("#divCrearPregunta").fadeOut("slow");
+            if(res!=0){
+                $("#formPregunta")[0].reset();
+                $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
+            }
+            else{
+                $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
+            }
+            $("#respEnviarPregunta").delay(500).fadeIn("slow");
+            $("#nuevaPregunta").click( function() {
+                console.log("pruebaaa");
+                $("#respEnviarPregunta").fadeOut("slow");
+                $("#divCrearPregunta").delay(500).fadeIn("slow");
+            });
+        });
+    });
+
     
 });
 
@@ -61,6 +82,9 @@ $(document).on('focus', ".clsRta", function() {
         console.log(" NOSOY")
     }
 });
+
+  
+
 /*
 $(document).on('click', "#idBtnCrearExamen", function() {
     
