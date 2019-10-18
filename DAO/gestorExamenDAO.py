@@ -210,22 +210,49 @@ class GestorExamenDAO(ConexionBD):
         finally:
             self.cerrarConexion()
 
+    def crearPlanillaNotas(self, idExamen):
+        try:
+            self.crearConexion()
+            self.cursorDict()
+            print("probandooo" , idExamen)
+            modeloExamen = self.traerExamenCompleto(idExamen)
+            self._micur.execute("select i.idUsuario from inscripcion where i.idExamen=%s",(idExamen,))
+        
+
+        except mysql.connector.errors.IntegrityError as err:
+            print("DANGER ALGO OCURRIO: " + str(err))
+
+        finally:
+            self.cerrarConexion()
+
+
+
 if __name__ == '__main__':
     ge = GestorExamenDAO()
+    idcarrera = 2
+    idmateria = 1
+    idexamen = 15
+    fecha = '2019-10-10 20:00:00'
+    cantidadPreguntasACrear = 70
     #ge.agregarPregunta("segunda pregunta","matematica",(("primera respuesta",1),("segunda respuesta",1)))
-    #print(ge.traerPreguntasConRespuestas("historia"))
-    ge.crearExamenAutomatico('2019-10-10 20:00:00', 1, 1)
+    #print(ge.traerPreguntasConRespuestas(idmateria))
+    #ge.crearExamenAutomatico(fecha, materia, 1)
     
-    #print(ge.traerMaterias(2))
+    #print(ge.traerMaterias(idcarrera))
 
     ########Agregar Preguntas Para Testeo
-    #idMateria = 1
-    #for x in range(50):
-    #    ge.agregarPregunta("pregunta"+str(x),idMateria,(("p"+str(x)+"resp1",0),("p"+str(x)+"resp2",1),("p"+str(x)+"resp3",0)))
+    #for x in range(cantidadPreguntasACrear):
+    #    ge.agregarPregunta("pregunta"+str(x),idmateria,(("p"+str(x)+"resp1",0),("p"+str(x)+"resp2",1),("p"+str(x)+"resp3",0)))
     ########
 
     #######Traer Examenes De Una idMateria
-    #print(ge.traerExamenes("historia"))
+    #print(ge.traerExamenes(idmateria))
 
     ####### Traer Examen Completo
-    #print(ge.traerExamenCompleto(13))
+    #print(ge.traerExamenCompleto(idexamen))
+
+    ####### Finalizar Examen
+    #ge.finalizarExamen(idexamen)
+
+    ####### Crear Planilla Notas
+    ge.crearPlanillaNotas(idexamen)
