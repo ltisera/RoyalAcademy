@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/css/navbar.css">
+	<link rel="stylesheet" href="static/css/navbar.css">
+	
+	<link rel="stylesheet" href="static/css/estilos.css" />
     <script src="static/js/jquery-3.4.1.js"></script>
     <script src="static/js/profesor.js"></script>
 
@@ -105,9 +107,18 @@
                                     <div class="container-fluid">
                                             <h1 class="mt-4">Modelos de Examen</h1>
                                             <p>Selecciona la materia para crear el examen</p>
-                                            <select id="selCarrera" class="cambialee">
-                                              
-                                            </select>
+											<select id="selMateria" class="cambialee"></select>
+											<p>Seleccione la fecha y hora en que se toma el examen</p>
+											<input type="datetime-local" id="idFechaDeExamen">
+											<br>
+											<br>
+											
+											<p>Seleccione las preguntas que se incluiran en el examen</p>
+											<div id="idDivPreguntas">
+												
+												
+											</div>
+											<button type="button" id="idBtnCrearExamenManual" class="btn btn-primary my-1">Crear Examen</button>
                                     </div>                        
                             </div>
                     </div>

@@ -7,6 +7,7 @@ sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 from flask import Flask, render_template, send_from_directory, request, jsonify, Response , redirect , url_for
 from DAO.LoginDAO import LoginDAO
 from DAO.gestorExamenDAO import GestorExamenDAO
+import json
 app = Flask(__name__, static_folder='static', static_url_path='')
 
 
@@ -79,10 +80,10 @@ def traerListaMaterias():
 def traerPreguntasDeMateria():
     gedao = GestorExamenDAO()
     print("Por si las moscas: ", request.values["idMateria"])
-    lMaterias = gedao.traerPreguntas(request.values["idMateria"])
+    lPreguntas = gedao.traerPreguntas(request.values["idMateria"])
     print("PARA ESTAR SEGURO")
-    print(lMaterias)
-    return jsonify(lMaterias),200
+    print(lPreguntas)
+    return jsonify(lPreguntas),200
 
 
 @app.route('/postPregunta',methods=['GET','POST'])
@@ -103,6 +104,11 @@ def postPregunta():
     respuesta = examenDao.agregarPregunta(descripcion,1,respuestas2)
     return jsonify(respuesta),200
 
+@app.route('/favicon.ico', methods=['GET'])
+def devolveFavicon():
+    print("CACHEO")
+    return send_from_directory("static/img", "favicon.ico")
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     ldao = LoginDAO()
@@ -121,5 +127,19 @@ def login():
         
                 
     return jsonify(usuarioDevuelto),200
+
+@app.route('/crearExamenManual',methods=['GET','POST'])
+def crearPregunta():
+    print("A ver a ver")
+    abc = json.loads(request.json)
+    
+    print("Completo")
+    print(abc)
+    print("Pregunta")
+    
+    print(abc["preguntas"])
+    print("Accedo a la lista")
+    
+    return jsonify(""),200
 
 app.run(debug=True)
