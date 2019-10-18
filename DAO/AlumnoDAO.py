@@ -1,5 +1,5 @@
 import mysql.connector
-from ConexionBD import ConexionBD
+from DAO.ConexionBD import ConexionBD
 
 class AlumnoDAO(ConexionBD):
     def __int__(self):
@@ -10,6 +10,7 @@ class AlumnoDAO(ConexionBD):
     def traerExamenesDisponibles(self, idUsuario, idCarrera):
         try:
             self.crearConexion()
+            self.cursorDict()
             self._micur.execute("SELECT * FROM examen INNER JOIN carrera ON examen.idCarrera = carrera.idCarrera INNER JOIN usuario ON carrera.idCarrera = usuario.idCarrera WHERE examen.disponible = 1 and usuario.idUsuario = %s and usuario.idCarrera = %s", (idUsuario, idCarrera))
             examenes = self._micur.fetchall()
 

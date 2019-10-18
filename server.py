@@ -6,6 +6,7 @@ sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 #from DAO.pasajeroDAO import PasajeroDAO
 from flask import Flask, render_template, send_from_directory, request, jsonify, Response , redirect , url_for
 from DAO.LoginDAO import LoginDAO
+from DAO.AlumnoDAO import AlumnoDAO
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 
@@ -17,11 +18,16 @@ app = Flask(__name__, static_folder='static', static_url_path='')
 def index():
     return render_template('index.html')
 
-
+#-------------VISTA ALUMNO-----------------------------------------
 @app.route('/alumno', methods=['GET'])
 def alumno():
     return render_template('alumno.html')
 
+@app.route('/alumno/navInscribirse', methods=['POST'])
+def navInscribirse():
+    alumnoDao = AlumnoDAO()
+    return jsonify(alumnoDao.traerExamenesDisponibles(request.values["idUsuario"], request.values["idCarrera"])), 200
+#-------------FIN VISTA ALUMNO-------------------------------------
 
 @app.route('/docente', methods=['GET'])
 def docente():
