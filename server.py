@@ -79,14 +79,16 @@ def postPregunta():
     respuestas1=request.form.getlist('respuesta')
     respuestas2 = []
     examenDao = GestorExamenDAO()
+    print(respuestas1)
+    print(respuestas2)
     for x in range(len(respuestas1)):
         try:
             if request.form["valor"+str(x+1)] == "on":
                 respuestas2.append((respuestas1[x],1))
         except:
             respuestas2.append((respuestas1[x],0))
-    examenDao.agregarPregunta(descripcion,"matematica",respuestas2)
-
+    examenDao.agregarPregunta(descripcion,1,respuestas2)
+    return render_template('profesor.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -64,34 +64,27 @@
                                              <form action="/postPregunta" method="POST">
                                                 <input class="form-control form-control-lg" name="descripcion" type="text" placeholder="Descripcion">
                                                 <br>
-
-                                                <div class="input-group ">
-                                                    <input type="text"name="respuesta" class="form-control" aria-label="Text input with checkbox">
-                                                    <div class="input-group-prepend">
-                                                          <div class="input-group-text">
-                                                            <input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
-                                                          </div>
-                                                    </div>  
+                                                <div id="idDivRta">
+													<div class="input-group ">
+														<input type="text"name="respuesta" id="rta1" class="form-control clsRta" aria-label="Text input with checkbox">
+														<div class="input-group-prepend">
+															<div class="input-group-text">
+																<input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
+															</div>
+														</div>  
+													</div>
+													<br>
+													<div class="input-group ">
+															<input type="text" name="respuesta" id="rta2" class="form-control clsRta" aria-label="Text input with checkbox">
+															<div class="input-group-prepend">
+																<div class="input-group-text">
+																	<input name="valor2" type="checkbox" aria-label="Checkbox for following text input">
+																</div>
+															</div>  
+															<br>
+													</div>
+													
                                                 </div>
-                                                <br>
-                                                <div class="input-group ">
-                                                        <input type="text" name="respuesta" class="form-control" aria-label="Text input with checkbox">
-                                                        <div class="input-group-prepend">
-                                                              <div class="input-group-text">
-                                                                <input name="valor2" type="checkbox" aria-label="Checkbox for following text input">
-                                                              </div>
-                                                        </div>  
-                                                    </div>
-                                                    <br>
-                                                    <div class="input-group ">
-                                                            <input  name="respuesta" type="text" class="form-control" aria-label="Text input with checkbox">
-                                                            <div class="input-group-prepend">
-                                                                  <div class="input-group-text">
-                                                                    <input name="valor3" type="checkbox" aria-label="Checkbox for following text input">
-                                                                  </div>
-                                                            </div>  
-                                                        </div>
-                                                        <br>     
                                                         <button type="submit" class="btn btn-primary my-1">Submit</button>                                                                   
                                              </form>                       
                                     </div>                        
