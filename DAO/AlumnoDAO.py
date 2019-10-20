@@ -23,7 +23,7 @@ class AlumnoDAO(ConexionBD):
         return examenes
 
     def inscripcionAExamen(self, idExamen, idUsuario):
-        mensaje="Ya estas inscripto."
+        mensaje="Ya estabas inscripto."
         try:
             self.crearConexion()
             self._micur.execute("SELECT * FROM inscripcion where idUsuario = %s and idExamen = %s", (idUsuario, idExamen))
