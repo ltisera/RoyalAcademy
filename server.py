@@ -38,6 +38,16 @@ def navInscribirse():
 def inscribirseAExamen():
     alumnoDao = AlumnoDAO()
     return jsonify(alumnoDao.inscripcionAExamen(request.values['idExamen'], request.values['idUsuario'])), 200
+
+@app.route('/alumno/navRendirExamen', methods=['POST'])
+def navRendirExamen():
+    alumnoDao = AlumnoDAO()
+    return jsonify(alumnoDao.traerExamenesARendir(request.values["idUsuario"])), 200
+
+@app.route('/alumno/navRendirExamen/rendirExamen', methods=['POST'])
+def rendirExamen():
+    alumnoDao = AlumnoDAO()
+    return jsonify(alumnoDao.rendirExamen(request.values["idExamen"])), 200   
 #-------------FIN VISTA ALUMNO-------------------------------------
 
 @app.route('/docente', methods=['GET'])

@@ -9,10 +9,18 @@ class AlumnoDAO(ConexionBD):
 
     def traerExamenesDisponibles(self, idUsuario, idCarrera):
         try:
+            lstExamenes = []
             self.crearConexion()
             self.cursorDict()
             self._micur.execute("SELECT * FROM examen INNER JOIN carrera ON examen.idCarrera = carrera.idCarrera INNER JOIN usuario ON carrera.idCarrera = usuario.idCarrera WHERE examen.disponible = 1 and usuario.idUsuario = %s and usuario.idCarrera = %s", (idUsuario, idCarrera))
-            examenes = self._micur.fetchall()
+            examenesDisponibles = self._micur.fetchall()
+            
+            for examen in examenesDisponibles:
+                self._micur.execute("SELECT * FROM inscripcion WHERE inscripcion.idUsuario =%s and inscripcion.idExamen =%s", (idUsuario, examen['idExamen']))
+                inscripcion = self._micur.fetchone()
+                
+                if inscripcion == None:
+                    lstExamenes.append(examen)
 
         except mysql.connector.errors.IntegrityError as err:
             print("Error: " + str(err))
@@ -20,7 +28,7 @@ class AlumnoDAO(ConexionBD):
         finally:
             self.cerrarConexion()
         
-        return examenes
+        return lstExamenes
 
     def inscripcionAExamen(self, idExamen, idUsuario):
         mensaje="Ya estabas inscripto."
@@ -51,7 +59,8 @@ class AlumnoDAO(ConexionBD):
         # asi que trae la lista de examenes a rendir incompletos, y cuando quiera rendir uno trae ese en especifico con las preguntas, respuestas, imagenes etc, con rendirExamen()
         try:
             self.crearConexion()
-            self._micur.execute("SELECT * FROM examen e INNER JOIN inscripcion i ON e.idExamen = i.idExamen INNER JOIN Usuario WHERE examen.disponible = 1 and inscripcion.idUsuario = %s and inscripcion.idExamen = examen.idExamen and inscripcion.examenRealizado = %s", (idUsuario, 0))
+            self.cursorDict()
+            self._micur.execute("SELECT * FROM examen e INNER JOIN inscripcion i ON e.idExamen = i.idExamen WHERE e.disponible = 1 and i.idUsuario = %s and i.examenRealizado = 0", (idUsuario,))
             examenes = self._micur.fetchall()
 
         except mysql.connector.errors.IntegrityError as err:
@@ -67,24 +76,31 @@ class AlumnoDAO(ConexionBD):
     def rendirExamen(self, idExamen):
         try:
             self.crearConexion()
-            self._micur.execute("SELECT * FROM examen e INNER JOIN preguntasporexamen pe ON e.idExamen = pe.idExamen INNER JOIN pregunta p ON p.idPregunta = pe.idPregunta INNER JOIN respuestamodelo rm ON p.idPregunta = rm.idPregunta WHERE e.idExamen = %s", (idExamen,))
-            examen = self._micur.fetchone()
+            self.cursorDict()
+            #self._micur.execute("SELECT * FROM examen INNER JOIN preguntasporexamen ON examen.idExamen = preguntasporexamen.idExamen INNER JOIN pregunta ON pregunta.idPregunta = preguntasporexamen.idPregunta INNER JOIN respuestamodelo ON pregunta.idPregunta = respuestamodelo.idPregunta WHERE examen.idExamen = %s", (idExamen,))
+            self._micur.execute("SELECT * FROM pregunta INNER JOIN preguntasporexamen ON pregunta.idPregunta = preguntasporexamen.idPregunta WHERE preguntasporexamen.idExamen = %s", (idExamen,))
+            preguntas = self._micur.fetchall()
+            for pregunta in preguntas:
+                self._micur.execute("SELECT * FROM respuestamodelo where idPregunta = %s",(pregunta["idPregunta"],))
+                pregunta['respuestas'] = self._micur.fetchall()
             
-
+            
         except mysql.connector.errors.IntegrityError as err:
             print("Error: " + str(err))
 
         finally:
             self.cerrarConexion()
         
-        return examen
+        return preguntas
     
 
 
-    def responderPregunta(self, idUsuario, idRespuesta, idExamen):
+    def responderPregunta(self, idUsuario, respuestas, idExamen):
         try:
             self.crearConexion()
-            self._micur.execute("INSERT INTO respuestaAlumno(idUsuario, idRespuesta, idExamen) values (%s, %s, %s)", (idUsuario, idRespuesta, idExamen))
+            for respuesta in respuestas:
+                self._micur.execute("INSERT INTO respuestaAlumno(idUsuario, idRespuesta, idExamen) values (%s, %s, %s)", (idUsuario, respuesta, idExamen))
+            
             self._bd.commit()
 
         except mysql.connector.errors.IntegrityError as err:
