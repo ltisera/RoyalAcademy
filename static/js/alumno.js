@@ -93,12 +93,11 @@ function rendirExamen(idExamen){
     type: "POST",
     data: {"idExamen":idExamen},
     success: function(response){
-      console.log("Rendi el examen ",response)
+      console.log("rindo examen ",response)
       $(".content").hide();
-      
-
       listaPreguntas = response;
       contadorDePreguntas = 0;
+      console.log("muestro primer pregunta");
       mostrarPregunta();
     },
     error: function(response){
@@ -110,15 +109,75 @@ function rendirExamen(idExamen){
 function mostrarPregunta(){
   var html="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+listaPreguntas[contadorDePreguntas].descripcion+"</h5><div class='form-check'>";
   for(var i=0;i<listaPreguntas[contadorDePreguntas].respuestas.length;i++){
-    html+="<div><input class='form-check-input' type='checkbox' value='"+listaPreguntas[contadorDePreguntas].respuestas[i].idRespuesta+"'><label class='form-check-label'>"+listaPreguntas[contadorDePreguntas].respuestas[i].descripcion+"</label></div>";
+    html+="<div><input class='form-check-input' type='checkbox' value='"+listaPreguntas[contadorDePreguntas].respuestas[i].idRespuesta+"' name='resp'><label class='form-check-label'>"+listaPreguntas[contadorDePreguntas].respuestas[i].descripcion+"</label></div>";
   }  
   if(contadorDePreguntas==listaPreguntas.length-1){
-    html+="</div><button type='submit' href='#' class='btn btn-primary' onclick='traerExamenesARendir()'>Finalizar examen</button></div>";
+    html+="</div><button type='submit' id='sgtePreg href='#' class='btn btn-primary' onclick='sgtePregunta()'>Finalizar examen</button></div>";
   }
   else{
-    html+="</div><button type='submit' href='#' class='btn btn-primary' onclick='mostrarPregunta()'>Siguiente pregunta</button></div>";
+    html+="</div><button type='submit' id='sgtePreg' href='#' class='btn btn-primary' onclick='sgtePregunta()'>Siguiente pregunta</button></div>";
   }
-  contadorDePreguntas++;
   document.getElementById("examenARendirdiv").innerHTML = html;
   $(".exmn").show();
+}
+
+function sgtePregunta(){
+  console.log("SIGUIENTE PREGUNTA");
+  var respuestas = [];
+  $(":checkbox[name=resp]").each(function(){
+    if (this.checked){
+      respuestas.push($(this).val());
+    }
+  });
+  console.log("Lista de respuestas ",respuestas);
+  if(respuestas.length>0){
+    console.log("llamo a responderPregunta, contador = ",contadorDePreguntas);
+    responderPregunta(respuestas);
+  } else{
+    alert('Debes seleccionar al menos una respuesta.');
+  }
+}
+
+function responderPregunta(respuestas){
+  var objeto = {"idUsuario":alumno["idUsuario"], "respuestas":JSON.stringify(respuestas),"idExamen":listaPreguntas[contadorDePreguntas]["idExamen"]};
+  console.log("Esto es lo que envio al respodnerPregunta: ", objeto);
+  
+  
+  $.ajax({
+    url:"alumno/navRendirExamen/rendirExamen/responderPregunta",
+    type: "POST",
+    data: objeto,
+    success: function(response){
+      console.log("Respuestas enviadas");  
+      if(contadorDePreguntas==listaPreguntas.length-1){
+        finalizarExamen();
+        console.log("Finalize el examen");
+      }else{
+        contadorDePreguntas++;
+        console.log("muestro primer pregunta");
+        mostrarPregunta();
+      }
+      mostrarPregunta();
+    },
+    error: function(response){
+      console.log("ERROR");
+    }
+  });
+}
+
+function finalizarExamen(){
+  $.ajax({
+    url:"alumno/navRendirExamen/rendirExamen/finalizarExamen",
+    type: "POST",
+    data: {"idUsuario":alumno.idUsuario, "idExamen":listaPreguntas[0].idExamen},
+    success: function(response){
+      console.log("Examen finalizado");
+      contadorDePreguntas=0;
+      listaPreguntas="";     
+      
+    },
+    error: function(response){
+      console.log("ERROR");
+    }
+  });
 }

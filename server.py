@@ -7,6 +7,7 @@ sys.path.append(r'C:\Users\Camila\Documents\GitHub\odbcViajes')
 from flask import Flask, render_template, send_from_directory, request, jsonify, Response , redirect , url_for, session
 from DAO.LoginDAO import LoginDAO
 from DAO.AlumnoDAO import AlumnoDAO
+import json
 
 app = Flask(__name__, static_folder='static', static_url_path='')
 
@@ -47,7 +48,20 @@ def navRendirExamen():
 @app.route('/alumno/navRendirExamen/rendirExamen', methods=['POST'])
 def rendirExamen():
     alumnoDao = AlumnoDAO()
-    return jsonify(alumnoDao.rendirExamen(request.values["idExamen"])), 200   
+    return jsonify(alumnoDao.rendirExamen(request.values["idExamen"])), 200
+
+@app.route('/alumno/navRendirExamen/rendirExamen/responderPregunta', methods=['POST'])
+def responderPregunta():
+    print("ENTRO AL RESPONDER PREGUNTAS DEL SERVER, ESTO ES LO QUE ME LLEGA: ", json.loads(request.values["respuestas"]))
+    alumnoDao = AlumnoDAO()
+    alumnoDao.responderPregunta(request.values["idUsuario"], json.loads(request.values["respuestas"]), request.values["idExamen"])
+    return jsonify(200)
+
+@app.route('/alumno/navRendirExamen/rendirExamen/finalizarExamen', methods=['POST'])
+def finalizarExamen():
+    alumnoDao = AlumnoDAO()
+    alumnoDao.finalizarExamen(request.values["idUsuario"], request.values["idExamen"])
+    return jsonify(200)    
 #-------------FIN VISTA ALUMNO-------------------------------------
 
 @app.route('/docente', methods=['GET'])
