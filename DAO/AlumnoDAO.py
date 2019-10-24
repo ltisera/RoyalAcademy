@@ -84,14 +84,16 @@ class AlumnoDAO(ConexionBD):
                 self._micur.execute("SELECT * FROM respuestamodelo where idPregunta = %s",(pregunta["idPregunta"],))
                 pregunta['respuestas'] = self._micur.fetchall()
             
-            
+            self._micur.execute("select count(distinct idPregunta) as progreso from respuestamodelo inner join respuestaalumno on respuestaalumno.idRespuesta = respuestamodelo.idRespuesta where respuestaalumno.idExamen = %s ",(idExamen,))
+            progreso = self._micur.fetchone()
+
         except mysql.connector.errors.IntegrityError as err:
             print("Error: " + str(err))
 
         finally:
             self.cerrarConexion()
         
-        return preguntas
+        return preguntas, progreso
     
 
 
@@ -122,8 +124,6 @@ class AlumnoDAO(ConexionBD):
 
         finally:
             self.cerrarConexion()
-                    
-
 
 if __name__ == '__main__':
     alumnoDao = AlumnoDAO()
