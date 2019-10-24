@@ -69,3 +69,12 @@ body {margin:0;}
 
 }
 /*Fin de estilos Index*/
+
+.clsMarcoPregunta{
+	border-style: solid;
+	border-width: 1px;
+	padding: 5px;
+	padding-left: 10px;
+	border-color: rgb(161, 161, 161);
+	width: 90%;
+}
