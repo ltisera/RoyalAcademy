@@ -95,8 +95,10 @@ function rendirExamen(idExamen){
     success: function(response){
       console.log("rindo examen ",response)
       $(".content").hide();
-      listaPreguntas = response;
-      contadorDePreguntas = 0;
+      listaPreguntas = response[0];
+      contadorDePreguntas = response[1].progreso;
+      console.log("Mi listaPreguntas: ", listaPreguntas);
+      console.log("Mi contadorDePreguntas: ", contadorDePreguntas);
       console.log("muestro primer pregunta");
       mostrarPregunta();
     },
