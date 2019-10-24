@@ -28,4 +28,17 @@ class LoginDAO(ConexionBD):
             self.cerrarConexion()
         return usrRespuesta
 
+    def traerUsuario(self, idUsuario):
+        try:
+            self.crearConexion()
+            if self._bd.is_connected():
+                self.cursorDict()
+                self._micur.execute('SELECT idUsuario, email, idCarrera FROM usuario WHERE idUsuario = %s', (idUsuario,))
+                usuario = self._micur.fetchone()
+        except Error as e:
+            print("Error al conectar con la BD", e)
+        finally:
+            self.cerrarConexion()
+        return usuario
+
         

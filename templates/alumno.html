@@ -1,19 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-</head>
-<body>
-    
-        
-  <!-- Bootstrap core JavaScript -->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha256-gL1ibrbVcRIHKlCO5OXOPC/lZz/gpdApgQAzskqqXp8=" crossorigin="anonymous"></script>
-  <script rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-   
-</body>
+    <script src="static/js/jquery-3.4.1.js"></script>
+    <script src="/static/js/alumno.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Alumno</title>
+
+    <style>
+        .content { display:none }
+        .exmn {display: none}
+    </style>
+
+
+  </head>
+  <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+         <a class="navbar-brand" href="/alumno">RoyalAcademy</a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+         </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                  <a class="nav-link" href="#" id="navconsultar">Consultar inscripciones</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="navinscribirse" onclick="traerExamenesDisponibles()">Inscribirse a Examen</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#" id="navrendir" onclick="traerExamenesARendir()">Rendir examen</a>
+              </li>
+              <li class="nav-item">
+                <form method="GET" action="/logout" >
+                  <button class="btn btn-primary" type="submit">Cerrar Sesion</button>
+                </form>
+              </li>
+              
+            </ul>
+          </div>
+      </nav>
+
+        <div id="navconsultardiv" class="content">
+          <div class="card w-100">
+              <div class="card-body">
+                <h5 class="card-title">Derechos humanos</h5>
+                <p class="card-text">2019/10/19</p>
+              </div>
+          </div>
+        </div>
+        
+			<div id="navinscribirsediv" class="content">
+			</div>
+
+			<div id="navrendirdiv" class="content">
+			</div>
+			
+			<div id="examenARendirdiv" class="exmn">
+				<div class="card w-100">
+					<div class="card-body">
+						<h5 class="card-title">¿Cuanto es 2+2?</h5>
+						<div class="form-check">
+							<div>
+								<input class="form-check-input" type="checkbox" value="" >
+								<label class="form-check-label" >
+									3
+								</label>
+							</div>
+
+							<div>
+								<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+								<label class="form-check-label" for="defaultCheck1">
+									4/2
+								</label>
+							</div>
+							<div>
+								<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+								<label class="form-check-label" for="defaultCheck1">
+									5
+								</label>
+							</div>
+							<div>
+								<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+								<label class="form-check-label" for="defaultCheck1">
+									2
+								</label>
+							</div>
+							
+						</div>
+						<a href="#" class="btn btn-primary">Siguiente pregunta</a>
+					</div>
+				</div>
+			</div>
+
+        
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    
+
+  </body>
 </html>
