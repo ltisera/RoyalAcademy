@@ -1,19 +1,19 @@
 $(document).ready(function(){
 
-    $("#selMateria" ).change(cambiador);
+    $("#selCarrera").change(cambiador);
 
-    $("#selMateria").append(new Option("Seleciona una materia", 0));
+    $("#selCarrera").append(new Option("Seleciona una carrera", 0));
     $.ajax({
-        url: 'traerListaMaterias',
+        url: 'traerListaCarreras',
         type: 'POST',
         success:function(response){
             console.log("inicio");
             for(var i in response){
                 
                 console.log("nommbre: " + response[i].nombre);
-                console.log("idMateria: " + response[i].idMateria);
-                $("#selMateria").append(new Option(response[i].nombre, response[i].idMateria));
-                $("#selMateria1").append(new Option(response[i].nombre, response[i].idMateria));
+                console.log("idCarrera: " + response[i].idCarrera);
+                $("#selCarrera").append(new Option(response[i].nombre, response[i].idCarrera));
+                $("#selCarrera1").append(new Option(response[i].nombre, response[i].idCarrera));
             };
             console.log("fin");
 
@@ -79,11 +79,11 @@ $(document).ready(function(){
 });
 
 function cambiador(){
-    console.log("id de materia: " +  $("#selMateria" ).val());
+    console.log("id de Carrera " +  $("#selCarrera" ).val());
     $.ajax({
-        url: 'traerPreguntasDeMateria',
+        url: 'traerPreguntasDeCarrera',
         type: 'POST',
-        data:{'idMateria': $("#selMateria" ).val()},
+        data:{'idCarrera': $("#selCarrera" ).val()},
         success:function(response){
             console.log("ESTO QUIERO")
             console.log(response)
@@ -130,10 +130,10 @@ $(document).on('focus', ".clsRta", function() {
 
 $(document).on('click', "#idBtnCrearExamenManual", function() {
     
-    var idMateria = $("#selMateria" ).val();
+    var idCarrera = $("#selCarrera" ).val();
     var lstPreguntas = "["
     var fechaExamen = $("#idFechaDeExamen").val();
-    /*{"preguntas":[111,121,123],"fecha":"09/25/1254","idMateria":1} */
+    /*{"preguntas":[111,121,123],"fecha":"09/25/1254","idCarrera":1} */
     console.log("CREALO NO SEAS VAGOOO")
     $(".clsChkPreguntaExamen").each(function(){
         if($(this).prop('checked')){
@@ -143,7 +143,7 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
     
     lstPreguntas = lstPreguntas.substring(0,lstPreguntas.length-1);
     lstPreguntas = lstPreguntas + "]" 
-    var miJson = '{"preguntas":' + lstPreguntas + ',"fecha":"'+fechaExamen+'","idMateria":'+idMateria+'}'
+    var miJson = '{"preguntas":' + lstPreguntas + ',"fecha":"'+fechaExamen+'","idCarrera":'+idCarrera+'}'
     console.log("Asi quedo Json")
     console.log(miJson)
     $.ajax({

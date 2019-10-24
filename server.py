@@ -99,29 +99,29 @@ def sirveDirectorioSTATIC(path):
 @app.route('/PostExamenAutomatico', methods=['GET', 'POST'])
 def PostExamenAutomatico():
     fecha=request.values['calendar']
-    materia =request.form['materia']
+    carrera =request.form['carrera']
     gedao = GestorExamenDAO()
-    respuesta = gedao.crearExamenAutomatico(fecha,materia)
+    respuesta = gedao.crearExamenAutomatico(fecha,carrera)
     print('----------1-----------------------------------------')
-    print(materia)
+    print(carrera)
     print('----------2-----------------------------------------')
     print(fecha)
     return jsonify(respuesta),200
 
 
-@app.route('/traerListaMaterias', methods=['GET', 'POST'])
-def traerListaMaterias():
+@app.route('/traerListaCarreras', methods=['GET', 'POST'])
+def traerListaCarreras():
     gedao = GestorExamenDAO()
-    lMaterias = gedao.traerMaterias(1)
+    lCarreras = gedao.traerCarreras()
     print("PARA ESTAR SEGURO")
-    print(lMaterias)
-    return jsonify(lMaterias),200
+    print(lCarreras)
+    return jsonify(lCarreras),200
 
-@app.route('/traerPreguntasDeMateria', methods=['GET', 'POST'])
-def traerPreguntasDeMateria():
+@app.route('/traerPreguntasDeCarrera', methods=['GET', 'POST'])
+def traerPreguntasDeCarrera():
     gedao = GestorExamenDAO()
-    print("Por si las moscas: ", request.values["idMateria"])
-    lPreguntas = gedao.traerPreguntas(request.values["idMateria"])
+    print("Por si las moscas: ", request.values["idCarrera"])
+    lPreguntas = gedao.traerPreguntas(request.values["idCarrera"])
     print("PARA ESTAR SEGURO")
     print(lPreguntas)
     return jsonify(lPreguntas),200

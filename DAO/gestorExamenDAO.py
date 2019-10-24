@@ -9,22 +9,6 @@ class GestorExamenDAO(ConexionBD):
     def __init__(self):
         pass
 
-    def traerMaterias(self, idCarrera):
-        listaMaterias = []
-        try:
-            self.crearConexion()
-            self.cursorDict()
-            self._micur.execute("select * from materia m where m.idCarrera=%s" , (idCarrera,))
-            for materia in self._micur:
-                listaMaterias.append(materia)
-        except mysql.connector.errors.IntegrityError as err:
-            print("DANGER ALGO OCURRIO: " + str(err))
-        finally:
-            self.cerrarConexion()
-        if len(listaMaterias)==0:
-            listaMaterias = None
-        return listaMaterias
-
     def traerCarreras(self):
         listaCarreras = []
         try:
@@ -43,22 +27,22 @@ class GestorExamenDAO(ConexionBD):
     """
     entradas:
         -descripcion: descripcion de la pregunta
-        -materia: nombre de la materia
+        -idCarrera: id de la Carrera
         -respuestas(tupla): (descripcion,esCorrecto)
             -descripcion: lo que dice la respuesta
             -esCorrecto: si la respuesta es correcta, valores 0 o 1
 
 
     ejemplo:
-        agregarPregunta("De que color es el gato",(("blanco",0),("negro",1),("soy Daltonico",0)))
+        agregarPregunta("De que color es el gato",1,(("blanco",0),("negro",1),("soy Daltonico",0)))
         {{"De que color es el gato"},{{"blanco",0},{"negro",1},{"soy Daltonico",0}}}
 
     """
-    def agregarPregunta(self, descripcion, idMateria, respuestas):
+    def agregarPregunta(self, descripcion, idCarrera, respuestas):
         idpregunta = 0
         try:
             self.crearConexion()
-            self._micur.execute("insert into pregunta(descripcion,idMateria) values (%s,%s)",(descripcion,idMateria))
+            self._micur.execute("insert into pregunta(descripcion,idCarrera) values (%s,%s)",(descripcion,idCarrera))
             idpregunta = self._micur.lastrowid
             queryRespuestas="insert into respuestamodelo(idpregunta,descripcion,esCorrecta) values (%s,%s,b'%s')"
             for resp in respuestas:
@@ -72,14 +56,14 @@ class GestorExamenDAO(ConexionBD):
             self.cerrarConexion()
         return idpregunta
 
-    """Trae las preguntas de la materia pero sin las respuestas(Lista de dict)"""
+    """Trae las preguntas de la Carrera pero sin las respuestas(Lista de dict)"""
 
-    def traerPreguntas(self, idMateria):
+    def traerPreguntas(self, idCarrera):
         listaPreguntas = []
         try:
             self.crearConexion()
             self.cursorDict()
-            self._micur.execute("select * from pregunta p where p.idMateria = %s",(idMateria,))
+            self._micur.execute("select * from pregunta p where p.idCarrera = %s",(idCarrera,))
             for pregunta in self._micur:
                 listaPreguntas.append(pregunta)
         except mysql.connector.errors.IntegrityError as err:
@@ -110,8 +94,8 @@ class GestorExamenDAO(ConexionBD):
     """ Trae las preguntas como el metodo traerPreguntas() pero
         para cada pregunta se le agrega el atributo al dict "respuestas" que
         contiene la lista de respuestas como lo trae traerRespuestas() """
-    def traerPreguntasConRespuestas(self, idMateria): #Filtrar por Materia Tambien??
-        listaPreguntas = self.traerPreguntas(idMateria)
+    def traerPreguntasConRespuestas(self, idCarrera): 
+        listaPreguntas = self.traerPreguntas(idCarrera)
         if listaPreguntas!=None:
             for pregunta in listaPreguntas:
                 pregunta["respuestas"] = self.traerRespuestas(pregunta["idPregunta"])
@@ -121,10 +105,10 @@ class GestorExamenDAO(ConexionBD):
             crearExamenManual('2019-09-20 20:00:00', 5, 1, "historia",(5,2,4,7,14,54)) 
     NO TESTEADO!!!!!!!
     """
-    def crearExamenManual(self, fecha, disponible, idMateria, listaIdPreguntas): #es necesario mas parametros??
+    def crearExamenManual(self, fecha, disponible, idCarrera, listaIdPreguntas): #es necesario mas parametros??
         try:
             self.crearConexion()
-            self._micur.execute("insert into examen(fecha,disponible,idMateria) values (%s,b'%s',%s)",(fecha,disponible,idMateria))
+            self._micur.execute("insert into examen(fecha,disponible,idCarrera) values (%s,b'%s',%s)",(fecha,disponible,idCarrera))
             idExamen = self._micur.lastrowid
             queryPreguntas="insert into preguntasporexamen(idPregunta,idExamen) values (%s,%s)"
             for idPregunta in listaIdPreguntas:
@@ -137,14 +121,14 @@ class GestorExamenDAO(ConexionBD):
         finally:
             self.cerrarConexion()
     
-    def crearExamenAutomatico(self, fecha, idMateria, disponible = 1):
+    def crearExamenAutomatico(self, fecha, idCarrera, disponible = 1):
         idExamen = 0
         try:
             self.crearConexion()
-            self._micur.execute("insert into examen(fecha,disponible,idMateria) values (%s,b'%s',%s)",(fecha,disponible,idMateria))
+            self._micur.execute("insert into examen(fecha,disponible,idCarrera) values (%s,b'%s',%s)",(fecha,disponible,idCarrera))
             idExamen = self._micur.lastrowid
             queryPreguntas="insert into preguntasporexamen(idPregunta,idExamen) values (%s,%s)"
-            self._micur.execute("select idPregunta from pregunta p where p.idMateria = %s",(idMateria,)) #filtrar por idMateria
+            self._micur.execute("select idPregunta from pregunta p where p.idCarrera = %s",(idCarrera,)) #filtrar por idCarrera
             preguntas = self._micur.fetchall()
             pregunta = None
             for i in range(50):
@@ -166,12 +150,12 @@ class GestorExamenDAO(ConexionBD):
             self.cerrarConexion()
         return idExamen
 
-    def traerExamenes(self, idMateria):
+    def traerExamenes(self, idCarrera):
         listaExamenes = []
         try:
             self.crearConexion()
             self.cursorDict()
-            self._micur.execute("select * from examen e where e.idMateria = %s",(idMateria,))
+            self._micur.execute("select * from examen e where e.idCarrera = %s",(idCarrera,))
             for examen in self._micur:
                 listaExamenes.append(examen)
         except mysql.connector.errors.IntegrityError as err:
@@ -203,7 +187,7 @@ class GestorExamenDAO(ConexionBD):
             self.cerrarConexion()
         return examen
         
-    """ Finaliza el examen seteando a todos los examenes Realizados """
+    """ Finaliza el examen seteando REALIZADO a todos los examenes """
     def finalizarExamen(self,idExamen):
         try:
             self.crearConexion()
@@ -248,7 +232,7 @@ if __name__ == '__main__':
 
     ########Agregar Preguntas Para Testeo
     #for x in range(cantidadPreguntasACrear):
-    #    ge.agregarPregunta("pregunta"+str(x),idmateria,(("p"+str(x)+"resp1",0),("p"+str(x)+"resp2",1),("p"+str(x)+"resp3",0)))
+    #    ge.agregarPregunta("pregunta"+str(x),idcarrera,(("p"+str(x)+"resp1",0),("p"+str(x)+"resp2",1),("p"+str(x)+"resp3",0)))
     ########
 
     #######Traer Examenes De Una idMateria
@@ -261,4 +245,4 @@ if __name__ == '__main__':
     #ge.finalizarExamen(idexamen)
 
     ####### Crear Planilla Notas
-    ge.crearPlanillaNotas(idexamen)
+    #ge.crearPlanillaNotas(idexamen)
