@@ -134,15 +134,14 @@ def postPregunta():
     respuestas1.remove(respuestas1[len(respuestas1)-1])
     respuestas2 = []
     examenDao = GestorExamenDAO()
-    print(respuestas1)
-    print(respuestas2)
+    carrera = request.form['carrera']
     for x in range(len(respuestas1)):
         try:
             if request.form["valor"+str(x+1)] == "on":
                 respuestas2.append((respuestas1[x],1))
         except:
             respuestas2.append((respuestas1[x],0))
-    respuesta = examenDao.agregarPregunta(descripcion,1,respuestas2)
+    respuesta = examenDao.agregarPregunta(descripcion, carrera, respuestas2)
     return jsonify(respuesta),200
 
 @app.route('/favicon.ico', methods=['GET'])
@@ -183,17 +182,11 @@ def getUser():
 
 @app.route('/crearExamenManual',methods=['GET','POST'])
 def crearPregunta():
-    print("A ver a ver")
-    abc = json.loads(request.json)
+    geDAO = GestorExamenDAO()
+    datos = json.loads(request.json)
     
-    print("Completo")
-    print(abc)
-    print("Pregunta")
-    
-    print(abc["preguntas"])
-    print("Accedo a la lista")
-    
-    return jsonify(""),200
+    resultado = geDAO.crearExamenManual(datos["fecha"], 1, datos["idCarrera"], datos["preguntas"])
+    return jsonify(resultado),200
 
 
 app.run(debug=True)

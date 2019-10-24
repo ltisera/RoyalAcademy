@@ -101,11 +101,17 @@ class GestorExamenDAO(ConexionBD):
                 pregunta["respuestas"] = self.traerRespuestas(pregunta["idPregunta"])
         return listaPreguntas
 
-    """ EJEMPLO:
+
+    """ Metodo: crearExamenManual
+        Retorno: 
+            TRUE si se cargo en la BD
+            FALSE si no se cargo en la BD
+        EJEMPLO:
             crearExamenManual('2019-09-20 20:00:00', 5, 1, "historia",(5,2,4,7,14,54)) 
-    NO TESTEADO!!!!!!!
+    TESTEADO!!!!!!!
     """
     def crearExamenManual(self, fecha, disponible, idCarrera, listaIdPreguntas): #es necesario mas parametros??
+        resultado = False
         try:
             self.crearConexion()
             self._micur.execute("insert into examen(fecha,disponible,idCarrera) values (%s,b'%s',%s)",(fecha,disponible,idCarrera))
@@ -114,12 +120,18 @@ class GestorExamenDAO(ConexionBD):
             for idPregunta in listaIdPreguntas:
                 self._micur.execute(queryPreguntas,(idPregunta,idExamen))
             self._bd.commit()
+            resultado = True
 
         except mysql.connector.errors.IntegrityError as err:
-            print("DANGER ALGO OCURRIO: " + str(err))
 
+            print("DANGER ALGO OCURRIO: " + str(err))
+            self._bd.rollback()
+            print("Tiro rollback")
+            resultado = False
+        
         finally:
             self.cerrarConexion()
+            return resultado
     
     def crearExamenAutomatico(self, fecha, idCarrera, disponible = 1):
         idExamen = 0

@@ -14,6 +14,7 @@ $(document).ready(function(){
                 console.log("idCarrera: " + response[i].idCarrera);
                 $("#selCarrera").append(new Option(response[i].nombre, response[i].idCarrera));
                 $("#selCarrera1").append(new Option(response[i].nombre, response[i].idCarrera));
+                $("#selCarreraPregunta").append(new Option(response[i].nombre, response[i].idCarrera));
             };
             console.log("fin");
 
@@ -22,9 +23,9 @@ $(document).ready(function(){
     });
 
     $("#enviarPregunta").click( function() {
-        $.post("postPregunta",$("#formPregunta").serialize(),function(res){
+        $.post("postPregunta",$("#formPregunta").serialize(),function(response){
             $("#divCrearPregunta").fadeOut("slow");
-            if(res!=0){
+            if(response != 0){
                 $("#formPregunta")[0].reset();
                 $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
             }
@@ -59,9 +60,9 @@ $(document).ready(function(){
     });
     $("#enviarExamenAuto").click( function() {
         
-        $.post("PostExamenAutomatico",$("#formExamenAuto").serialize(),function(res){
+        $.post("PostExamenAutomatico", $("#formExamenAuto").serialize(), function(response){
             $("#formExamenAuto").fadeOut("slow");
-            if(res!=0){
+            if(response != 0){
                 $("#formExamenAuto")[0].reset();
                 $("#respExamenAuto").html('<h3>Examen Creado</h3><button type="button" id="nuevaExamenAuto" class="btn btn-primary my-1">Crear otro examen</button>');
             }
