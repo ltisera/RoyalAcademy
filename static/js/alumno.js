@@ -93,11 +93,14 @@ function rendirExamen(idExamen){
     type: "POST",
     data: {"idExamen":idExamen},
     success: function(response){
-      console.log("rindo examen ",response)
+      console.log("rindo examen Y ME ASEGURO ",response)
       $(".content").hide();
+      console.log("ALGO:" + listaPreguntas)
       listaPreguntas = response[0];
+      console.log(listaPreguntas)
       contadorDePreguntas = response[1].progreso;
       console.log("Mi listaPreguntas: ", listaPreguntas);
+      
       console.log("Mi contadorDePreguntas: ", contadorDePreguntas);
       console.log("muestro primer pregunta");
       mostrarPregunta();
