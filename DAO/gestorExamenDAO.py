@@ -198,6 +198,10 @@ class GestorExamenDAO(ConexionBD):
 
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
+            examen = None
+        except:
+            print("UN ERROR HA OCURRIDO FUERA DE LA BD")
+            examen = None
         finally:
             self.cerrarConexion()
         return examen
@@ -215,7 +219,10 @@ class GestorExamenDAO(ConexionBD):
         finally:
             self.cerrarConexion()
 
+
+    """ Inserta el examen con las notas de cada alumno en la planilla, solo debe utilizarse despues de finalizarExamen()"""
     def crearPlanillaNotas(self, idExamen):
+        resultado = False
         try:
             modeloExamen = self.traerExamenCompleto(idExamen)
             self.crearConexion()
@@ -237,20 +244,88 @@ class GestorExamenDAO(ConexionBD):
                     NotaUsuario = NotaUsuario + preguntaBien
                 self._micur.execute("insert into planillanotas (idUsuario,idExamen,notaExamen) values (%s,%s,%s)",(usuario["idUsuario"],idExamen,NotaUsuario))
             self._bd.commit()
+            resultado = True
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
 
         finally:
             self.cerrarConexion()
+            return resultado
 
+    """ Planilla de notas de los usuarios de un examen """
+    def traerPlanillaDelExamen(self, idExamen):
+        planilla = []
+        try:
+            self.crearConexion()
+            self.cursorDict()
+            self._micur.execute("select * from planillanotas p where p.idExamen = %s",(idExamen,))
+            for registro in self._micur:
+                planilla.append(registro)
+        except mysql.connector.errors.IntegrityError as err:
+            print("DANGER ALGO OCURRIO: " + str(err))
+        finally:
+            self.cerrarConexion()
+        if len(planilla)==0:
+            planilla = None
+        return planilla
 
+    """
+    Ingresar nota practica de solo un alumno
+    """
+    def ingresarNotaPracticaDeAlumno(self,idExamen,idUsuario,notaPractico):
+        resultado = False
+        try:
+            self.crearConexion()
+            self._micur.execute("update planillanotas set notaPractico = %s where idExamen = %s and idUsuario = %s",(notaPractico,idExamen,idUsuario))
+            self._bd.commit()
+            resultado = True
+        except mysql.connector.errors.IntegrityError as err:
+            print("DANGER ALGO OCURRIO: " + str(err))
+        finally:
+            self.cerrarConexion()
+            return resultado
+    
+    """
+    Ingresar notas practicas de varios alumnos a la vez
+
+    -listaNotas: [(idUsuario,Nota),(idUsuario,Nota),etc]
+        ejemplo: [(2,9),(3,10),etc] 
+    """
+    def ingresarNotasPracticas(self,idExamen,listaNotas):
+        resultado = False
+        try:
+            self.crearConexion()
+            query = "update planillanotas set notaPractico = %s where idExamen = %s and idUsuario = %s"
+            for nota in listaNotas:
+                self._micur.execute(query,(nota[1],idExamen,nota[0]))
+            self._bd.commit()
+            resultado = True
+        except mysql.connector.errors.IntegrityError as err:
+            print("DANGER ALGO OCURRIO: " + str(err))
+        finally:
+            self.cerrarConexion()
+            return resultado
+
+    """ Nota de aprobacion del examen """
+    def ingresarNotaDeAprobacion(self, idExamen, nota):
+        resultado = False
+        try:
+            self.crearConexion()
+            self._micur.execute("update examen set notaAprobacion = %s where idExamen = %s",(nota,idExamen))
+            self._bd.commit()
+            resultado = True
+        except mysql.connector.errors.IntegrityError as err:
+            print("DANGER ALGO OCURRIO: " + str(err))
+        finally:
+            self.cerrarConexion()
+            return resultado
 
 if __name__ == '__main__':
     ge = GestorExamenDAO()
     idcarrera = 2
     idmateria = 1
-    idexamen = 15
-    idusuario = 4
+    idexamen = 6
+    idusuario = 5
     fecha = '2019-10-10 20:00:00'
     cantidadPreguntasACrear = 70
     #ge.agregarPregunta("segunda pregunta","matematica",(("primera respuesta",1),("segunda respuesta",1)))
@@ -277,7 +352,19 @@ if __name__ == '__main__':
     #examen = ge.traerExamenCompleto(idexamen)
     #alumnodao = AlumnoDAO()
     #for pregunta in examen["listaPreguntas"]:
-    #    alumnodao.responderPregunta(idusuario,random.choice(pregunta["listaRespuestas"])["idRespuesta"],idexamen)
+    #    alumnodao.responderPregunta(idusuario,(random.choice(pregunta["listaRespuestas"])["idRespuesta"],),idexamen)
 
     ####### Crear Planilla Notas
     #ge.crearPlanillaNotas(idexamen)
+
+    ####### Traer Planilla Notas
+    #print(ge.traerPlanillaDelExamen(idexamen))
+
+    ####### Ingresar Nota Practico
+    #ge.ingresarNotaPracticaDeAlumno(idexamen,3,9)
+
+    ####### Ingresar Notas Prácticas
+    #ge.ingresarNotasPracticas(idexamen,[(3,7),(4,5),(5,10)])
+
+    ####### Ingresar Nota de Aprobacion
+    #ge.ingresarNotaDeAprobacion(idexamen, 40)
