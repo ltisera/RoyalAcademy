@@ -251,7 +251,7 @@ class GestorExamenDAO(ConexionBD):
             self.cerrarConexion()
             return resultado
 
-    """  """
+    """ Planilla de notas de los usuarios de un examen """
     def traerPlanillaDelExamen(self, idExamen):
         planilla = []
         try:
@@ -268,6 +268,9 @@ class GestorExamenDAO(ConexionBD):
             planilla = None
         return planilla
 
+    """
+    Ingresar nota practica de solo un alumno
+    """
     def ingresarNotaPracticaDeAlumno(self,idExamen,idUsuario,notaPractico):
         resultado = False
         try:
@@ -282,6 +285,8 @@ class GestorExamenDAO(ConexionBD):
             return resultado
     
     """
+    Ingresar notas practicas de varios alumnos a la vez
+
     -listaNotas: [(idUsuario,Nota),(idUsuario,Nota),etc]
         ejemplo: [(2,9),(3,10),etc] 
     """
