@@ -1,4 +1,7 @@
 import mysql.connector
+import sys
+sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy')
+
 from DAO.ConexionBD import ConexionBD
 
 class AlumnoDAO(ConexionBD):
@@ -125,8 +128,30 @@ class AlumnoDAO(ConexionBD):
         finally:
             self.cerrarConexion()
 
+    def crearUsuario(self, email, password, tipoUsuario):
+        try:
+            self.crearConexion()
+            self._micur.execute('insert into usuario(email,password,tipoUsuario) values("'+ email +'","'+ password +'","'+ tipoUsuario +'")')
+            self._bd.commit()
+        except:
+            print("Error al agregar usuario")
+        finally:
+            self.cerrarConexion()
+
+
+    def anotarAlumnoEnCarrera(self, idAlumno, idCarrera):
+        try:
+            self.crearConexion()
+            self._micur.execute('insert into inscripcionencarrera(idUsuario,idCarrera) values('+ idAlumno +','+ idCarrera +'')
+            self._bd.commit()
+        except:
+            print("Error al Anotar usuario en carrera")
+        finally:
+            self.cerrarConexion()
+        
+
 if __name__ == '__main__':
-    alumnoDao = AlumnoDAO()
+    #alumnoDao = AlumnoDAO()
     #print("TEST INSCRIPCIONNNNNNNNNNNNNNNNNNN")
     #print(alumnoDao.inscripcionAExamen(2,1))
 
@@ -140,7 +165,9 @@ if __name__ == '__main__':
     #print("FINALIZAR EXAMEN")
     #alumnoDao.finalizarExamen(1,2)
 
-    print("RENDIR EXAMEN")
-    print(alumnoDao.rendirExamen('1'))
+    #print("RENDIR EXAMEN")
+    #print(alumnoDao.rendirExamen('1'))
 
-        
+     aDAO = AlumnoDAO()
+     aDAO.anotarAlumnoEnCarrera(4,2)
+     print("Habemus terminado")

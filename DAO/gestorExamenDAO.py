@@ -146,6 +146,7 @@ class GestorExamenDAO(ConexionBD):
             preguntas = self._micur.fetchall()
             pregunta = None
             for i in range(50):
+                i = i
                 pregunta = random.choice(preguntas)
                 self._micur.execute(queryPreguntas,(pregunta[0],idExamen))
                 preguntas.remove(pregunta)
