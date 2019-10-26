@@ -1,7 +1,7 @@
 import mysql.connector
 import sys
 sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy')
-
+from mysql.connector import Error
 from DAO.ConexionBD import ConexionBD
 
 class AlumnoDAO(ConexionBD):
@@ -131,7 +131,7 @@ class AlumnoDAO(ConexionBD):
     def crearUsuario(self, email, password, tipoUsuario):
         try:
             self.crearConexion()
-            self._micur.execute('insert into usuario(email,password,tipoUsuario) values("'+ email +'","'+ password +'","'+ tipoUsuario +'")')
+            self._micur.execute('insert into usuario(email,password,tipoUsuario) values("'+ str(email) +'","'+ str(password) +'","'+ str(tipoUsuario) +'")')
             self._bd.commit()
         except:
             print("Error al agregar usuario")
@@ -139,17 +139,30 @@ class AlumnoDAO(ConexionBD):
             self.cerrarConexion()
 
 
-    def anotarAlumnoEnCarrera(self, idAlumno, idCarrera):
+    def anotarAlumnoEnCarrera(self, idA, idC):
         try:
             self.crearConexion()
-            self._micur.execute('insert into inscripcionencarrera(idUsuario,idCarrera) values('+ idAlumno +','+ idCarrera +'')
+            print("Esta es la consulta")
+            print("INSERT INTO inscripcionencarrera(idUsuario, idCarrera) values (%s,%s)",(idA, idC))            
+            self._micur.execute("INSERT INTO inscripcionencarrera(idUsuario, idCarrera) values (%s,%s)",(idA, idC))
             self._bd.commit()
-        except:
-            print("Error al Anotar usuario en carrera")
+        except mysql.connector.errors.IntegrityError as err:
+            print("Error al Anotar usuario en carrera:" + str(err))
         finally:
             self.cerrarConexion()
         
-
+    def traerAlumnosDeCarrera(self, idCarrera):
+        alumnos = None
+        try:
+            self.crearConexion()
+            self._micur.execute("SELECT * FROM inscripcionencarrera where (idCarrera = {0})".format(idCarrera))
+            alumnos = self._micur.fetchall()
+        except mysql.connector.errors.IntegrityError as err:
+            print("Error al Traer Alumnos de carrera:" + str(err))
+            
+        finally:
+            self.cerrarConexion()
+        return alumnos
 if __name__ == '__main__':
     #alumnoDao = AlumnoDAO()
     #print("TEST INSCRIPCIONNNNNNNNNNNNNNNNNNN")
@@ -169,5 +182,7 @@ if __name__ == '__main__':
     #print(alumnoDao.rendirExamen('1'))
 
      aDAO = AlumnoDAO()
-     aDAO.anotarAlumnoEnCarrera(4,2)
+     lAlumnos = aDAO.traerAlumnosDeCarrera(1)
+     for l in lAlumnos:
+         print (l[0])
      print("Habemus terminado")
