@@ -69,7 +69,7 @@ CREATE TABLE `examen` (
 
 LOCK TABLES `examen` WRITE;
 /*!40000 ALTER TABLE `examen` DISABLE KEYS */;
-INSERT INTO `examen` VALUES (1,'2019-10-10 00:00:00',1,_binary '',NULL),(2,'2019-10-09 00:00:00',1,_binary '',NULL),(3,'2019-12-12 00:00:00',2,_binary '',NULL),(4,'2019-10-25 00:00:00',2,_binary '',NULL),(5,'2019-10-30 01:00:00',1,_binary '',NULL),(6,'2022-02-03 00:01:00',1,_binary '',NULL);
+INSERT INTO `examen` VALUES (1,'2019-10-10 00:00:00',1,_binary '',NULL),(2,'2019-10-09 00:00:00',1,_binary '',NULL),(3,'2019-12-12 00:00:00',2,_binary '',NULL),(4,'2019-10-25 00:00:00',2,_binary '',NULL),(5,'2019-10-30 01:00:00',1,_binary '',NULL),(6,'2022-02-03 00:01:00',1,_binary '',40);
 /*!40000 ALTER TABLE `examen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,7 +124,7 @@ CREATE TABLE `inscripcion` (
 
 LOCK TABLES `inscripcion` WRITE;
 /*!40000 ALTER TABLE `inscripcion` DISABLE KEYS */;
-INSERT INTO `inscripcion` VALUES (1,1,_binary ''),(1,2,_binary ''),(1,5,_binary ''),(1,6,_binary '\0');
+INSERT INTO `inscripcion` VALUES (1,1,_binary ''),(1,2,_binary ''),(1,5,_binary ''),(1,6,_binary '\0'),(3,6,_binary ''),(4,6,_binary ''),(5,6,_binary '');
 /*!40000 ALTER TABLE `inscripcion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,8 +137,8 @@ DROP TABLE IF EXISTS `inscripcionencarrera`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `inscripcionencarrera` (
   `idUsuario` int(11) NOT NULL,
-  `idCarrera` int(11) DEFAULT NULL,
-  PRIMARY KEY (`idUsuario`),
+  `idCarrera` int(11) NOT NULL,
+  PRIMARY KEY (`idUsuario`,`idCarrera`),
   KEY `carrera_idx` (`idCarrera`),
   CONSTRAINT `carrera` FOREIGN KEY (`idCarrera`) REFERENCES `carrera` (`idCarrera`),
   CONSTRAINT `usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
@@ -180,6 +180,7 @@ CREATE TABLE `planillanotas` (
 
 LOCK TABLES `planillanotas` WRITE;
 /*!40000 ALTER TABLE `planillanotas` DISABLE KEYS */;
+INSERT INTO `planillanotas` VALUES (3,6,19,7),(4,6,14,5),(5,6,19,10);
 /*!40000 ALTER TABLE `planillanotas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,6 +250,7 @@ CREATE TABLE `respuestaalumno` (
   `idUsuario` int(11) NOT NULL,
   `idRespuesta` int(11) NOT NULL,
   `idExamen` int(11) NOT NULL,
+  PRIMARY KEY (`idUsuario`,`idRespuesta`,`idExamen`),
   KEY `fk_usuario_has_respuestamodelo_respuestamodelo1_idx` (`idRespuesta`),
   KEY `fk_usuario_has_respuestamodelo_usuario1_idx` (`idUsuario`),
   KEY `fk_respuestaalumno_examen1_idx` (`idExamen`),
@@ -264,7 +266,7 @@ CREATE TABLE `respuestaalumno` (
 
 LOCK TABLES `respuestaalumno` WRITE;
 /*!40000 ALTER TABLE `respuestaalumno` DISABLE KEYS */;
-INSERT INTO `respuestaalumno` VALUES (1,3,1),(1,5,1),(1,6,1),(1,10,2),(1,4,5),(1,214,5),(1,218,5),(1,219,5),(1,433,5),(1,435,5),(1,1,6),(1,5,6),(1,6,6),(1,10,6),(1,16,6),(1,18,6),(1,24,6),(1,27,6),(1,31,6);
+INSERT INTO `respuestaalumno` VALUES (1,1,6),(4,1,6),(5,1,6),(1,3,1),(3,3,6),(1,4,5),(4,4,6),(5,4,6),(1,5,1),(1,5,6),(3,5,6),(1,6,1),(1,6,6),(3,6,6),(4,6,6),(5,7,6),(5,8,6),(4,9,6),(1,10,2),(1,10,6),(3,11,6),(1,16,6),(3,16,6),(4,16,6),(5,17,6),(1,18,6),(3,18,6),(4,19,6),(5,19,6),(1,24,6),(3,24,6),(4,24,6),(5,25,6),(1,27,6),(5,27,6),(3,28,6),(4,28,6),(5,30,6),(1,31,6),(3,32,6),(4,32,6),(3,33,6),(5,34,6),(4,35,6),(4,36,6),(3,38,6),(5,38,6),(3,52,6),(4,52,6),(5,52,6),(5,60,6),(3,62,6),(4,62,6),(4,66,6),(5,66,6),(3,68,6),(3,70,6),(5,70,6),(4,71,6),(3,72,6),(4,72,6),(5,72,6),(3,76,6),(4,76,6),(5,77,6),(5,78,6),(3,79,6),(4,80,6),(3,81,6),(4,81,6),(5,81,6),(3,87,6),(5,87,6),(4,89,6),(3,91,6),(4,91,6),(5,92,6),(4,96,6),(5,96,6),(3,98,6),(3,105,6),(4,106,6),(5,106,6),(4,112,6),(5,112,6),(3,113,6),(4,114,6),(5,115,6),(3,116,6),(4,117,6),(5,117,6),(3,118,6),(4,123,6),(3,124,6),(5,125,6),(4,126,6),(3,127,6),(5,128,6),(3,129,6),(4,130,6),(5,130,6),(4,132,6),(3,134,6),(5,134,6),(3,138,6),(4,138,6),(5,138,6),(3,145,6),(4,145,6),(5,145,6),(3,151,6),(4,152,6),(5,152,6),(3,154,6),(4,154,6),(5,155,6),(4,156,6),(5,157,6),(3,158,6),(4,159,6),(3,160,6),(5,161,6),(4,165,6),(3,167,6),(5,167,6),(5,175,6),(3,176,6),(4,176,6),(4,177,6),(3,178,6),(5,178,6),(4,180,6),(5,180,6),(3,181,6),(5,183,6),(3,184,6),(4,185,6),(4,186,6),(5,187,6),(3,188,6),(3,192,6),(4,192,6),(5,193,6),(3,199,6),(4,200,6),(5,200,6),(4,201,6),(3,202,6),(5,203,6),(4,204,6),(5,204,6),(3,206,6),(3,207,6),(5,207,6),(4,208,6),(3,210,6),(4,211,6),(5,211,6),(1,214,5),(5,214,6),(3,215,6),(4,215,6),(1,218,5),(1,219,5),(1,433,5),(1,435,5),(3,435,6),(5,435,6),(4,437,6);
 /*!40000 ALTER TABLE `respuestaalumno` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -333,7 +335,7 @@ CREATE TABLE `usuario` (
   `password` varchar(45) DEFAULT NULL,
   `tipoUsuario` enum('profesor','alumno','ag','ap','as') DEFAULT NULL,
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -342,7 +344,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'user1','1234','alumno'),(2,'user2','1234','profesor');
+INSERT INTO `usuario` VALUES (1,'user1','1234','alumno'),(2,'user2','1234','profesor'),(3,'usuario3','4524','alumno'),(4,'usuario35','4546','alumno'),(5,'usuario4','4624','alumno');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -363,4 +365,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-24 22:52:53
+-- Dump completed on 2019-10-25 17:04:17
