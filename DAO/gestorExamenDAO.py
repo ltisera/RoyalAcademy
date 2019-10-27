@@ -1,5 +1,6 @@
 import mysql.connector
 import sys
+sys.path.append(r'D:\DropBox\Dropbox\FAcultad\proyecto de software\RoyalAcademy\RoyalAcademy')
 sys.path.append(r'C:\Users\Enzord\GitHub\RoyalAcademy')
 import random
 
@@ -168,11 +169,20 @@ class GestorExamenDAO(ConexionBD):
     def traerExamenes(self, idCarrera):
         listaExamenes = []
         try:
+            print("idCarrera " + str(idCarrera))
+            
+            print("Me voy a romper1")
             self.crearConexion()
+            print("Me voy a romper2")
+            
             self.cursorDict()
+            print("Me voy a romper3")
+            
             self._micur.execute("select * from examen e where e.idCarrera = %s",(idCarrera,))
+            print("Me voy a romper4")
             for examen in self._micur:
                 listaExamenes.append(examen)
+            print("Me voy a romper5")
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
         finally:
@@ -328,6 +338,8 @@ if __name__ == '__main__':
     idusuario = 5
     fecha = '2019-10-10 20:00:00'
     cantidadPreguntasACrear = 70
+
+    print(ge.traerPlanillaDelExamen(6))
     #ge.agregarPregunta("segunda pregunta","matematica",(("primera respuesta",1),("segunda respuesta",1)))
     #print(ge.traerPreguntasConRespuestas(idmateria))
     #ge.crearExamenAutomatico(fecha, materia, 1)

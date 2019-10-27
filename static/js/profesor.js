@@ -1,7 +1,9 @@
+
 $(document).ready(function(){
-
     $("#selCarrera").change(cambiador);
-
+    
+    
+    
     $("#selCarrera").append(new Option("Seleciona una carrera", 0));
     $.ajax({
         url: 'traerListaCarreras',
@@ -16,12 +18,13 @@ $(document).ready(function(){
                 $("#selCarrera1").append(new Option(response[i].nombre, response[i].idCarrera));
                 $("#selCarreraPregunta").append(new Option(response[i].nombre, response[i].idCarrera));
             };
+            cargarListaExamenes();
             console.log("fin");
 
         },
         error:function(response){console.log("MAL")}
     });
-
+    
     $("#enviarPregunta").click( function() {
         $.post("postPregunta",$("#formPregunta").serialize(),function(response){
             $("#divCrearPregunta").fadeOut("slow");
@@ -156,6 +159,24 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
         error: function(response){console.log("Habemus Errorus")}
     });
 });
+
+function cargarListaExamenes(){
+    
+    $.ajax({
+        url: 'traerListaExamenes',
+        type: 'POST',
+        success: function(response){
+            console.log("BIEN Antes response")
+            console.log(response)
+        },
+        error: function(response){
+            console.log("MAL Antes response")
+            console.log(response)
+        }
+    });
+    console.log("WIIIII");
+};
+
 /*
 $(document).on('click', "#idBtnCrearExamen", function() {
     

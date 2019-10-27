@@ -146,7 +146,6 @@ def postPregunta():
 
 @app.route('/favicon.ico', methods=['GET'])
 def devolveFavicon():
-    print("CACHEO")
     return send_from_directory("static/img", "favicon.ico")
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -188,5 +187,13 @@ def crearPregunta():
     resultado = geDAO.crearExamenManual(datos["fecha"], 1, datos["idCarrera"], datos["preguntas"])
     return jsonify(resultado),200
 
+
+@app.route('/traerListaExamenes',methods=['GET','POST'])
+def traerListaExamenes():
+    print("ENTRO AL METODOOOOO")
+    instanciaDAO = GestorExamenDAO()
+    resultado = instanciaDAO.traerExamenes(1)
+    
+    return jsonify(resultado),200
 
 app.run(debug=True)
