@@ -5,35 +5,32 @@ sys.path.append(r'C:\Users\Enzord\GitHub\RoyalAcademy')
 from DAO.CONFIGS.configs import getConfigDB
 
 import mysql.connector
+from mysql.connector import pooling
 from mysql.connector import Error
 
 class ConexionBD:
-    instance = None
-
-    def __new__(cls):
-        if(cls.instance is None):
-            cls.instance = super(ConexionBD, cls).__new__(cls)
-        return cls.instance
+    _pbd = None
 
     def __init__(self):
-        self._bd = None
         self._micur = None
+        self._bd = None
 
     def crearConexion(self):
-        connectionDict = getConfigDB()
-        self._bd = mysql.connector.connect(**connectionDict)
+        if (ConexionBD._pbd is None):
+            connectionDict = getConfigDB()
+            ConexionBD._pbd = mysql.connector.pooling.MySQLConnectionPool(**connectionDict)
+        self._bd = self._pbd.get_connection()
         self._micur = self._bd.cursor()
     
     def cursorDict(self):
         self._micur = self._bd.cursor(dictionary=True, buffered=True)
 
     def cerrarConexion(self):
-        if(self._bd.is_connected()):
-            self._micur = self._bd.cursor()
-            self._bd.close()
-
-    def cerrarCursor(self):
         self._micur.close()
+        self._bd.close()
+
+    #def cerrarCursor(self):
+    #    self._micur.close()
 
 if __name__ == '__main__':
     a = ConexionBD()
