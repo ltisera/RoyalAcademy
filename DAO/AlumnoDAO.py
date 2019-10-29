@@ -129,6 +129,26 @@ class AlumnoDAO(ConexionBD):
 
         finally:
             self.cerrarConexion()
+    
+
+
+    def consultarInscripciones(self, idUsuario):
+        inscripciones = None
+        try:
+            self.crearConexion()
+            self.cursorDict()
+            self._micur.execute("SELECT * FROM examen INNER JOIN inscripcion ON examen.idExamen = inscripcion.idExamen INNER JOIN carrera ON examen.idCarrera = Carrera.idCarrera WHERE inscripcion.examenRealizado = 0 and inscripcion.idUsuario = %s",(idUsuario,))
+            inscripciones = self._micur.fetchall()
+        
+        except mysql.connector.errors.IntegrityError as err:
+            print("Error: " + str(err))
+
+        finally:
+            self.cerrarConexion()
+        
+        return inscripciones
+
+
 
 if __name__ == '__main__':
     alumnoDao = AlumnoDAO()

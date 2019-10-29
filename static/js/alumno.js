@@ -186,3 +186,23 @@ function finalizarExamen(){
     }
   });
 }
+
+function consultarInscripciones(){
+  console.log("voy a consultar isncripciones");
+  $.ajax({
+    url:"alumno/navConsultarInscripciones",
+    type:"GET",
+    data: {"idUsuario": alumno.idUsuario},
+    success: function(response){
+      console.log("Consulte isncripciones: ", response);
+      var html="";
+      for(var i=0;i<response.length;i++){
+        html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p></div></div>";
+      }
+      $("#navconsultardiv").html(html);
+    },
+    error: function(response){
+      console.log("ERROR")
+    }
+  });
+}

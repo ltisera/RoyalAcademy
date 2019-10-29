@@ -64,6 +64,11 @@ def finalizarExamen():
     alumnoDao = AlumnoDAO()
     alumnoDao.finalizarExamen(request.values["idUsuario"], request.values["idExamen"])
     return jsonify(200)    
+
+@app.route('/alumno/navConsultarInscripciones', methods=['GET'])
+def navConsultarInscripciones():
+    alumnoDa0 = AlumnoDAO()
+    return jsonify(alumnoDa0.consultarInscripciones(request.values["idUsuario"])), 200
 #-------------FIN VISTA ALUMNO-------------------------------------
 
 @app.route('/docente', methods=['GET'])
