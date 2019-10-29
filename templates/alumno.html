@@ -111,8 +111,8 @@
   <div class="bg-dark border-right" id="sidebar-wrapper">
     <div class="sidebar-heading text-light bg-dark">Actividades</div>
     <div class="list-group list-group-flush">
-      <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark nav-link" href="#" id="navconsultar"   >Consultar inscripciones</a>
-      <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark nav-link" role="button"  id="navinscribirse" onclick="traerExamenesDisponibles()">Inscribirse a Examen</a>
+      <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark nav-link" href="#" id="navconsultar"  role="button" >Consultar inscripciones</a>
+      <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark nav-link" href="#" id="navinscribirse" onclick="traerExamenesDisponibles()"  role="button" >Inscribirse a Examen</a>
       <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark nav-link" id="navrendir" href="#"  onclick="traerExamenesARendir()" role="button" >Rendir Examen</a>
       <form method="GET" action="/logout" >
       <button  class="list-group-item list-group-item-action bg-dark text-light bg-dark" type="submit">Cerrar Sesion</button>
@@ -147,6 +147,44 @@
         </div>
       </div>
       <div id="navinscribirsediv" class="content">
+      </div>
+      <div id="navrendirdiv" class="content">
+      </div>
+      <div id="examenARendirdiv" class="exmn">
+				<div class="card w-100">
+					<div class="card-body">
+						<h5 class="card-title">¿Cuanto es 2+2?</h5>
+						<div class="form-check">
+							<div>
+								<input class="form-check-input" type="checkbox" value="" >
+								<label class="form-check-label" >
+									3
+								</label>
+							</div>
+
+							<div>
+								<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+								<label class="form-check-label" for="defaultCheck1">
+									4/2
+								</label>
+							</div>
+							<div>
+								<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+								<label class="form-check-label" for="defaultCheck1">
+									5
+								</label>
+							</div>
+							<div>
+								<input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+								<label class="form-check-label" for="defaultCheck1">
+									2
+								</label>
+							</div>
+							
+						</div>
+						<a href="#" class="btn btn-primary">Siguiente pregunta</a>
+					</div>
+				</div>
 			</div>
     </div>
     
