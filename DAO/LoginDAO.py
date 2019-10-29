@@ -29,12 +29,17 @@ class LoginDAO(ConexionBD):
         return usrRespuesta
 
     def traerUsuario(self, idUsuario):
+        usuario = None
+        
         try:
             self.crearConexion()
             if self._bd.is_connected():
                 self.cursorDict()
-                self._micur.execute('SELECT idUsuario, email, idCarrera FROM usuario WHERE idUsuario = %s', (idUsuario,))
+                self._micur.execute('SELECT idUsuario, email, tipoUsuario FROM usuario WHERE usuario.idUsuario = %s', (idUsuario,))
                 usuario = self._micur.fetchone()
+                self._micur.execute("SELECT * FROM carrera INNER JOIN inscripcionencarrera ON carrera.idCarrera = inscripcionencarrera.idCarrera where inscripcionencarrera.idUsuario = %s",(idUsuario,))
+                usuario["carreras"] = self._micur.fetchall()
+                print("Lo que trae la consulta: ", usuario)
         except Error as e:
             print("Error al conectar con la BD", e)
         finally:

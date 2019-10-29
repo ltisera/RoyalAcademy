@@ -30,7 +30,7 @@ function traerExamenesDisponibles(){
     $.ajax({
       url:"alumno/navInscribirse",
       type: "POST",
-      data: alumno,
+      data: {"idUsuario":alumno.idUsuario, "carreras": JSON.stringify(alumno.carreras)},
       success: function(response){
 
         console.log(response);
@@ -38,7 +38,7 @@ function traerExamenesDisponibles(){
         var html ="";
         var navInscribirse = document.getElementById("navinscribirsediv");
         for(var i=0;i<response.length;i++){
-          html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].materia+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='inscribirse"+response[i].idExamen+"' onclick='inscribirseAExamen("+response[i].idExamen+")'>Inscribirse</a></div></div>"
+          html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='inscribirse"+response[i].idExamen+"' onclick='inscribirseAExamen("+response[i].idExamen+")'>Inscribirse</a></div></div>"
       }
       navInscribirse.innerHTML= html;
     },
@@ -76,7 +76,7 @@ function traerExamenesARendir(){
       
       var html ="";
       for(var i=0;i<response.length;i++){
-        html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].materia+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='rendir"+response[i].idExamen+"' onclick='rendirExamen("+response[i].idExamen+")'>Comenzar Examen</a></div></div>"       
+        html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='rendir"+response[i].idExamen+"' onclick='rendirExamen("+response[i].idExamen+")'>Comenzar Examen</a></div></div>"       
       }
       document.getElementById("navrendirdiv").innerHTML= html;
     },
@@ -159,7 +159,7 @@ function responderPregunta(respuestas){
         console.log("Finalize el examen");
       }else{
         contadorDePreguntas++;
-        console.log("muestro primer pregunta");
+        console.log("muestro sgte pregunta");
         mostrarPregunta();
       }
       mostrarPregunta();

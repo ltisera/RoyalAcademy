@@ -7,13 +7,18 @@ class AlumnoDAO(ConexionBD):
     
 
 
-    def traerExamenesDisponibles(self, idUsuario, idCarrera):
+    def traerExamenesDisponibles(self, idUsuario, carreras):
         try:
+            examenesDisponibles = []
             lstExamenes = []
             self.crearConexion()
             self.cursorDict()
-            self._micur.execute("SELECT * FROM examen INNER JOIN carrera ON examen.idCarrera = carrera.idCarrera INNER JOIN usuario ON carrera.idCarrera = usuario.idCarrera WHERE examen.disponible = 1 and usuario.idUsuario = %s and usuario.idCarrera = %s", (idUsuario, idCarrera))
-            examenesDisponibles = self._micur.fetchall()
+            for c in carreras:
+                print("de carrera imprimo su id ",c["idCarrera"])
+                self._micur.execute("SELECT * FROM examen INNER JOIN carrera ON examen.idCarrera = carrera.idCarrera  WHERE examen.disponible = 1 and examen.idCarrera = %s", (c["idCarrera"],))
+                examenesDeCarrera = self._micur.fetchall()
+                for e in examenesDeCarrera:
+                    examenesDisponibles.append(e)
             
             for examen in examenesDisponibles:
                 self._micur.execute("SELECT * FROM inscripcion WHERE inscripcion.idUsuario =%s and inscripcion.idExamen =%s", (idUsuario, examen['idExamen']))
@@ -60,7 +65,7 @@ class AlumnoDAO(ConexionBD):
         try:
             self.crearConexion()
             self.cursorDict()
-            self._micur.execute("SELECT * FROM examen e INNER JOIN inscripcion i ON e.idExamen = i.idExamen WHERE e.disponible = 1 and i.idUsuario = %s and i.examenRealizado = 0", (idUsuario,))
+            self._micur.execute("SELECT * FROM examen e INNER JOIN inscripcion i ON e.idExamen = i.idExamen INNER JOIN carrera c ON e.idCarrera = c.idCarrera WHERE e.disponible = 1 and i.idUsuario = %s and i.examenRealizado = 0", (idUsuario,))
             examenes = self._micur.fetchall()
 
         except mysql.connector.errors.IntegrityError as err:

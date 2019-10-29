@@ -34,7 +34,8 @@ def alumno():
 @app.route('/alumno/navInscribirse', methods=['POST'])
 def navInscribirse():
     alumnoDao = AlumnoDAO()
-    return jsonify(alumnoDao.traerExamenesDisponibles(request.values["idUsuario"], request.values["idCarrera"])), 200
+    print("ssssssssssssssss ",json.loads(request.values["carreras"]))
+    return jsonify(alumnoDao.traerExamenesDisponibles(request.values["idUsuario"], json.loads(request.values["carreras"]))), 200
 
 @app.route('/alumno/navInscribirse/inscribirseAExamen', methods=['POST'])
 def inscribirseAExamen():
@@ -177,6 +178,7 @@ def logout():
 
 @app.route('/getUser', methods=['GET', 'POST'])
 def getUser():
+    print("El session esta cargado con esto: ", session)
     logindao = LoginDAO()
     return jsonify(logindao.traerUsuario(session['username']))
 
