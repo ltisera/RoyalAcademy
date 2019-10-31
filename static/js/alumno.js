@@ -37,15 +37,20 @@ function traerExamenesDisponibles(){
         
         var html ="";
         var navInscribirse = document.getElementById("navinscribirsediv");
-        for(var i=0;i<response.length;i++){
-          html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='inscribirse"+response[i].idExamen+"' onclick='inscribirseAExamen("+response[i].idExamen+")'>Inscribirse</a></div></div>"
-      }
-      navInscribirse.innerHTML= html;
-    },
-    error:function(response){
+        if (response.length==0){
+          html = "<div class='card w-100'><div class='card-body'><h5 class='card-title'>No hay examenes disponibles para inscribirse.</h5></div></div>";
+        }else{
+          for(var i=0;i<response.length;i++){
+            html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='inscribirse"+response[i].idExamen+"' onclick='inscribirseAExamen("+response[i].idExamen+")'>Inscribirse</a></div></div>"
+          }
+        }
+        
+        navInscribirse.innerHTML= html;
+      },
+      error:function(response){
         console.log("MAL")
-    } 
-  });
+      } 
+    });
 }
 
 function inscribirseAExamen(idExamen){
@@ -75,10 +80,15 @@ function traerExamenesARendir(){
       console.log("traigo examenes a rendir "+response);
       
       var html ="";
-      for(var i=0;i<response.length;i++){
-        html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='rendir"+response[i].idExamen+"' onclick='rendirExamen("+response[i].idExamen+")'>Comenzar Examen</a></div></div>"       
+      if (response.length==0){
+        html = "<div class='card w-100'><div class='card-body'><h5 class='card-title'>No hay examenes disponibles para rendir.</h5></div></div>";
+      }else{
+        for(var i=0;i<response.length;i++){
+          html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='rendir"+response[i].idExamen+"' onclick='rendirExamen("+response[i].idExamen+")'>Comenzar Examen</a></div></div>"       
+        }
       }
       document.getElementById("navrendirdiv").innerHTML= html;
+      
     },
     error:function(response){
       console.log("Error")
@@ -93,6 +103,7 @@ function rendirExamen(idExamen){
     type: "POST",
     data: {"idExamen":idExamen},
     success: function(response){
+      console.log("Id de examen que estoy rindiendo ",idExamen)
       console.log("rindo examen Y ME ASEGURO ",response)
       $(".content").hide();
       console.log("ALGO:" + listaPreguntas)
@@ -178,7 +189,12 @@ function finalizarExamen(){
     success: function(response){
       console.log("Examen finalizado");
       contadorDePreguntas=0;
-      listaPreguntas="";     
+      listaPreguntas=null;
+      $(".exmn").hide();
+
+      $("#navrendirdiv").html("<div class='card w-100'><div class='card-body'><h5 class='card-title'>Examen finalizado.</h5><a class='btn btn-primary' href='#' onclick='traerExamenesARendir()'>Rendir otros examenes</a></div></div>");
+      $("#navrendirdiv").show();
+      
       
     },
     error: function(response){
@@ -196,8 +212,13 @@ function consultarInscripciones(){
     success: function(response){
       console.log("Consulte isncripciones: ", response);
       var html="";
-      for(var i=0;i<response.length;i++){
-        html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p></div></div>";
+      if (response.length==0){
+        html = "<div class='card w-100'><div class='card-body'><h5 class='card-title'>No estas inscripto a ningun examen.</h5></div></div>";
+      }else{
+        for(var i=0;i<response.length;i++){
+          html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p></div></div>";
+        
+        }
       }
       $("#navconsultardiv").html(html);
     },
