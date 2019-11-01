@@ -41,7 +41,7 @@ function traerExamenesDisponibles(){
           html = "<div class='card w-100'><div class='card-body'><h5 class='card-title'>No hay examenes disponibles para inscribirse.</h5></div></div>";
         }else{
           for(var i=0;i<response.length;i++){
-            html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='inscribirse"+response[i].idExamen+"' onclick='inscribirseAExamen("+response[i].idExamen+")'>Inscribirse</a></div></div>"
+            html+="<div class='container '><h4 class='display-4 '>Listado de Examenes disponibles</h4><div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='inscribirse"+response[i].idExamen+"' onclick='inscribirseAExamen("+response[i].idExamen+")'>Inscribirse</a></div></div></div>"
           }
         }
         
@@ -84,7 +84,7 @@ function traerExamenesARendir(){
         html = "<div class='card w-100'><div class='card-body'><h5 class='card-title'>No hay examenes disponibles para rendir.</h5></div></div>";
       }else{
         for(var i=0;i<response.length;i++){
-          html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='rendir"+response[i].idExamen+"' onclick='rendirExamen("+response[i].idExamen+")'>Comenzar Examen</a></div></div>"       
+          html+="<div class='card w-100 examenesDispo container'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='rendir"+response[i].idExamen+"' onclick='rendirExamen("+response[i].idExamen+")'>Comenzar Examen</a></div></div>"       
         }
       }
       document.getElementById("navrendirdiv").innerHTML= html;
@@ -125,13 +125,13 @@ function rendirExamen(idExamen){
 function mostrarPregunta(){
   var html="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+listaPreguntas[contadorDePreguntas].descripcion+"</h5><div class='form-check'>";
   for(var i=0;i<listaPreguntas[contadorDePreguntas].respuestas.length;i++){
-    html+="<div><input class='form-check-input' type='checkbox' value='"+listaPreguntas[contadorDePreguntas].respuestas[i].idRespuesta+"' name='resp'><label class='form-check-label'>"+listaPreguntas[contadorDePreguntas].respuestas[i].descripcion+"</label></div>";
+    html+="<div class='input-group selecionarResp'><div class='input-group-prepend'><div class='input-group-text'><input  type='checkbox' aria-label='Checkbox for following text input'  value='"+listaPreguntas[contadorDePreguntas].respuestas[i].idRespuesta+"' name='resp'></div></div><li class='list-group-item lista'>"+listaPreguntas[contadorDePreguntas].respuestas[i].descripcion+"</li></div>";
   }  
   if(contadorDePreguntas==listaPreguntas.length-1){
     html+="</div><button type='submit' id='sgtePreg href='#' class='btn btn-primary' onclick='sgtePregunta()'>Finalizar examen</button></div>";
   }
   else{
-    html+="</div><button type='submit' id='sgtePreg' href='#' class='btn btn-primary' onclick='sgtePregunta()'>Siguiente pregunta</button></div>";
+    html+="</div><button type='submit' id='sgtePreg' href='#' class='btn btn-primary siguientePregunta' onclick='sgtePregunta()'>Siguiente pregunta</button></div>";
   }
   document.getElementById("examenARendirdiv").innerHTML = html;
   $(".exmn").show();
@@ -216,7 +216,7 @@ function consultarInscripciones(){
         html = "<div class='card w-100'><div class='card-body'><h5 class='card-title'>No estas inscripto a ningun examen.</h5></div></div>";
       }else{
         for(var i=0;i<response.length;i++){
-          html+="<div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p></div></div>";
+          html+="<div class='card w-90 inscripciones'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p></div></div>";
         
         }
       }
