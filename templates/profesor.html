@@ -36,6 +36,7 @@
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Crear Preguntas</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseModeloExamen" role="button" aria-expanded="false" aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseModeloExamenAuto" role="button" aria-expanded="false" aria-controls="collapseModeloExamenAuto">Creacion Examen Automatico</a>
+                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseCargarNotas" role="button" aria-expanded="false" aria-controls="collapseCargarNotas">Cargar notas practico</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Planilla</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Perfil</a>
                     <form method="GET" action="/logout" >
@@ -145,8 +146,53 @@
 
                         </div>
                     </div>
+
     
-                    </div>   
+                    </div>
+                    <div  class="container-fluid collapse"  id="collapseCargarNotas" data-parent="#contenido">
+                      <div class ="clsContendeorNotasPractico" id="idContenedorNotasPractico">
+                        Seleccione la carrera en la que se cargaran las notas de los practicos:
+						<select name="carrera" id="selCarrera2" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+						</select>
+						<select name="carreraExamen" id="selExamen2" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+						</select>
+								<br>
+						<div class="clsNotaPracticoEncabezado" id="idNotapracticoA1">
+							<div class="clsFL clsNombreAlumno">
+                                DNI Del Alumno
+							</div>
+							<div class="clsFL clsFechaExamen">
+								Final Teorico
+							</div>
+							<div class="clsNota">
+								Examen practico
+							</div>
+      
+						</div>
+						<div id="idDivNotas">
+							<div class="clsNotaPracticoAlumnoF1" id="idNotapracticoA1">
+							<div class="clsFL clsNombreAlumno">
+								31794620 ecuador@quito.com.ar
+							</div>
+							<div class="clsFL clsFechaExamen">
+								5
+							</div>
+							<div class="clsNota">
+								<input type="text" class="clsInputNota">
+							</div>
+	
+							</div>
+							<div class="clsNotaPracticoAlumnoF2" id="idNotapracticoA1">
+								El nombre del alumno la nota y todo eso
+							</div>
+						</div>
+                        <button type="button" id="idBtnCargarNotas" class="btn btn-primary my-1">Cargar Notas</button>
+                      </div>
+                      
+                    </div>
+                    
+    
+                    </div>  
 
                 </div>
                 
