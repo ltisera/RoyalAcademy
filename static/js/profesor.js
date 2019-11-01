@@ -1,5 +1,22 @@
+/* login y session */
+var usuario;
+//ajax para traer el usuario completo
+$.ajax({
+  url:"getUser",
+  type: "GET",
+  success: function(response){
+    console.log("traigo el usuario")
+    console.log(response);
+    usuario = response;
+    $("#nombreusuario").html(usuario.email)
+  },
+  error:function(response){
+    console.log("Error")
+  } 
+});
 
 
+/* login y session */
 $(document).ready(function(){
 
     $("#selCarrera").change(cambiador);

@@ -39,7 +39,9 @@
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseCargarNotas" role="button" aria-expanded="false" aria-controls="collapseCargarNotas">Cargar notas practico</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Planilla</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Perfil</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Cerrar Sesion</a>
+                    <form method="GET" action="/logout" >
+                      <button  class="list-group-item list-group-item-action bg-dark text-light bg-dark" type="submit">Cerrar Sesion</button>
+                      </form>
                   </div>
                 </div>
                 <!-- /#sidebar-wrapper -->
@@ -47,20 +49,16 @@
                 <!-- Page Content -->
                 <div id="page-content-wrapper">
             
-                  <nav class="navbar navbar-expand-lg navbar-light p-3 mb-2  prueba text-white border-bottom">
-                    <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-            
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" aria-expanded="false" aria-controls="collapseExample">
-                      <span class="navbar-toggler-icon"></span>
-                    </button>
-            
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                        <li class="nav-item active">
-                          <a class="nav-link text-white" href="#">ICONO DEL USUARIO PROFESOR<span class="sr-only">(current)</span></a>
-                        </li>
-                      </ul>
-                    </div>
+                  <nav class="navbar navbar-light prueba text-white">
+                      <button class="navbar-toggler" type="button" id="menu-toggle">
+                          <span class="navbar-toggler-icon"></span>
+                        </button>
+                      
+                            <div class="ml-auto" id="usuariocabecera">
+                                Bienvenido! 
+                                <button class="btn btn-primary" id="nombreusuario"><!--- email del usuario ---></button>
+                            </div>
+
                   </nav>
                   <div id="contenido">
                     <div class="collapse show" id="collapseExample" data-parent="#contenido">
@@ -130,13 +128,19 @@
                     </div>
 
                     <div  class="container-fluid collapse"  id="collapseModeloExamenAuto" data-parent="#contenido">
+                        <h1 class="mt-4">Crear Examen Automaticamente</h1>
                       <div class="card card-body">
+                          
+                          
                         <form  id="formExamenAuto">
+                            <p>Selecciona la Carrera para crear el examen:</p>
                           <select name="carrera" id="selCarrera1" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                             
                           </select>
-                          <input type="datetime-local" name="calendar" >
-                          <button type="button" id="enviarExamenAuto">registrar</button>
+                          <br><br>
+                          <p>Seleccione la fecha y hora en que se toma el examen:</p>
+                          <input type="datetime-local" name="calendar" ><br>
+                          <button type="button" id="enviarExamenAuto" class="btn btn-primary my-1">Crear Examen</button>
                         </form>
                         <div id="respExamenAuto">
 
