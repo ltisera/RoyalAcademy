@@ -146,6 +146,7 @@ class GestorExamenDAO(ConexionBD):
             preguntas = self._micur.fetchall()
             pregunta = None
             for i in range(50):
+                i = i
                 pregunta = random.choice(preguntas)
                 self._micur.execute(queryPreguntas,(pregunta[0],idExamen))
                 preguntas.remove(pregunta)
@@ -250,6 +251,22 @@ class GestorExamenDAO(ConexionBD):
         finally:
             self.cerrarConexion()
             return resultado
+    #SELECT * FROM royalacademydb.planillanotas as pn inner join royalacademydb.examen as e where e.idExamen = pn.idExamen and e.idCarrera = 1;
+    def traerAlumosDeExamenConNota(self, idExamen):
+        planilla = []
+        try:
+            self.crearConexion()
+            self.cursorDict()
+            self._micur.execute("SELECT * FROM royalacademydb.planillanotas as pn inner join royalacademydb.examen as e where e.idExamen = pn.idExamen and pn.notaPractico is NULL and e.idExamen = %s;",(idExamen,))
+            for registro in self._micur:
+                planilla.append(registro)
+        except mysql.connector.errors.IntegrityError as err:
+            print("DANGER ALGO OCURRIO: " + str(err))
+        finally:
+            self.cerrarConexion()
+        if len(planilla)==0:
+            planilla = None
+        return planilla
 
     """ Planilla de notas de los usuarios de un examen """
     def traerPlanillaDelExamen(self, idExamen):

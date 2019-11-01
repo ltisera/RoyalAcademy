@@ -1,8 +1,14 @@
+
+
 $(document).ready(function(){
 
     $("#selCarrera").change(cambiador);
-
+    $("#selCarrera2").change(traerExamenesCarrera);
+    $("#selExamen2").change(traerAlumnosCarrera);
+    
     $("#selCarrera").append(new Option("Seleciona una carrera", 0));
+    $("#selCarrera2").append(new Option("Seleciona una carrera", 0));
+    
     $.ajax({
         url: 'traerListaCarreras',
         type: 'POST',
@@ -14,6 +20,7 @@ $(document).ready(function(){
                 console.log("idCarrera: " + response[i].idCarrera);
                 $("#selCarrera").append(new Option(response[i].nombre, response[i].idCarrera));
                 $("#selCarrera1").append(new Option(response[i].nombre, response[i].idCarrera));
+                $("#selCarrera2").append(new Option(response[i].nombre, response[i].idCarrera));
                 $("#selCarreraPregunta").append(new Option(response[i].nombre, response[i].idCarrera));
             };
             console.log("fin");
@@ -79,6 +86,66 @@ $(document).ready(function(){
     
 });
 
+function traerExamenesCarrera(){
+    $("#selExamen2").html("");
+    $("#selExamen2").append(new Option("Seleciona un Examen", 0));
+    $.ajax({
+        url: 'traerListaExamenesCarrera',
+        type: 'POST',
+        data: {"idCarrera" : $("#selCarrera2").val()},
+        success:function(response){
+            for(var i in response){
+                
+                console.log("fecha: " + response[i].fecha);
+                console.log("idExamen: " + response[i].idExamen);
+                $("#selExamen2").append(new Option(response[i].fecha, response[i].idExamen));
+            };
+            console.log("fin");
+
+        },
+        error:function(response){console.log("MAL")}
+    });
+
+}
+function traerAlumnosCarrera(){
+    var idExamen = $("#selExamen2").val()
+    $("#idDivNotas").html("");
+    var rellenar = ""
+    $.ajax({
+        url: 'traerAlumnosDeExamen',
+        type: 'POST',
+        data: {'idExamen':$("#selExamen2").val()},
+        success: function(response){
+            console.log(response)
+            for (i in response){
+                rellenar += `
+                <div class="clsNotaPracticoAlumnoF`+(i%2 + 1)+`" id="idNotapracticoA1">
+                    <div class="clsFL clsNombreAlumno">
+                        ` + response[i].idUsuario + `
+                    </div>
+                    <div class="clsFL clsFechaExamen">
+                        `+ response[i].notaExamen +`
+                    </div>
+                    <div class="clsNota">
+                        <input type="text" id="inpNota` + response[i].idUsuario + `" class="clsInputNota">
+                    </div>
+	
+                </div>
+                ` 
+                console.log("DNI: " + response[i].idUsuario)
+                console.log("Nota: " + response[i].notaExamen)
+            }
+            $("#idDivNotas").html(rellenar);
+        },
+        error: function(response){
+            console.log("BIEN ALUMNOS")
+            console.log(response)
+        }
+    });
+    console.log("AXA")
+    console.log(rellenar)
+    
+};
 function cambiador(){
     console.log("id de Carrera " +  $("#selCarrera" ).val());
     $.ajax({
@@ -127,6 +194,37 @@ $(document).on('focus', ".clsRta", function() {
     else{
         console.log(" NOSOY")
     }
+});
+
+
+$(document).on('click', "#idBtnCargarNotas", function() {
+    
+    $(".clsInputNota").each(
+        function(){
+
+            console.log("id: " + $(this).attr("id").substring(7) + " nota: " + $(this).val() + "idExamen: " + $("#selExamen2").val())
+            console.log("llamoAlAjax")
+            $.ajax({
+                url: 'cargarNotaPractica',
+                type: 'POST',
+                data: {
+                    "idUsuario" : $(this).attr("id").substring(7),
+                    "notaPractico" : $(this).val(),
+                    "idExamen" : $("#selExamen2").val()
+                    },
+                success:function(response){console.log("NOTAS Cargadas")},
+                error:function(response){console.log("Error al notacargar")}
+            });
+        });
+    /*
+    $.ajax({
+        url: 'cargarPlanillaNotas',
+        type: 'POST',
+        data: notasACargar,
+        success: function(response){},
+        error: function(response){}
+    });
+    */
 });
 
 $(document).on('click', "#idBtnCrearExamenManual", function() {

@@ -195,5 +195,34 @@ def crearPregunta():
     resultado = geDAO.crearExamenManual(datos["fecha"], 1, datos["idCarrera"], datos["preguntas"])
     return jsonify(resultado),200
 
+@app.route('/traerExamenesDeCarrera', methods=['GET', 'POST'])
+def traerExamenesDeCarrera():
+    geDAO = GestorExamenDAO()
+    rExamenes = geDAO.traerExamenes(request.values['idCarrera'])
+    return jsonify(rExamenes), 200
 
+@app.route('/traerAlumnosDeExamen', methods=['GET', 'POST'])
+def traerAlumnosDeExamen():
+    geDAO = GestorExamenDAO()
+    rAlumnos = geDAO.traerAlumosDeExamenConNota(request.values['idExamen'])
+
+    return jsonify(rAlumnos), 200
+
+@app.route('/cargarNotaPractica', methods=['GET', 'POST'])
+def cargarNotaPractica():
+    geDAO = GestorExamenDAO()
+    idExamen = request.values["idExamen"]
+    idUsuario = request.values["idUsuario"]
+    notaPractico = request.values["notaPractico"]
+    larta = geDAO.ingresarNotaPracticaDeAlumno(idExamen,idUsuario,notaPractico)
+    return jsonify(larta), 200
+
+
+@app.route('/traerListaExamenesCarrera', methods=['GET', 'POST'])
+def traerListaExamenesCarrera():
+    geDAO = GestorExamenDAO()
+    lExamenes = geDAO.traerExamenes(request.values["idCarrera"])
+    return jsonify(lExamenes), 200
+
+####Fin de rutas
 app.run(debug=True)
