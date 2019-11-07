@@ -47,72 +47,75 @@ $(document).ready(function(){
     });
 
     $("#enviarPregunta").click( function() {
-        var hayCorrecta = false;
-        var respuestas = $(".clsRta");
-        var i = 0;
-        var cantRespuestasNoVacias = 0;
-        var checkbox = null;
-        while(!hayCorrecta && i<respuestas.length){
-            checkbox = $("#" + respuestas[i].id).next().find("input")[0];
-            console.log($.trim(respuestas[i].value));
-            if($.trim(respuestas[i].value) != ""){
-                cantRespuestasNoVacias += 1;
-                if(checkbox.checked == true){
-                    hayCorrecta = true;
+        if($.trim($("#descripcionCrearPregunta").val()) != ""){
+            var hayCorrecta = false;
+            var respuestas = $(".clsRta");
+            var i = 0;
+            var cantRespuestasNoVacias = 0;
+            var checkbox = null;
+            while(!hayCorrecta && i<respuestas.length){
+                checkbox = $("#" + respuestas[i].id).next().find("input")[0];
+                if($.trim(respuestas[i].value) != ""){
+                    cantRespuestasNoVacias += 1;
+                    if(checkbox.checked == true){
+                        hayCorrecta = true;
+                    }
                 }
+                i++;
             }
-            i++;
-        }
-        while(cantRespuestasNoVacias < 2 && i<respuestas.length){
-            if($.trim(respuestas[i].value) != ""){
-                cantRespuestasNoVacias += 1;
-                if(checkbox.checked == true){
-                    hayCorrecta = true;
+            while(cantRespuestasNoVacias < 2 && i<respuestas.length){
+                if($.trim(respuestas[i].value) != ""){
+                    cantRespuestasNoVacias += 1;
+                    if(checkbox.checked == true){
+                        hayCorrecta = true;
+                    }
                 }
+                i++;
             }
-            i++;
-        }
-        if(hayCorrecta){
-            if(cantRespuestasNoVacias >= 2){
-                $.post("postPregunta",$("#formPregunta").serialize(),function(response){
-                $("#divCrearPregunta").fadeOut("slow");
-                if(response != 0){
-                    $("#formPregunta")[0].reset();
-                    $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
-                }
-                else{
-                    $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
-                }
-                $("#respEnviarPregunta").delay(500).fadeIn("slow");
-                $("#nuevaPregunta").click( function() {
-                    $("#respEnviarPregunta").fadeOut("slow");
-                    $("#divCrearPregunta").delay(500).fadeIn("slow");
-                });
-                $("#idDivRta").html(`<div class="input-group ">
-                                        <input type="text" name="respuesta" id="rta1" class="form-control clsRta" aria-label="Text input with checkbox">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
-                                            </div>
-                                        </div>  
-                                    </div>
-                                    <br>
-                                    <div class="input-group ">
-                                            <input type="text" name="respuesta" id="rta2" class="form-control clsRta" aria-label="Text input with checkbox">
+            if(hayCorrecta){
+                if(cantRespuestasNoVacias >= 2){
+                    $.post("postPregunta",$("#formPregunta").serialize(),function(response){
+                    $("#divCrearPregunta").fadeOut("slow");
+                    if(response != 0){
+                        $("#formPregunta")[0].reset();
+                        $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
+                    }
+                    else{
+                        $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
+                    }
+                    $("#respEnviarPregunta").delay(500).fadeIn("slow");
+                    $("#nuevaPregunta").click( function() {
+                        $("#respEnviarPregunta").fadeOut("slow");
+                        $("#divCrearPregunta").delay(500).fadeIn("slow");
+                    });
+                    $("#idDivRta").html(`<div class="input-group ">
+                                            <input type="text" name="respuesta" id="rta1" class="form-control clsRta" aria-label="Text input with checkbox">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                    <input name="valor2" type="checkbox" aria-label="Checkbox for following text input">
+                                                    <input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
                                                 </div>
                                             </div>  
-                                            <br>
-                                    </div>
-                                    <br>`);
-                });
+                                        </div>
+                                        <br>
+                                        <div class="input-group ">
+                                                <input type="text" name="respuesta" id="rta2" class="form-control clsRta" aria-label="Text input with checkbox">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <input name="valor2" type="checkbox" aria-label="Checkbox for following text input">
+                                                    </div>
+                                                </div>  
+                                                <br>
+                                        </div>
+                                        <br>`);
+                    });
+                }else{
+                    alert("Debe haber al menos 2 respuestas que no esten vacias");
+                }
             }else{
-                alert("Debe haber al menos 2 respuestas no vacias");
+                alert("Debe marcar al menos una respuesta como correcta, y esta no debe estar vacia");
             }
         }else{
-            alert("No ha marcado una respuesta no vacia como correcta");
+            alert("Escriba una descripcion de la pregunta");
         }
     });
 
