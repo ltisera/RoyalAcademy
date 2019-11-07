@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" href="static/css/navbar.css">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="static/css/navbar.css">
 	
 	<link rel="stylesheet" href="static/css/estilos.css" />
     <script src="static/js/jquery-3.4.1.js"></script>
@@ -37,8 +36,6 @@
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseModeloExamen" role="button" aria-expanded="false" aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseModeloExamenAuto" role="button" aria-expanded="false" aria-controls="collapseModeloExamenAuto">Creacion Examen Automatico</a>
                     <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseCargarNotas" role="button" aria-expanded="false" aria-controls="collapseCargarNotas">Cargar notas practico</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Planilla</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark">Perfil</a>
                     <form method="GET" action="/logout" >
                       <button  class="list-group-item list-group-item-action bg-dark text-light bg-dark" type="submit">Cerrar Sesion</button>
                       </form>
@@ -170,21 +167,8 @@
       
 						</div>
 						<div id="idDivNotas">
-							<div class="clsNotaPracticoAlumnoF1" id="idNotapracticoA1">
-							<div class="clsFL clsNombreAlumno">
-								31794620 ecuador@quito.com.ar
-							</div>
-							<div class="clsFL clsFechaExamen">
-								5
-							</div>
-							<div class="clsNota">
-								<input type="text" class="clsInputNota">
-							</div>
-	
-							</div>
-							<div class="clsNotaPracticoAlumnoF2" id="idNotapracticoA1">
-								El nombre del alumno la nota y todo eso
-							</div>
+							
+							
 						</div>
                         <button type="button" id="idBtnCargarNotas" class="btn btn-primary my-1">Cargar Notas</button>
                       </div>
@@ -205,10 +189,10 @@
 
   <!-- Bootstrap core JavaScript -->
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha256-gL1ibrbVcRIHKlCO5OXOPC/lZz/gpdApgQAzskqqXp8=" crossorigin="anonymous"></script>
+  
   <script rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="static/js/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script >
         $("#menu-toggle").click(function(e) {
