@@ -305,14 +305,14 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
         success: function(response){
             if(response != 0){
                     $("#formPregunta")[0].reset();
-                    $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
+                    $("#divCrearExamenManual").html('<h3>Examen Agregado</h3><button type="button" id="nuevoExamen" class="btn btn-primary my-1">Crear otro examen</button>');
                 }
                 else{
-                    $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
+                    $("#divCrearExamenManual").html('<h3>Hubo un error</h3><button type="button" id="nuevoExamen" class="btn btn-primary my-1">Reintentar</button>');
                 }
-                $("#respEnviarPregunta").delay(500).fadeIn("slow");
-                $("#nuevaPregunta").click( function() {
-                    $("#respEnviarPregunta").fadeOut("slow");
+                $("#divCrearExamenManual").delay(500).fadeIn("slow");
+                $("#nuevoExamen").click( function() {
+                    $("#divCrearExamenManual").fadeOut("slow");
                     $("#divCrearPregunta").delay(500).fadeIn("slow");
             });},
         error: function(response){console.log("Habemus Errorus")}

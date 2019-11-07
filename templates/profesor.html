@@ -26,134 +26,135 @@
 </head>
 <body>
     
-        <div class="d-flex" id="wrapper">
+	<div class="d-flex" id="wrapper">
 
-                <!-- Sidebar -->
-                <div class="bg-dark border-right" id="sidebar-wrapper">
-                  <div class="sidebar-heading text-light bg-dark">Actividades</div>
-                  <div class="list-group list-group-flush">
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Crear Preguntas</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseModeloExamen" role="button" aria-expanded="false" aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseModeloExamenAuto" role="button" aria-expanded="false" aria-controls="collapseModeloExamenAuto">Creacion Examen Automatico</a>
-                    <a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseCargarNotas" role="button" aria-expanded="false" aria-controls="collapseCargarNotas">Cargar notas practico</a>
-                    <form method="GET" action="/logout" >
-                      <button  class="list-group-item list-group-item-action bg-dark text-light bg-dark" type="submit">Cerrar Sesion</button>
-                      </form>
-                  </div>
-                </div>
+		<!-- Sidebar -->
+		<div class="bg-dark border-right" id="sidebar-wrapper">
+			<div class="sidebar-heading text-light bg-dark">Actividades</div>
+			<div class="list-group list-group-flush">
+				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Crear Preguntas</a>
+				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseModeloExamen" role="button" aria-expanded="false" aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
+				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseModeloExamenAuto" role="button" aria-expanded="false" aria-controls="collapseModeloExamenAuto">Creacion Examen Automatico</a>
+				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseCargarNotas" role="button" aria-expanded="false" aria-controls="collapseCargarNotas">Cargar notas practico</a>
+				<form method="GET" action="/logout" >
+					<button  class="list-group-item list-group-item-action bg-dark text-light bg-dark" type="submit">Cerrar Sesion</button>
+				</form>
+			</div>
+		</div>
                 <!-- /#sidebar-wrapper -->
             
                 <!-- Page Content -->
-                <div id="page-content-wrapper">
+		<div id="page-content-wrapper">
             
-                  <nav class="navbar navbar-light prueba text-white">
-                      <button class="navbar-toggler" type="button" id="menu-toggle">
-                          <span class="navbar-toggler-icon"></span>
-                        </button>
+			<nav class="navbar navbar-light prueba text-white">
+				<button class="navbar-toggler" type="button" id="menu-toggle">
+				<span class="navbar-toggler-icon"></span>
+				</button>
                       
-                            <div class="ml-auto" id="usuariocabecera">
-                                Bienvenido! 
-                                <button class="btn btn-primary" id="nombreusuario"><!--- email del usuario ---></button>
-                            </div>
+				<div class="ml-auto" id="usuariocabecera">
+					Bienvenido! 
+					<button class="btn btn-primary" id="nombreusuario"><!--- email del usuario ---></button>
+				</div>
 
-                  </nav>
-                  <div id="contenido">
-                    <div class="collapse show" id="collapseExample" data-parent="#contenido">
-                            <div class="card card-body">
+			</nav>
+			<div id="contenido">
+				<div class="collapse show" id="collapseExample" data-parent="#contenido">
+					<div class="card card-body">
 
-                                    <div class="container-fluid" id="divCrearPregunta">
-											<h1 class="mt-4">Crear Pregunta</h1>
-											
-                                            <form id="formPregunta" method="POST">
-												<p>Selecciona la Carrera para crear el examen</p>
-												<select name="carrera" id="selCarreraPregunta" class="custom-select mr-sm-2" ></select>
-												<br>
-												<br>
-                                                <input class="form-control form-control-lg" name="descripcion" type="text" placeholder="Descripcion">
-                                                <br>
-                                                <div id="idDivRta">
-													<div class="input-group ">
-														<input type="text" name="respuesta" id="rta1" class="form-control clsRta" aria-label="Text input with checkbox">
-														<div class="input-group-prepend">
-															<div class="input-group-text">
-																<input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
-															</div>
-														</div>  
-													</div>
-													<br>
-													<div class="input-group ">
-															<input type="text" name="respuesta" id="rta2" class="form-control clsRta" aria-label="Text input with checkbox">
-															<div class="input-group-prepend">
-																<div class="input-group-text">
-																	<input name="valor2" type="checkbox" aria-label="Checkbox for following text input">
-																</div>
-															</div>  
-															<br>
-                          </div>
-                          <br>
-													
-                                                </div>
-                                                        <button type="button" id="enviarPregunta" class="btn btn-primary my-1">Submit</button>                                                                   
-                                             </form>                       
-                                    </div>                        
-                            </div>
-                            <div id="respEnviarPregunta" style="display:none">
-                            
-                            </div>
-                    </div>
-
-                            
-                    <div class="collapse" id="collapseModeloExamen" data-parent="#contenido">
-                            <div class="card card-body">
-                                    <div class="container-fluid">
-                                            <h1 class="mt-4">Modelos de Examen</h1>
-                                            <p>Selecciona la Carrera para crear el examen</p>
-											<select id="selCarrera" class="cambialee"></select>
-											<p>Seleccione la fecha y hora en que se toma el examen</p>
-											<input type="date" id="idFechaDeExamen"><input type="time" id="idHoraDeExamen">
-											<br>
-											<br>
-											
-											<p>Seleccione las preguntas que se incluiran en el examen</p>
-											<div id="idDivPreguntas">
-												
-												
+						<div class="container-fluid" id="divCrearPregunta">
+							<h1 class="mt-4">Crear Pregunta</h1>
+										
+							<form id="formPregunta" method="POST">
+								<p>Selecciona la Carrera para crear el examen</p>
+								<select name="carrera" id="selCarreraPregunta" class="custom-select mr-sm-2" ></select>
+								<br>
+								<br>
+								<input class="form-control form-control-lg" name="descripcion" type="text" placeholder="Descripcion">
+								<br>
+								<div id="idDivRta">
+									<div class="input-group ">
+										<input type="text" name="respuesta" id="rta1" class="form-control clsRta" aria-label="Text input with checkbox">
+										<div class="input-group-prepend">
+											<div class="input-group-text">
+											<input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
 											</div>
-											<button type="button" id="idBtnCrearExamenManual" class="btn btn-primary my-1">Crear Examen</button>
-                                    </div>                        
-                            </div>
-                    </div>
-
-                    <div  class="container-fluid collapse"  id="collapseModeloExamenAuto" data-parent="#contenido">
-                        <h1 class="mt-4">Crear Examen Automaticamente</h1>
-                      <div class="card card-body">
-                          
-                          
-                        <form  id="formExamenAuto">
-                            <p>Selecciona la Carrera para crear el examen:</p>
-                          <select name="carrera" id="selCarrera1" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+										</div>  
+									</div>
+									<br>
+									<div class="input-group ">
+										<input type="text" name="respuesta" id="rta2" class="form-control clsRta" aria-label="Text input with checkbox">
+										<div class="input-group-prepend">
+											<div class="input-group-text">
+												<input name="valor2" type="checkbox" aria-label="Checkbox for following text input">
+											</div>
+										</div>  
+										<br>
+                          			</div>
+                          			<br>
+													
+								</div>
+								<button type="button" id="enviarPregunta" class="btn btn-primary my-1">Submit</button>                                                                   
+							</form>                       
+						</div>                        
+					</div>
+					<div id="respEnviarPregunta" style="display:none">
                             
-                          </select>
-                          <br><br>
-                          <p>Seleccione la fecha y hora en que se toma el examen:</p>
-                          <input type="date" name="calendar"><input type="time" name="calendarTime"><br>
-                          <button type="button" id="enviarExamenAuto" class="btn btn-primary my-1">Crear Examen</button>
-                        </form>
-                        <div id="respExamenAuto">
+					</div>
+				</div>
 
-                        </div>
+                            
+				<div class="collapse" id="collapseModeloExamen" data-parent="#contenido">
+					<div class="card card-body">
+						<div class="container-fluid" id="divCrearExamenManual">
+							<h1 class="mt-4">Modelos de Examen</h1>
+							<p>Selecciona la Carrera para crear el examen</p>
+							<select id="selCarrera" class="cambialee"></select>
+							<p>Seleccione la fecha y hora en que se toma el examen</p>
+							<input type="date" id="idFechaDeExamen"><input type="time" id="idHoraDeExamen">
+							<br>
+							<br>
+											
+							<p>Seleccione las preguntas que se incluiran en el examen</p>
+							<div id="idDivPreguntas">
+												
+										
+							</div>
+							<button type="button" id="idBtnCrearExamenManual" class="btn btn-primary my-1">Crear Examen</button>
+						</div>                        
+					</div>
+				</div>
+
+				<div  class="container-fluid collapse"  id="collapseModeloExamenAuto" data-parent="#contenido">
+					<h1 class="mt-4">Crear Examen Automaticamente</h1>
+					<div class="card card-body">
+                          
+                          
+						<form  id="formExamenAuto">
+							<p>Selecciona la Carrera para crear el examen:</p>
+							<select name="carrera" id="selCarrera1" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+								
+							</select>
+							<br>
+							<br>
+							<p>Seleccione la fecha y hora en que se toma el examen:</p>
+							<input type="date" name="calendar"><input type="time" name="calendarTime"><br>
+							<button type="button" id="enviarExamenAuto" class="btn btn-primary my-1">Crear Examen</button>
+						</form>
+						<div id="respExamenAuto">
+
+						</div>
                     </div>
 
     
-                    </div>
-                    <div  class="container-fluid collapse"  id="collapseCargarNotas" data-parent="#contenido">
-                      <div class ="clsContendeorNotasPractico" id="idContenedorNotasPractico">
-                        Seleccione la carrera en la que se cargaran las notas de los practicos:
+				</div>
+				<div  class="container-fluid collapse"  id="collapseCargarNotas" data-parent="#contenido">
+					<div class ="clsContendeorNotasPractico" id="idContenedorNotasPractico">
+						Seleccione la carrera en la que se cargaran las notas de los practicos:
 						<select name="carrera" id="selCarrera2" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 						</select>
 						<select name="carreraExamen" id="selExamen2" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 						</select>
-								<br>
+						<br>
 						<div class="clsNotaPracticoEncabezado" id="idNotapracticoA1">
 							<div class="clsFL clsNombreAlumno">
                                 DNI Del Alumno
@@ -176,13 +177,13 @@
                     </div>
                     
     
-                    </div>  
+				</div>  
 
-                </div>
+			</div>
                 
-                </div>
+		</div>
                 <!-- /#page-content-wrapper -->
-        </div>
+	</div>
               <!-- /#wrapper -->
 
       
