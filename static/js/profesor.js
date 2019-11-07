@@ -303,18 +303,23 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
         contentType: 'application/json',
         data: JSON.stringify(miJson),
         success: function(response){
+            $("#divExamenManual").fadeOut("slow");
             if(response != 0){
-                    $("#formPregunta")[0].reset();
-                    $("#divCrearExamenManual").html('<h3>Examen Agregado</h3><button type="button" id="nuevoExamen" class="btn btn-primary my-1">Crear otro examen</button>');
-                }
-                else{
-                    $("#divCrearExamenManual").html('<h3>Hubo un error</h3><button type="button" id="nuevoExamen" class="btn btn-primary my-1">Reintentar</button>');
-                }
-                $("#divCrearExamenManual").delay(500).fadeIn("slow");
-                $("#nuevoExamen").click( function() {
-                    $("#divCrearExamenManual").fadeOut("slow");
-                    $("#divCrearPregunta").delay(500).fadeIn("slow");
-            });},
+                $("#selCarrera" ).val(0);
+                $("#idFechaDeExamen").val("");
+                $("#idHoraDeExamen").val("");
+                $("#idDivPreguntas").html("");
+                $("#respExamenManual").html('<h3>Examen Agregado</h3><button type="button" id="nuevoExamen" class="btn btn-primary my-1">Crear otro examen</button>');
+            }
+            else{
+                $("#respExamenManual").html('<h3>Hubo un error</h3><button type="button" id="nuevoExamen" class="btn btn-primary my-1">Reintentar</button>');
+            }
+            $("#respExamenManual").delay(500).fadeIn("slow");
+            $("#nuevoExamen").click( function() {
+                $("#respExamenManual").fadeOut("slow");
+                $("#divExamenManual").delay(500).fadeIn("slow");
+            });
+        },
         error: function(response){console.log("Habemus Errorus")}
     });
 });
