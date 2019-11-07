@@ -211,8 +211,10 @@ class GestorExamenDAO(ConexionBD):
         try:
             self.crearConexion()
             self._micur.execute("update inscripcion set examenRealizado = b'1' where idExamen = %s",(idExamen,))
+            self._micur.execute("update examen set disponible = b'0' where idExamen = %s",(idExamen,))
             self._bd.commit()
-
+            ge = GestorExamenDAO()
+            ge.crearPlanillaNotas(idExamen)
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
 
@@ -335,10 +337,26 @@ class GestorExamenDAO(ConexionBD):
         finally:
             self.cerrarConexion()
             return resultado
+        
+    def traerExamenesAbiertos(self, idCarrera):
+        listaExamenes = []
+        try:
+            self.crearConexion()
+            self.cursorDict()
+            self._micur.execute("select * from examen e where e.idCarrera = %s and disponible = b'1'",(idCarrera,))
+            for examen in self._micur:
+                listaExamenes.append(examen)
+        except mysql.connector.errors.IntegrityError as err:
+            print("DANGER ALGO OCURRIO: " + str(err))
+        finally:
+            self.cerrarConexion()
+        if len(listaExamenes)==0:
+            listaExamenes = None
+        return listaExamenes
 
 if __name__ == '__main__':
     ge = GestorExamenDAO()
-    idcarrera = 2
+    idcarrera = 1
     idmateria = 1
     idexamen = 6
     idusuario = 5
@@ -362,7 +380,7 @@ if __name__ == '__main__':
     #print(ge.traerExamenCompleto(idexamen))
 
     ####### Finalizar Examen
-    #ge.finalizarExamen(idexamen)
+    ge.finalizarExamen(idexamen)
 
     ####### Crear respuestas de alumnos para testeo
     #examen = ge.traerExamenCompleto(idexamen)
@@ -384,3 +402,6 @@ if __name__ == '__main__':
 
     ####### Ingresar Nota de Aprobacion
     #ge.ingresarNotaDeAprobacion(idexamen, 40)
+
+    ####### Traer examenes abiertos
+    #print(ge.traerExamenesAbiertos(idcarrera))
