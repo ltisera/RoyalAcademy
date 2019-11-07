@@ -47,40 +47,73 @@ $(document).ready(function(){
     });
 
     $("#enviarPregunta").click( function() {
-        $.post("postPregunta",$("#formPregunta").serialize(),function(response){
-            $("#divCrearPregunta").fadeOut("slow");
-            if(response != 0){
-                $("#formPregunta")[0].reset();
-                $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
+        var hayCorrecta = false;
+        var respuestas = $(".clsRta");
+        var i = 0;
+        var cantRespuestasNoVacias = 0;
+        var checkbox = null;
+        while(!hayCorrecta && i<respuestas.length){
+            checkbox = $("#" + respuestas[i].id).next().find("input")[0];
+            console.log($.trim(respuestas[i].value));
+            if($.trim(respuestas[i].value) != ""){
+                cantRespuestasNoVacias += 1;
+                if(checkbox.checked == true){
+                    hayCorrecta = true;
+                }
             }
-            else{
-                $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
+            i++;
+        }
+        while(cantRespuestasNoVacias < 2 && i<respuestas.length){
+            if($.trim(respuestas[i].value) != ""){
+                cantRespuestasNoVacias += 1;
+                if(checkbox.checked == true){
+                    hayCorrecta = true;
+                }
             }
-            $("#respEnviarPregunta").delay(500).fadeIn("slow");
-            $("#nuevaPregunta").click( function() {
-                $("#respEnviarPregunta").fadeOut("slow");
-                $("#divCrearPregunta").delay(500).fadeIn("slow");
-            });
-        });
-        $("#idDivRta").html(`<div class="input-group ">
-                                                        <input type="text" name="respuesta" id="rta1" class="form-control clsRta" aria-label="Text input with checkbox">
-                                                        <div class="input-group-prepend">
-                                                            <div class="input-group-text">
-                                                                <input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
-                                                            </div>
-                                                        </div>  
-                                                    </div>
-                                                    <br>
-                                                    <div class="input-group ">
-                                                            <input type="text" name="respuesta" id="rta2" class="form-control clsRta" aria-label="Text input with checkbox">
-                                                            <div class="input-group-prepend">
-                                                                <div class="input-group-text">
-                                                                    <input name="valor2" type="checkbox" aria-label="Checkbox for following text input">
-                                                                </div>
-                                                            </div>  
-                                                            <br>
-                          </div>
-                          <br>`)
+            i++;
+        }
+        if(hayCorrecta){
+            if(cantRespuestasNoVacias >= 2){
+                $.post("postPregunta",$("#formPregunta").serialize(),function(response){
+                $("#divCrearPregunta").fadeOut("slow");
+                if(response != 0){
+                    $("#formPregunta")[0].reset();
+                    $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
+                }
+                else{
+                    $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
+                }
+                $("#respEnviarPregunta").delay(500).fadeIn("slow");
+                $("#nuevaPregunta").click( function() {
+                    $("#respEnviarPregunta").fadeOut("slow");
+                    $("#divCrearPregunta").delay(500).fadeIn("slow");
+                });
+                $("#idDivRta").html(`<div class="input-group ">
+                                        <input type="text" name="respuesta" id="rta1" class="form-control clsRta" aria-label="Text input with checkbox">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <input name="valor1" type="checkbox" aria-label="Checkbox for following text input">
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    <br>
+                                    <div class="input-group ">
+                                            <input type="text" name="respuesta" id="rta2" class="form-control clsRta" aria-label="Text input with checkbox">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <input name="valor2" type="checkbox" aria-label="Checkbox for following text input">
+                                                </div>
+                                            </div>  
+                                            <br>
+                                    </div>
+                                    <br>`);
+                });
+            }else{
+                alert("Debe haber al menos 2 respuestas no vacias");
+            }
+        }else{
+            alert("No ha marcado una respuesta no vacia como correcta");
+        }
     });
     $("#enviarExamenAuto").click( function() {
         

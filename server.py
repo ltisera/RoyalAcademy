@@ -133,22 +133,23 @@ def traerPreguntasDeCarrera():
     return jsonify(lPreguntas),200
 
 
-@app.route('/postPregunta',methods=['GET','POST'])
+@app.route('/postPregunta', methods=['GET', 'POST'])
 def postPregunta():
     descripcion = request.form['descripcion']
-    respuestas1=request.form.getlist('respuesta')
-    respuestas1.remove(respuestas1[len(respuestas1)-1])
+    respuestas1 = request.form.getlist('respuesta')
+    respuestas1.remove(respuestas1[len(respuestas1) - 1])
     respuestas2 = []
     examenDao = GestorExamenDAO()
     carrera = request.form['carrera']
     for x in range(len(respuestas1)):
-        try:
-            if request.form["valor"+str(x+1)] == "on":
-                respuestas2.append((respuestas1[x],1))
-        except:
-            respuestas2.append((respuestas1[x],0))
+        if (respuestas1[x].strip() is not ""):
+            try:
+                if request.form["valor" + str(x + 1)] == "on":
+                    respuestas2.append((respuestas1[x], 1))
+            except:
+                respuestas2.append((respuestas1[x], 0))
     respuesta = examenDao.agregarPregunta(descripcion, carrera, respuestas2)
-    return jsonify(respuesta),200
+    return jsonify(respuesta), 200
 
 @app.route('/favicon.ico', methods=['GET'])
 def devolveFavicon():
