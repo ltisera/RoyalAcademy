@@ -22,9 +22,11 @@ $(document).ready(function(){
     $("#selCarrera").change(cambiador);
     $("#selCarrera2").change(traerExamenesCarrera);
     $("#selExamen2").change(traerAlumnosCarrera);
+    $("#selCarreraFinalizarExamen").change(traerExamenesAbiertos);
     
     $("#selCarrera").append(new Option("Seleciona una carrera", 0));
     $("#selCarrera2").append(new Option("Seleciona una carrera", 0));
+    $("#selCarreraFinalizarExamen").append(new Option("Seleciona una carrera", 0));
     
     $.ajax({
         url: 'traerListaCarreras',
@@ -38,6 +40,7 @@ $(document).ready(function(){
                 $("#selCarrera").append(new Option(response[i].nombre, response[i].idCarrera));
                 $("#selCarrera1").append(new Option(response[i].nombre, response[i].idCarrera));
                 $("#selCarrera2").append(new Option(response[i].nombre, response[i].idCarrera));
+                $("#selCarreraFinalizarExamen").append(new Option(response[i].nombre, response[i].idCarrera));
                 $("#selCarreraPregunta").append(new Option(response[i].nombre, response[i].idCarrera));
             };
             console.log("fin");
@@ -140,6 +143,22 @@ $(document).ready(function(){
     
 });
 
+function traerExamenesAbiertos(){
+    $("#selExamenFinalizarExamen").html("");
+    $("#selExamenFinalizarExamen").append(new Option("Seleciona un Examen", 0));
+    $.ajax({
+        url: 'traerListaExamenesAbiertosCarrera',
+        type: 'POST',
+        data: {"idCarrera" : $("#selCarreraFinalizarExamen").val()},
+        success:function(response){
+            for(var i in response){
+                $("#selExamenFinalizarExamen").append(new Option(response[i].fecha, response[i].idExamen));
+            };
+        },
+        error:function(response){console.log("MAL")}
+    });
+
+}
 function traerExamenesCarrera(){
     $("#selExamen2").html("");
     $("#selExamen2").append(new Option("Seleciona un Examen", 0));
@@ -171,6 +190,17 @@ function traerAlumnosCarrera(){
         data: {'idExamen':$("#selExamen2").val()},
         success: function(response){
             console.log(response)
+            rellenar = `<div class="clsNotaPracticoEncabezado" id="idNotapracticoA1">
+                            <div class="clsFL clsNombreAlumno">
+                                DNI Del Alumno
+                            </div>
+                            <div class="clsFL clsFechaExamen">
+                                Final Teorico
+                            </div>
+                            <div class="clsNota">
+                                Examen practico
+                            </div>
+                        </div>`
             for (i in response){
                 rellenar += `
                 <div class="clsNotaPracticoAlumnoF`+(i%2 + 1)+`" id="idNotapracticoA1">
@@ -250,6 +280,17 @@ $(document).on('focus', ".clsRta", function() {
     }
 });
 
+$(document).on('click', "#idBtnFinalizarExamen", function() {
+    $.ajax({
+        url: 'cerrarExamen',
+        type: 'POST',
+        data: {
+            "idExamen" : $("#selExamenFinalizarExamen").val()
+        },
+        success:function(response){console.log("Examen finalizado")},
+        error:function(response){console.log("Error al notacargar")}
+    });
+});
 
 $(document).on('click', "#idBtnCargarNotas", function() {
     
