@@ -104,7 +104,7 @@ def sirveDirectorioSTATIC(path):
 
 @app.route('/PostExamenAutomatico', methods=['GET', 'POST'])
 def PostExamenAutomatico():
-    fecha=request.values['calendar']
+    fecha=request.values['calendar'] + " " + request.values['calendarTime']
     carrera =request.form['carrera']
     gedao = GestorExamenDAO()
     respuesta = gedao.crearExamenAutomatico(fecha,carrera)

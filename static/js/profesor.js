@@ -115,6 +115,7 @@ $(document).ready(function(){
             alert("No ha marcado una respuesta no vacia como correcta");
         }
     });
+
     $("#enviarExamenAuto").click( function() {
         
         $.post("PostExamenAutomatico", $("#formExamenAuto").serialize(), function(response){
@@ -282,6 +283,7 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
     var idCarrera = $("#selCarrera" ).val();
     var lstPreguntas = "["
     var fechaExamen = $("#idFechaDeExamen").val();
+    var horaExamen = $("#idHoraDeExamen").val();
     /*{"preguntas":[111,121,123],"fecha":"09/25/1254","idCarrera":1} */
     console.log("CREALO NO SEAS VAGOOO")
     $(".clsChkPreguntaExamen").each(function(){
@@ -292,7 +294,7 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
     
     lstPreguntas = lstPreguntas.substring(0,lstPreguntas.length-1);
     lstPreguntas = lstPreguntas + "]" 
-    var miJson = '{"preguntas":' + lstPreguntas + ',"fecha":"'+fechaExamen+'","idCarrera":'+idCarrera+'}'
+    var miJson = '{"preguntas":' + lstPreguntas + ',"fecha":"'+fechaExamen+ " " +horaExamen+'","idCarrera":'+idCarrera+'}'
     console.log("Asi quedo Json")
     console.log(miJson)
     $.ajax({
@@ -300,7 +302,19 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
         type: 'Post',
         contentType: 'application/json',
         data: JSON.stringify(miJson),
-        success: function(response){console.log("Habemus Examen")},
+        success: function(response){
+            if(response != 0){
+                    $("#formPregunta")[0].reset();
+                    $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
+                }
+                else{
+                    $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
+                }
+                $("#respEnviarPregunta").delay(500).fadeIn("slow");
+                $("#nuevaPregunta").click( function() {
+                    $("#respEnviarPregunta").fadeOut("slow");
+                    $("#divCrearPregunta").delay(500).fadeIn("slow");
+            });},
         error: function(response){console.log("Habemus Errorus")}
     });
 });
