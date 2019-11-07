@@ -9,7 +9,9 @@ $.ajax({
     console.log("traigo el usuario")
     console.log(response);
     alumno = response;
-    $("#navconsultar").click();
+    $(document).ready(function(){
+      $("#navconsultar").click();
+    });
   },
   error:function(response){
     console.log("Error")
