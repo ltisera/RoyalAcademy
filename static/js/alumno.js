@@ -9,13 +9,13 @@ $.ajax({
     console.log("traigo el usuario")
     console.log(response);
     alumno = response;
+    $("#navconsultardiv").show();
+    consultarInscripciones()
   },
   error:function(response){
     console.log("Error")
   } 
 });
-
-
 
 
 $(function() {
@@ -40,9 +40,11 @@ function traerExamenesDisponibles(){
         if (response.length==0){
           html = "<div class='card w-100'><div class='card-body'><h5 class='card-title'>No hay examenes disponibles para inscribirse.</h5></div></div>";
         }else{
+          html = "<div class='container '><h4 class='display-4 '>Listado de Examenes disponibles</h4>"
           for(var i=0;i<response.length;i++){
-            html+="<div class='container '><h4 class='display-4 '>Listado de Examenes disponibles</h4><div class='card w-100'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='inscribirse"+response[i].idExamen+"' onclick='inscribirseAExamen("+response[i].idExamen+")'>Inscribirse</a></div></div></div>"
+            html+="<div class='card w-100 examenesDispo'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='inscribirse"+response[i].idExamen+"' onclick='inscribirseAExamen("+response[i].idExamen+")'>Inscribirse</a></div></div>"
           }
+          html += "</div>"
         }
         
         navInscribirse.innerHTML= html;
