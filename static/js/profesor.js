@@ -323,6 +323,16 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
         error: function(response){console.log("Habemus Errorus")}
     });
 });
+
+
+$(document).on('click', ".navMenuProfesor", function() {
+    var i = 0;
+    var listaNav = $(".navMenuProfesor");
+    for(i=0;i < listaNav.length;i++){
+        ($(listaNav[i].name)).toggleClass("collapse", true);
+    }
+    ($(this.name)).toggleClass("collapse");
+});
 /*
 $(document).on('click', "#idBtnCrearExamen", function() {
     

@@ -32,10 +32,10 @@
 		<div class="bg-dark border-right" id="sidebar-wrapper">
 			<div class="sidebar-heading text-light bg-dark">Actividades</div>
 			<div class="list-group list-group-flush">
-				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Crear Preguntas</a>
-				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark"  data-toggle="collapse" href="#collapseModeloExamen" role="button" aria-expanded="false" aria-controls="collapseModeloExamen">Crear Modelos de examen</a>
-				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseModeloExamenAuto" role="button" aria-expanded="false" aria-controls="collapseModeloExamenAuto">Creacion Examen Automatico</a>
-				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark" data-toggle="collapse" href="#collapseCargarNotas" role="button" aria-expanded="false" aria-controls="collapseCargarNotas">Cargar notas practico</a>
+				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark navMenuProfesor" name="#collapseExample">Crear Preguntas</a>
+				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark navMenuProfesor" name="#collapseModeloExamen">Crear Modelos de examen</a>
+				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark navMenuProfesor" name="#collapseModeloExamenAuto">Creacion Examen Automatico</a>
+				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark navMenuProfesor" name="#collapseCargarNotas">Cargar notas practico</a>
 				<form method="GET" action="/logout" >
 					<button  class="list-group-item list-group-item-action bg-dark text-light bg-dark" type="submit">Cerrar Sesion</button>
 				</form>
@@ -58,7 +58,7 @@
 
 			</nav>
 			<div id="contenido">
-				<div class="collapse show" id="collapseExample" data-parent="#contenido">
+				<div id="collapseExample" data-parent="#contenido">
 					<div class="card card-body">
 
 						<div class="container-fluid" id="divCrearPregunta">
