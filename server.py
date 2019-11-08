@@ -18,9 +18,9 @@ app.config.update(
 	MAIL_SERVER='smtp.gmail.com',
 	MAIL_PORT=465,
 	MAIL_USE_SSL=True,
-	MAIL_USERNAME = 'damianr9966@gmail.com',
-    MAIL_DEAFAULT_SENDER= 'damianr9966@gmail.com',
-	MAIL_PASSWORD = '20399267588r'
+	MAIL_USERNAME = 'royalacademysystem@gmail.com',
+    MAIL_DEAFAULT_SENDER= 'royalacademysystem@gmail.com',
+	MAIL_PASSWORD = 'royalacademy123'
 	)
 mail = Mail(app)
 
@@ -259,7 +259,7 @@ def cerrarExamen():
             estado = "desaprobado/a"
         mensaje = "Tu examen realizado en la fecha " + str(ExamenCompleto["fecha"]) + " esta " + estado + ". Tu nota es: " + str(nota) + ". La nota de aprobacion es: " + str(ExamenCompleto["notaAprobacion"])
         print(mensaje)
-        msg = Message("Nota Examen Final - Royal Academy",sender="damianr9966@gmail.com", recipients=[alumno["email"]])
+        msg = Message("Nota Examen Final - Royal Academy",sender="royalacademysystem@gmail.com", recipients=[alumno["email"]])
         msg.body = "testing"
         msg.html = "<b>" + mensaje + "</b>"
         mail.send(msg)
