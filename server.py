@@ -209,6 +209,7 @@ def traerAlumnosDeExamen():
 
     return jsonify(rAlumnos), 200
 
+
 @app.route('/cargarNotaPractica', methods=['GET', 'POST'])
 def cargarNotaPractica():
     geDAO = GestorExamenDAO()
@@ -219,10 +220,25 @@ def cargarNotaPractica():
     return jsonify(larta), 200
 
 
+@app.route('/cerrarExamen', methods=['GET', 'POST'])
+def cerrarExamen():
+    geDAO = GestorExamenDAO()
+    idExamen = request.values["idExamen"]
+    larta = geDAO.finalizarExamen(idExamen)
+    return jsonify(larta), 200
+
+
 @app.route('/traerListaExamenesCarrera', methods=['GET', 'POST'])
 def traerListaExamenesCarrera():
     geDAO = GestorExamenDAO()
     lExamenes = geDAO.traerExamenes(request.values["idCarrera"])
+    return jsonify(lExamenes), 200
+
+
+@app.route('/traerListaExamenesAbiertosCarrera', methods=['GET', 'POST'])
+def traerListaExamenesAbiertosCarrera():
+    geDAO = GestorExamenDAO()
+    lExamenes = geDAO.traerExamenesAbiertos(request.values["idCarrera"])
     return jsonify(lExamenes), 200
 
 ####Fin de rutas
