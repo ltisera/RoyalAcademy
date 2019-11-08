@@ -193,7 +193,7 @@ function traerAlumnosCarrera(){
             console.log(response)
             rellenar = `<div class="clsNotaPracticoEncabezado" id="idNotapracticoA1">
                             <div class="clsFL clsNombreAlumno">
-                                DNI Del Alumno
+                                Legajo
                             </div>
                             <div class="clsFL clsFechaExamen">
                                 Final Teorico
