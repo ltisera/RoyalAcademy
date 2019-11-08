@@ -36,6 +36,7 @@
 				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark navMenuProfesor" name="#collapseModeloExamen">Crear Modelos de examen</a>
 				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark navMenuProfesor" name="#collapseModeloExamenAuto">Creacion Examen Automatico</a>
 				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark navMenuProfesor" name="#collapseCargarNotas">Cargar notas practico</a>
+				<a  class="list-group-item list-group-item-action bg-dark text-light bg-dark navMenuProfesor" name="#collapseFinalizarExamen">Finalizar Examen</a>
 				<form method="GET" action="/logout" >
 					<button  class="list-group-item list-group-item-action bg-dark text-light bg-dark" type="submit">Cerrar Sesion</button>
 				</form>
@@ -109,6 +110,9 @@
 							<h1 class="mt-4">Modelos de Examen</h1>
 							<p>Selecciona la Carrera para crear el examen</p>
 							<select id="selCarrera" class="cambialee"></select>
+							<p>Ingrese el porcentaje de aprobacion(1-100)</p>
+							<input id="porcentajeAprobacion" type="text" class="form-control">
+
 							<p>Seleccione la fecha y hora en que se toma el examen</p>
 							<input type="date" id="idFechaDeExamen"><input type="time" id="idHoraDeExamen">
 							<br>
@@ -127,59 +131,67 @@
 					</div>
 				</div>
 
-				<div  class="container-fluid collapse"  id="collapseModeloExamenAuto" data-parent="#contenido">
-					<h1 class="mt-4">Crear Examen Automaticamente</h1>
+				<div class="collapse" id="collapseModeloExamenAuto" data-parent="#contenido">
 					<div class="card card-body">
-                          
-                          
-						<form  id="formExamenAuto">
-							<p>Selecciona la Carrera para crear el examen:</p>
-							<select name="carrera" id="selCarrera1" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-								
+						<div class="container-fluid" id="divExamenAuto">
+							<h1 class="mt-4">Crear Examen Automaticamente</h1>
+							<form  id="formExamenAuto">
+								<p>Selecciona la Carrera para crear el examen:</p>
+								<select name="carrera" id="selCarrera1" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+									
+								</select>
+								<br>
+								<br>
+								<p>Ingrese el porcentaje de aprobacion(1-100)</p>
+								<input id="porcentajeAprobacionAuto" name="porcentajeAprobacionAuto" type="text" class="form-control">
+								<p>Seleccione la fecha y hora en que se toma el examen:</p>
+								<input type="date" name="calendar"><input type="time" name="calendarTime"><br>
+								<button type="button" id="enviarExamenAuto" class="btn btn-primary my-1">Crear Examen</button>
+							</form>
+							<div id="respExamenAuto">
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="collapse" id="collapseCargarNotas" data-parent="#contenido">
+					<div class="card card-body">
+						<div class="container-fluid" id="divCargarNotas">
+							<h1 class="mt-4">Cargar Notas</h1>
+							Seleccione la carrera en la que se cargaran las notas de los practicos:
+							<select name="carrera" id="selCarrera2" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+							</select>
+							<select name="carreraExamen" id="selExamen2" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 							</select>
 							<br>
 							<br>
-							<p>Seleccione la fecha y hora en que se toma el examen:</p>
-							<input type="date" name="calendar"><input type="time" name="calendarTime"><br>
-							<button type="button" id="enviarExamenAuto" class="btn btn-primary my-1">Crear Examen</button>
-						</form>
-						<div id="respExamenAuto">
+							<div id="idDivNotas">
+								
+								
+							</div>
+		                    <button type="button" id="idBtnCargarNotas" class="btn btn-primary my-1">Cargar Notas</button>
+						</div>
+						<div id="respCargarNotas">
 
 						</div>
-                    </div>
-
-    
+					</div>
 				</div>
-				<div  class="container-fluid collapse"  id="collapseCargarNotas" data-parent="#contenido">
-					<div class ="clsContendeorNotasPractico" id="idContenedorNotasPractico">
-						Seleccione la carrera en la que se cargaran las notas de los practicos:
-						<select name="carrera" id="selCarrera2" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-						</select>
-						<select name="carreraExamen" id="selExamen2" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-						</select>
-						<br>
-						<div class="clsNotaPracticoEncabezado" id="idNotapracticoA1">
-							<div class="clsFL clsNombreAlumno">
-                                DNI Del Alumno
-							</div>
-							<div class="clsFL clsFechaExamen">
-								Final Teorico
-							</div>
-							<div class="clsNota">
-								Examen practico
-							</div>
-      
-						</div>
-						<div id="idDivNotas">
-							
-							
-						</div>
-                        <button type="button" id="idBtnCargarNotas" class="btn btn-primary my-1">Cargar Notas</button>
-                      </div>
-                      
+				<div class="collapse" id="collapseFinalizarExamen" data-parent="#contenido">
+					<div class="card card-body">
+						<div class="container-fluid" id="idContenedorFinalizarExamen">  
+							<h1 class="mt-4">Finalizar Examen</h1>
+							Seleccione la carrera:
+							<select name="carrera" id="selCarreraFinalizarExamen" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+							</select>
+							<select name="carreraExamen" id="selExamenFinalizarExamen" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+							</select>
+		                    <button type="button" id="idBtnFinalizarExamen" class="btn btn-primary my-1">Finalizar</button>      
+		                </div>
+		                <div id="respFinalizarExamen">
+
+						</div> 
                     </div>
-                    
-    
 				</div>  
 
 			</div>

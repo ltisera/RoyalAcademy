@@ -22,9 +22,11 @@ $(document).ready(function(){
     $("#selCarrera").change(cambiador);
     $("#selCarrera2").change(traerExamenesCarrera);
     $("#selExamen2").change(traerAlumnosCarrera);
+    $("#selCarreraFinalizarExamen").change(traerExamenesAbiertos);
     
     $("#selCarrera").append(new Option("Seleciona una carrera", 0));
     $("#selCarrera2").append(new Option("Seleciona una carrera", 0));
+    $("#selCarreraFinalizarExamen").append(new Option("Seleciona una carrera", 0));
     
     $.ajax({
         url: 'traerListaCarreras',
@@ -38,6 +40,7 @@ $(document).ready(function(){
                 $("#selCarrera").append(new Option(response[i].nombre, response[i].idCarrera));
                 $("#selCarrera1").append(new Option(response[i].nombre, response[i].idCarrera));
                 $("#selCarrera2").append(new Option(response[i].nombre, response[i].idCarrera));
+                $("#selCarreraFinalizarExamen").append(new Option(response[i].nombre, response[i].idCarrera));
                 $("#selCarreraPregunta").append(new Option(response[i].nombre, response[i].idCarrera));
             };
             console.log("fin");
@@ -75,19 +78,19 @@ $(document).ready(function(){
             if(hayCorrecta){
                 if(cantRespuestasNoVacias >= 2){
                     $.post("postPregunta",$("#formPregunta").serialize(),function(response){
-                    $("#divCrearPregunta").fadeOut("slow");
-                    if(response != 0){
-                        $("#formPregunta")[0].reset();
-                        $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
-                    }
-                    else{
-                        $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
-                    }
-                    $("#respEnviarPregunta").delay(500).fadeIn("slow");
-                    $("#nuevaPregunta").click( function() {
-                        $("#respEnviarPregunta").fadeOut("slow");
-                        $("#divCrearPregunta").delay(500).fadeIn("slow");
-                    });
+                        $("#divCrearPregunta").fadeOut("slow");
+                        if(response != 0){
+                            $("#formPregunta")[0].reset();
+                            $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
+                        }
+                        else{
+                            $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
+                        }
+                        $("#respEnviarPregunta").delay(500).fadeIn("slow");
+                        $("#nuevaPregunta").click( function() {
+                            $("#respEnviarPregunta").fadeOut("slow");
+                            $("#divCrearPregunta").delay(500).fadeIn("slow");
+                        });
                     $("#idDivRta").html(`<div class="input-group ">
                                             <input type="text" name="respuesta" id="rta1" class="form-control clsRta" aria-label="Text input with checkbox">
                                             <div class="input-group-prepend">
@@ -140,9 +143,26 @@ $(document).ready(function(){
     
 });
 
+function traerExamenesAbiertos(){
+    $("#selExamenFinalizarExamen").html("");
+    $("#selExamenFinalizarExamen").append(new Option("Seleciona un Examen", 0));
+    $.ajax({
+        url: 'traerListaExamenesAbiertosCarrera',
+        type: 'POST',
+        data: {"idCarrera" : $("#selCarreraFinalizarExamen").val()},
+        success:function(response){
+            for(var i in response){
+                $("#selExamenFinalizarExamen").append(new Option(response[i].fecha, response[i].idExamen));
+            };
+        },
+        error:function(response){console.log("MAL")}
+    });
+
+}
 function traerExamenesCarrera(){
     $("#selExamen2").html("");
     $("#selExamen2").append(new Option("Seleciona un Examen", 0));
+    $("#idDivNotas").html("");
     $.ajax({
         url: 'traerListaExamenesCarrera',
         type: 'POST',
@@ -171,6 +191,17 @@ function traerAlumnosCarrera(){
         data: {'idExamen':$("#selExamen2").val()},
         success: function(response){
             console.log(response)
+            rellenar = `<div class="clsNotaPracticoEncabezado" id="idNotapracticoA1">
+                            <div class="clsFL clsNombreAlumno">
+                                DNI Del Alumno
+                            </div>
+                            <div class="clsFL clsFechaExamen">
+                                Final Teorico
+                            </div>
+                            <div class="clsNota">
+                                Examen practico
+                            </div>
+                        </div>`
             for (i in response){
                 rellenar += `
                 <div class="clsNotaPracticoAlumnoF`+(i%2 + 1)+`" id="idNotapracticoA1">
@@ -250,6 +281,32 @@ $(document).on('focus', ".clsRta", function() {
     }
 });
 
+$(document).on('click', "#idBtnFinalizarExamen", function() {
+    $.ajax({
+        url: 'cerrarExamen',
+        type: 'POST',
+        data: {
+            "idExamen" : $("#selExamenFinalizarExamen").val()
+        },
+        success:function(response){
+            $("#idContenedorFinalizarExamen").fadeOut("slow");
+            if(response != 0){
+                $("#selCarreraFinalizarExamen").val(0);
+                $("#selCarreraFinalizarExamen").change();
+                $("#respFinalizarExamen").html('<h3>Examen Finalizado</h3><button type="button" id="nuevoFinalizarExamen" class="btn btn-primary my-1">Finalizar otro Examen</button>');
+            }
+            else{
+                $("#respFinalizarExamen").html('<h3>Hubo un error</h3><button type="button" id="nuevoFinalizarExamen" class="btn btn-primary my-1">Reintentar</button>');
+            }
+            $("#respFinalizarExamen").delay(500).fadeIn("slow");
+            $("#nuevoFinalizarExamen").click( function() {
+                $("#respFinalizarExamen").fadeOut("slow");
+                $("#idContenedorFinalizarExamen").delay(500).fadeIn("slow");
+            });
+        },
+        error:function(response){console.log("Error al finalizar examen")}
+    });
+});
 
 $(document).on('click', "#idBtnCargarNotas", function() {
     
@@ -266,7 +323,22 @@ $(document).on('click', "#idBtnCargarNotas", function() {
                     "notaPractico" : $(this).val(),
                     "idExamen" : $("#selExamen2").val()
                     },
-                success:function(response){console.log("NOTAS Cargadas")},
+                success:function(response){
+                    $("#divCargarNotas").fadeOut("slow");
+                    if(response != 0){
+                        $("#selCarrera2").val(0);
+                        $("#selCarrera2").change();
+                        $("#respCargarNotas").html('<h3>Notas Cargadas</h3><button type="button" id="nuevoCargarNotas" class="btn btn-primary my-1">Cargar mas notas</button>');
+                    }
+                    else{
+                        $("#respCargarNotas").html('<h3>Hubo un error</h3><button type="button" id="nuevoCargarNotas" class="btn btn-primary my-1">Reintentar</button>');
+                    }
+                    $("#respCargarNotas").delay(500).fadeIn("slow");
+                    $("#nuevoCargarNotas").click( function() {
+                        $("#respCargarNotas").fadeOut("slow");
+                        $("#divCargarNotas").delay(500).fadeIn("slow");
+                    });
+                },
                 error:function(response){console.log("Error al notacargar")}
             });
         });
@@ -287,6 +359,7 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
     var lstPreguntas = "["
     var fechaExamen = $("#idFechaDeExamen").val();
     var horaExamen = $("#idHoraDeExamen").val();
+    var porcentajeAprobacion = $('#porcentajeAprobacion').val();
     /*{"preguntas":[111,121,123],"fecha":"09/25/1254","idCarrera":1} */
     console.log("CREALO NO SEAS VAGOOO")
     $(".clsChkPreguntaExamen").each(function(){
@@ -297,7 +370,7 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
     
     lstPreguntas = lstPreguntas.substring(0,lstPreguntas.length-1);
     lstPreguntas = lstPreguntas + "]" 
-    var miJson = '{"preguntas":' + lstPreguntas + ',"fecha":"'+fechaExamen+ " " +horaExamen+'","idCarrera":'+idCarrera+'}'
+    var miJson = '{"preguntas":' + lstPreguntas + ',"fecha":"'+fechaExamen+ " " +horaExamen+'","idCarrera":'+idCarrera+',"porcentajeAprobacion":'+ porcentajeAprobacion +'}'
     console.log("Asi quedo Json")
     console.log(miJson)
     $.ajax({

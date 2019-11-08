@@ -8,9 +8,21 @@ from flask import Flask, render_template, send_from_directory, request, jsonify,
 from DAO.LoginDAO import LoginDAO
 from DAO.AlumnoDAO import AlumnoDAO
 from DAO.gestorExamenDAO import GestorExamenDAO
+from flask_mail import Mail, Message
 import json
-
+mail = Mail()
 app = Flask(__name__, static_folder='static', static_url_path='')
+app.config.update(
+	DEBUG=True,
+	#EMAIL SETTINGS
+	MAIL_SERVER='smtp.gmail.com',
+	MAIL_PORT=465,
+	MAIL_USE_SSL=True,
+	MAIL_USERNAME = 'damianr9966@gmail.com',
+    MAIL_DEAFAULT_SENDER= 'damianr9966@gmail.com',
+	MAIL_PASSWORD = '20399267588r'
+	)
+mail = Mail(app)
 
 app.secret_key = 'as654fasd65fg651asd'
 
@@ -19,6 +31,7 @@ app.secret_key = 'as654fasd65fg651asd'
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+
     if 'username' in session:
         return redirect(url_for('alumno'))
     return render_template('index.html')
@@ -106,8 +119,9 @@ def sirveDirectorioSTATIC(path):
 def PostExamenAutomatico():
     fecha=request.values['calendar'] + " " + request.values['calendarTime']
     carrera =request.form['carrera']
+    porcentajeAprobacionAuto = request.form['porcentajeAprobacionAuto']
     gedao = GestorExamenDAO()
-    respuesta = gedao.crearExamenAutomatico(fecha,carrera)
+    respuesta = gedao.crearExamenAutomatico(fecha,carrera,porcentajeAprobacionAuto)
     print('----------1-----------------------------------------')
     print(carrera)
     print('----------2-----------------------------------------')
@@ -192,8 +206,7 @@ def getUser():
 def crearPregunta():
     geDAO = GestorExamenDAO()
     datos = json.loads(request.json)
-    
-    resultado = geDAO.crearExamenManual(datos["fecha"], 1, datos["idCarrera"], datos["preguntas"])
+    resultado = geDAO.crearExamenManual(datos["fecha"], 1, datos["idCarrera"], datos["preguntas"],datos["porcentajeAprobacion"])
     return jsonify(resultado),200
 
 @app.route('/traerExamenesDeCarrera', methods=['GET', 'POST'])
@@ -209,6 +222,7 @@ def traerAlumnosDeExamen():
 
     return jsonify(rAlumnos), 200
 
+
 @app.route('/cargarNotaPractica', methods=['GET', 'POST'])
 def cargarNotaPractica():
     geDAO = GestorExamenDAO()
@@ -219,10 +233,51 @@ def cargarNotaPractica():
     return jsonify(larta), 200
 
 
+@app.route('/cerrarExamen', methods=['GET', 'POST'])
+def cerrarExamen():
+    
+    #print("a punto de enviarrrrrr")
+
+    
+    #print("enviadoooo")
+    lDAO =LoginDAO()
+    geDAO = GestorExamenDAO()
+    idExamen = request.values["idExamen"]
+    larta = geDAO.finalizarExamen(idExamen)
+    ExamenCompleto = geDAO.traerExamenCompleto(idExamen)
+    cantidadPreguntas = len(ExamenCompleto["listaPreguntas"])
+    planilla = geDAO.traerPlanillaDelExamen(idExamen)
+    alumno = None
+    estado = None
+    mensaje = None
+    for registro in planilla:
+        alumno = lDAO.traerUsuario(registro["idUsuario"])
+        nota = int((registro["notaExamen"]/cantidadPreguntas)*100)
+        if nota>=ExamenCompleto["notaAprobacion"]:
+            estado = "aprobado/a"
+        else:
+            estado = "desaprobado/a"
+        mensaje = "Tu examen realizado en la fecha " + str(ExamenCompleto["fecha"]) + " esta " + estado + ". Tu nota es: " + str(nota) + ". La nota de aprobacion es: " + str(ExamenCompleto["notaAprobacion"])
+        print(mensaje)
+        msg = Message("Nota Examen Final - Royal Academy",sender="damianr9966@gmail.com", recipients=[alumno["email"]])
+        msg.body = "testing"
+        msg.html = "<b>" + mensaje + "</b>"
+        mail.send(msg)
+
+    return jsonify(larta), 200
+
+
 @app.route('/traerListaExamenesCarrera', methods=['GET', 'POST'])
 def traerListaExamenesCarrera():
     geDAO = GestorExamenDAO()
     lExamenes = geDAO.traerExamenes(request.values["idCarrera"])
+    return jsonify(lExamenes), 200
+
+
+@app.route('/traerListaExamenesAbiertosCarrera', methods=['GET', 'POST'])
+def traerListaExamenesAbiertosCarrera():
+    geDAO = GestorExamenDAO()
+    lExamenes = geDAO.traerExamenesAbiertos(request.values["idCarrera"])
     return jsonify(lExamenes), 200
 
 ####Fin de rutas
