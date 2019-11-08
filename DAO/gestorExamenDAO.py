@@ -144,9 +144,13 @@ class GestorExamenDAO(ConexionBD):
             queryPreguntas="insert into preguntasporexamen(idPregunta,idExamen) values (%s,%s)"
             self._micur.execute("select idPregunta from pregunta p where p.idCarrera = %s",(idCarrera,)) #filtrar por idCarrera
             preguntas = self._micur.fetchall()
+            if len(preguntas)>50:
+                cantidadPreguntas = 50
+            else:
+                cantidadPreguntas = len(preguntas)
             pregunta = None
-            for i in range(50):
-                i = i
+            for i in range(cantidadPreguntas):
+                i=i
                 pregunta = random.choice(preguntas)
                 self._micur.execute(queryPreguntas,(pregunta[0],idExamen))
                 preguntas.remove(pregunta)
