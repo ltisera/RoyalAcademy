@@ -251,20 +251,22 @@ def cerrarExamen():
     alumno = None
     estado = None
     mensaje = None
-    for registro in planilla:
-        alumno = lDAO.traerUsuario(registro["idUsuario"])
-        nota = int((registro["notaExamen"]/cantidadPreguntas)*100)
-        if nota>=ExamenCompleto["notaAprobacion"]:
-            estado = "aprobado/a"
-        else:
-            estado = "desaprobado/a"
-        mensaje = "Tu examen realizado en la fecha " + str(ExamenCompleto["fecha"]) + " esta " + estado + ". Tu nota es: " + str(nota) + ". La nota de aprobacion es: " + str(ExamenCompleto["notaAprobacion"])
-        print(mensaje)
-        msg = Message("Nota Examen Final - Royal Academy",sender="royalacademysystem@gmail.com", recipients=[alumno["email"]])
-        msg.body = "testing"
-        msg.html = "<b>" + mensaje + "</b>"
-        mail.send(msg)
-
+    if planilla is not None:
+        for registro in planilla:
+            alumno = lDAO.traerUsuario(registro["idUsuario"])
+            nota = int((registro["notaExamen"]/cantidadPreguntas)*100)
+            if nota>=ExamenCompleto["notaAprobacion"]:
+                estado = "aprobado/a"
+            else:
+                estado = "desaprobado/a"
+            mensaje = "Tu examen realizado en la fecha " + str(ExamenCompleto["fecha"]) + " esta " + estado + ". Tu nota es: " + str(nota) + ". La nota de aprobacion es: " + str(ExamenCompleto["notaAprobacion"])
+            print(mensaje)
+            msg = Message("Nota Examen Final - Royal Academy",sender="royalacademysystem@gmail.com", recipients=[alumno["email"]])
+            msg.body = "testing"
+            msg.html = "<b>" + mensaje + "</b>"
+            mail.send(msg)
+    else:
+        larta = -1
     return jsonify(larta), 200
 
 
