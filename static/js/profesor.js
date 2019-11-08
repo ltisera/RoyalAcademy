@@ -359,6 +359,7 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
     var lstPreguntas = "["
     var fechaExamen = $("#idFechaDeExamen").val();
     var horaExamen = $("#idHoraDeExamen").val();
+    var porcentajeAprobacion = $('#porcentajeAprobacion').val();
     /*{"preguntas":[111,121,123],"fecha":"09/25/1254","idCarrera":1} */
     console.log("CREALO NO SEAS VAGOOO")
     $(".clsChkPreguntaExamen").each(function(){
@@ -369,7 +370,7 @@ $(document).on('click', "#idBtnCrearExamenManual", function() {
     
     lstPreguntas = lstPreguntas.substring(0,lstPreguntas.length-1);
     lstPreguntas = lstPreguntas + "]" 
-    var miJson = '{"preguntas":' + lstPreguntas + ',"fecha":"'+fechaExamen+ " " +horaExamen+'","idCarrera":'+idCarrera+'}'
+    var miJson = '{"preguntas":' + lstPreguntas + ',"fecha":"'+fechaExamen+ " " +horaExamen+'","idCarrera":'+idCarrera+',"porcentajeAprobacion":'+ porcentajeAprobacion +'}'
     console.log("Asi quedo Json")
     console.log(miJson)
     $.ajax({

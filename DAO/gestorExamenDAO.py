@@ -112,11 +112,11 @@ class GestorExamenDAO(ConexionBD):
             crearExamenManual('2019-09-20 20:00:00', 5, 1, "historia",(5,2,4,7,14,54)) 
     TESTEADO!!!!!!!
     """
-    def crearExamenManual(self, fecha, disponible, idCarrera, listaIdPreguntas): #es necesario mas parametros??
+    def crearExamenManual(self, fecha, disponible, idCarrera, listaIdPreguntas, porcentajeAprobacion): #es necesario mas parametros??
         resultado = False
         try:
             self.crearConexion()
-            self._micur.execute("insert into examen(fecha,disponible,idCarrera) values (%s,b'%s',%s)",(fecha,disponible,idCarrera))
+            self._micur.execute("insert into examen(fecha,disponible,idCarrera,notaAprobacion) values (%s,b'%s',%s,%s)",(fecha,disponible,idCarrera,porcentajeAprobacion))
             idExamen = self._micur.lastrowid
             queryPreguntas="insert into preguntasporexamen(idPregunta,idExamen) values (%s,%s)"
             for idPregunta in listaIdPreguntas:
@@ -135,11 +135,11 @@ class GestorExamenDAO(ConexionBD):
             self.cerrarConexion()
             return resultado
     
-    def crearExamenAutomatico(self, fecha, idCarrera, disponible = 1):
+    def crearExamenAutomatico(self, fecha, idCarrera,porcentajeAprobacion, disponible = 1):
         idExamen = 0
         try:
             self.crearConexion()
-            self._micur.execute("insert into examen(fecha,disponible,idCarrera) values (%s,b'%s',%s)",(fecha,disponible,idCarrera))
+            self._micur.execute("insert into examen(fecha,disponible,idCarrera,notaAprobacion) values (%s,b'%s',%s,%s)",(fecha,disponible,idCarrera,porcentajeAprobacion))
             idExamen = self._micur.lastrowid
             queryPreguntas="insert into preguntasporexamen(idPregunta,idExamen) values (%s,%s)"
             self._micur.execute("select idPregunta from pregunta p where p.idCarrera = %s",(idCarrera,)) #filtrar por idCarrera
@@ -208,6 +208,7 @@ class GestorExamenDAO(ConexionBD):
         
     """ Finaliza el examen seteando REALIZADO a todos los examenes """
     def finalizarExamen(self,idExamen):
+        exito = False
         try:
             self.crearConexion()
             self._micur.execute("update inscripcion set examenRealizado = b'1' where idExamen = %s",(idExamen,))
@@ -215,12 +216,14 @@ class GestorExamenDAO(ConexionBD):
             self._bd.commit()
             ge = GestorExamenDAO()
             ge.crearPlanillaNotas(idExamen)
+            exito = True
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
+            exito = False
 
         finally:
             self.cerrarConexion()
-
+        return exito
 
     """ Inserta el examen con las notas de cada alumno en la planilla, solo debe utilizarse despues de finalizarExamen()"""
     def crearPlanillaNotas(self, idExamen):
@@ -353,6 +356,7 @@ class GestorExamenDAO(ConexionBD):
         if len(listaExamenes)==0:
             listaExamenes = None
         return listaExamenes
+
 
 if __name__ == '__main__':
     ge = GestorExamenDAO()

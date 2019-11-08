@@ -110,6 +110,9 @@
 							<h1 class="mt-4">Modelos de Examen</h1>
 							<p>Selecciona la Carrera para crear el examen</p>
 							<select id="selCarrera" class="cambialee"></select>
+							<p>Ingrese el porcentaje de aprobacion(1-100)</p>
+							<input id="porcentajeAprobacion" type="text" class="form-control">
+
 							<p>Seleccione la fecha y hora en que se toma el examen</p>
 							<input type="date" id="idFechaDeExamen"><input type="time" id="idHoraDeExamen">
 							<br>
@@ -139,6 +142,8 @@
 								</select>
 								<br>
 								<br>
+								<p>Ingrese el porcentaje de aprobacion(1-100)</p>
+								<input id="porcentajeAprobacionAuto" name="porcentajeAprobacionAuto" type="text" class="form-control">
 								<p>Seleccione la fecha y hora en que se toma el examen:</p>
 								<input type="date" name="calendar"><input type="time" name="calendarTime"><br>
 								<button type="button" id="enviarExamenAuto" class="btn btn-primary my-1">Crear Examen</button>
