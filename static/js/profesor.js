@@ -78,19 +78,19 @@ $(document).ready(function(){
             if(hayCorrecta){
                 if(cantRespuestasNoVacias >= 2){
                     $.post("postPregunta",$("#formPregunta").serialize(),function(response){
-                    $("#divCrearPregunta").fadeOut("slow");
-                    if(response != 0){
-                        $("#formPregunta")[0].reset();
-                        $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
-                    }
-                    else{
-                        $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
-                    }
-                    $("#respEnviarPregunta").delay(500).fadeIn("slow");
-                    $("#nuevaPregunta").click( function() {
-                        $("#respEnviarPregunta").fadeOut("slow");
-                        $("#divCrearPregunta").delay(500).fadeIn("slow");
-                    });
+                        $("#divCrearPregunta").fadeOut("slow");
+                        if(response != 0){
+                            $("#formPregunta")[0].reset();
+                            $("#respEnviarPregunta").html('<h3>Pregunta Agregada</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Enviar otra pregunta</button>');
+                        }
+                        else{
+                            $("#respEnviarPregunta").html('<h3>Hubo un error</h3><button type="button" id="nuevaPregunta" class="btn btn-primary my-1">Reintentar</button>');
+                        }
+                        $("#respEnviarPregunta").delay(500).fadeIn("slow");
+                        $("#nuevaPregunta").click( function() {
+                            $("#respEnviarPregunta").fadeOut("slow");
+                            $("#divCrearPregunta").delay(500).fadeIn("slow");
+                        });
                     $("#idDivRta").html(`<div class="input-group ">
                                             <input type="text" name="respuesta" id="rta1" class="form-control clsRta" aria-label="Text input with checkbox">
                                             <div class="input-group-prepend">
@@ -162,6 +162,7 @@ function traerExamenesAbiertos(){
 function traerExamenesCarrera(){
     $("#selExamen2").html("");
     $("#selExamen2").append(new Option("Seleciona un Examen", 0));
+    $("#idDivNotas").html("");
     $.ajax({
         url: 'traerListaExamenesCarrera',
         type: 'POST',
@@ -287,8 +288,23 @@ $(document).on('click', "#idBtnFinalizarExamen", function() {
         data: {
             "idExamen" : $("#selExamenFinalizarExamen").val()
         },
-        success:function(response){console.log("Examen finalizado")},
-        error:function(response){console.log("Error al notacargar")}
+        success:function(response){
+            $("#idContenedorFinalizarExamen").fadeOut("slow");
+            if(response != 0){
+                $("#selCarreraFinalizarExamen").val(0);
+                $("#selCarreraFinalizarExamen").change();
+                $("#respFinalizarExamen").html('<h3>Examen Finalizado</h3><button type="button" id="nuevoFinalizarExamen" class="btn btn-primary my-1">Finalizar otro Examen</button>');
+            }
+            else{
+                $("#respFinalizarExamen").html('<h3>Hubo un error</h3><button type="button" id="nuevoFinalizarExamen" class="btn btn-primary my-1">Reintentar</button>');
+            }
+            $("#respFinalizarExamen").delay(500).fadeIn("slow");
+            $("#nuevoFinalizarExamen").click( function() {
+                $("#respFinalizarExamen").fadeOut("slow");
+                $("#idContenedorFinalizarExamen").delay(500).fadeIn("slow");
+            });
+        },
+        error:function(response){console.log("Error al finalizar examen")}
     });
 });
 
@@ -307,7 +323,22 @@ $(document).on('click', "#idBtnCargarNotas", function() {
                     "notaPractico" : $(this).val(),
                     "idExamen" : $("#selExamen2").val()
                     },
-                success:function(response){console.log("NOTAS Cargadas")},
+                success:function(response){
+                    $("#divCargarNotas").fadeOut("slow");
+                    if(response != 0){
+                        $("#selCarrera2").val(0);
+                        $("#selCarrera2").change();
+                        $("#respCargarNotas").html('<h3>Notas Cargadas</h3><button type="button" id="nuevoCargarNotas" class="btn btn-primary my-1">Cargar mas notas</button>');
+                    }
+                    else{
+                        $("#respCargarNotas").html('<h3>Hubo un error</h3><button type="button" id="nuevoCargarNotas" class="btn btn-primary my-1">Reintentar</button>');
+                    }
+                    $("#respCargarNotas").delay(500).fadeIn("slow");
+                    $("#nuevoCargarNotas").click( function() {
+                        $("#respCargarNotas").fadeOut("slow");
+                        $("#divCargarNotas").delay(500).fadeIn("slow");
+                    });
+                },
                 error:function(response){console.log("Error al notacargar")}
             });
         });
