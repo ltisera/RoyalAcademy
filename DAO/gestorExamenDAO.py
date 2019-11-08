@@ -264,10 +264,13 @@ class GestorExamenDAO(ConexionBD):
     def traerAlumosDeExamenConNota(self, idExamen):
         planilla = []
         try:
+            examenCompleto = self.traerExamenCompleto(idExamen)
+            cantidadPreguntas = len(examenCompleto["listaPreguntas"])
             self.crearConexion()
             self.cursorDict()
             self._micur.execute("SELECT * FROM royalacademydb.planillanotas as pn inner join royalacademydb.examen as e where e.idExamen = pn.idExamen and pn.notaPractico is NULL and e.idExamen = %s;",(idExamen,))
             for registro in self._micur:
+                registro["notaExamen"]=int((registro["notaExamen"]/cantidadPreguntas)*100)
                 planilla.append(registro)
         except mysql.connector.errors.IntegrityError as err:
             print("DANGER ALGO OCURRIO: " + str(err))
