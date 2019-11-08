@@ -1,4 +1,5 @@
 import mysql.connector
+import json
 from DAO.ConexionBD import ConexionBD
 
 class AlumnoDAO(ConexionBD):
@@ -103,18 +104,26 @@ class AlumnoDAO(ConexionBD):
 
 
     def responderPregunta(self, idUsuario, respuestas, idExamen):
+        examenAunDisponible = {"disponible":1}
         try:
             self.crearConexion()
-            for respuesta in respuestas:
-                self._micur.execute("INSERT INTO respuestaAlumno(idUsuario, idRespuesta, idExamen) values (%s, %s, %s)", (idUsuario, respuesta, idExamen))
+            self.cursorDict()
+            self._micur.execute("SELECT disponible FROM examen where idExamen = %s", (idExamen,))
+            if(self._micur.fetchone()["disponible"] == 1):
+                for respuesta in respuestas:
+                    self._micur.execute("INSERT INTO respuestaAlumno(idUsuario, idRespuesta, idExamen) values (%s, %s, %s)", (idUsuario, respuesta, idExamen))
             
-            self._bd.commit()
+                self._bd.commit()
+            else:
+                examenAunDisponible["disponible"]=0
 
         except mysql.connector.errors.IntegrityError as err:
             print("Error: " + str(err))
 
         finally:
             self.cerrarConexion()
+        
+        return examenAunDisponible
 
 
 

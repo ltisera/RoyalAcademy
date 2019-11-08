@@ -56,8 +56,8 @@ def rendirExamen():
 def responderPregunta():
     print("ENTRO AL RESPONDER PREGUNTAS DEL SERVER, ESTO ES LO QUE ME LLEGA: ", json.loads(request.values["respuestas"]))
     alumnoDao = AlumnoDAO()
-    alumnoDao.responderPregunta(request.values["idUsuario"], json.loads(request.values["respuestas"]), request.values["idExamen"])
-    return jsonify(200)
+    
+    return jsonify(alumnoDao.responderPregunta(request.values["idUsuario"], json.loads(request.values["respuestas"]), request.values["idExamen"])), 200
 
 @app.route('/alumno/navRendirExamen/rendirExamen/finalizarExamen', methods=['POST'])
 def finalizarExamen():

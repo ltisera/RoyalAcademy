@@ -9,9 +9,8 @@ $.ajax({
     console.log("traigo el usuario")
     console.log(response);
     alumno = response;
-    $(document).ready(function(){
-      $("#navconsultar").click();
-    });
+    $("#navconsultardiv").show();
+    consultarInscripciones()
   },
   error:function(response){
     console.log("Error")
@@ -41,7 +40,7 @@ function traerExamenesDisponibles(){
         if (response.length==0){
           html = "<div class='card w-100'><div class='card-body'><h5 class='card-title'>No hay examenes disponibles para inscribirse.</h5></div></div>";
         }else{
-          html = "<div class='container '><h4 class='display-4 '>Examenes disponibles</h4>"
+          html = "<div class='container '><h4 class='display-4 '>Listado de Examenes disponibles</h4>"
           for(var i=0;i<response.length;i++){
             html+="<div class='card w-100 examenesDispo'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='inscribirse"+response[i].idExamen+"' onclick='inscribirseAExamen("+response[i].idExamen+")'>Inscribirse</a></div></div>"
           }
@@ -86,11 +85,9 @@ function traerExamenesARendir(){
       if (response.length==0){
         html = "<div class='card w-100'><div class='card-body'><h5 class='card-title'>No hay examenes disponibles para rendir.</h5></div></div>";
       }else{
-        html = "<div class='container '><h4 class='display-4 '>Rendir examen</h4>"
         for(var i=0;i<response.length;i++){
           html+="<div class='card w-100 examenesDispo container'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p><a class='btn btn-primary' href='#' id='rendir"+response[i].idExamen+"' onclick='rendirExamen("+response[i].idExamen+")'>Comenzar Examen</a></div></div>"       
         }
-        html+="</div>"
       }
       document.getElementById("navrendirdiv").innerHTML= html;
       
@@ -169,16 +166,27 @@ function responderPregunta(respuestas){
     type: "POST",
     data: objeto,
     success: function(response){
-      console.log("Respuestas enviadas");  
-      if(contadorDePreguntas==listaPreguntas.length-1){
-        finalizarExamen();
-        console.log("Finalize el examen");
-      }else{
-        contadorDePreguntas++;
-        console.log("muestro sgte pregunta");
+      if(response["disponible"]==1){
+        console.log("Respuestas enviadas");  
+        if(contadorDePreguntas==listaPreguntas.length-1){
+          finalizarExamen();
+          console.log("Finalize el examen");
+        }else{
+          contadorDePreguntas++;
+          console.log("muestro sgte pregunta");
+          mostrarPregunta();
+        }
         mostrarPregunta();
+      }else{
+        console.log("SE TERMINO EL TIEMPOO");
+        contadorDePreguntas=0;
+        listaPreguntas=null;
+        $(".exmn").hide();
+
+        $("#navrendirdiv").html("<div class='card w-100'><div class='card-body'><h5 class='card-title'>Se termino el tiempo, examen finalizado. Se guardo tu progreso.</h5><a class='btn btn-primary' href='#' onclick='traerExamenesARendir()'>Rendir otros examenes</a></div></div>");
+        $("#navrendirdiv").show();
       }
-      mostrarPregunta();
+      
     },
     error: function(response){
       console.log("ERROR");
@@ -220,11 +228,10 @@ function consultarInscripciones(){
       if (response.length==0){
         html = "<div class='card w-100'><div class='card-body'><h5 class='card-title'>No estas inscripto a ningun examen.</h5></div></div>";
       }else{
-        html = "<div class='container '><h4 class='display-4 '>Consultar inscripciones</h4>"
         for(var i=0;i<response.length;i++){
           html+="<div class='card w-90 inscripciones'><div class='card-body'><h5 class='card-title'>"+response[i].nombre+"</h5><p class='card-text'>"+response[i].fecha+"</p></div></div>";
+        
         }
-        html += "</div>"
       }
       $("#navconsultardiv").html(html);
     },
