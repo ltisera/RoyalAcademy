@@ -1,6 +1,8 @@
+CREATE DATABASE  IF NOT EXISTS `royalacademydb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `royalacademydb`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: royalacademydb
+-- Host: localhost    Database: royalacademydb
 -- ------------------------------------------------------
 -- Server version	8.0.17
 
@@ -67,7 +69,7 @@ CREATE TABLE `examen` (
 
 LOCK TABLES `examen` WRITE;
 /*!40000 ALTER TABLE `examen` DISABLE KEYS */;
-INSERT INTO `examen` VALUES (9,'2019-11-29 00:00:00',1,_binary '',NULL),(10,'2019-12-01 22:00:00',2,_binary '',NULL);
+INSERT INTO `examen` VALUES (9,'2019-11-29 00:00:00',1,_binary '',60),(10,'2019-12-01 22:00:00',2,_binary '',60);
 /*!40000 ALTER TABLE `examen` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -340,7 +342,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'cmathov@gmail.com','1234','alumno'),(2,'enzord@gmail.com','1234','alumno'),(3,'ltisera@gmail.com','1234','alumno'),(4,'pmiranda@gmail.com','1234','alumno'),(5,'nmateus@gmail.com','1234','alumno'),(6,'docente1@gmail.com','1234','profesor');
+INSERT INTO `usuario` VALUES (1,'cmathov@gmail.com','1234','alumno'),(2,'enzord07@gmail.com','1234','alumno'),(3,'ltisera@gmail.com','1234','alumno'),(4,'pmiranda@gmail.com','1234','alumno'),(5,'nmateus@gmail.com','1234','alumno'),(6,'docente1@gmail.com','1234','profesor');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -361,4 +363,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-07 21:14:07
+-- Dump completed on 2019-11-08 15:25:25
