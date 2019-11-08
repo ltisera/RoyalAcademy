@@ -2,18 +2,24 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="static/css/estilos.css" />
 <script src="static/js/jquery-3.4.1.js"></script>
-<script src="static/js/index.js"></script>
-
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
 <link rel="stylesheet" href="static/css/estilosLogin.css" />
+<link rel="stylesheet" href="static/css/style.css">
+
+
+<style>
+.imag{padding-top:50px !important;}
+.present{margin-top: 100px;}
+.navar{background: rgba(36,78,132); padding-bottom:20px}
+</style>
 
 </head>
 <body>
 
-<div class="clsHeader">
+<!-- <div class="clsHeader">
 	<div class="clsBarra">
 		<label>info algo </label>
 	</div>
@@ -31,14 +37,49 @@
 		<div class="clsColDerecha">
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
 						Iniciar Sesion</button>
-			<!--
-				<input id="idTxtUssr" type="text" value="UssrName">
-			<input id="idTxtPass" type="password" value="pass">
-			<input id="idLogueate" type="button" value="logueate">
-			-->		
+			
+			
 		</div>
 	</div>
-</div>
+</div>-->		
+
+<!--================ Start Home Banner Area =================-->
+
+<header class="navar">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg ">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<a class="navbar-brand logo_h" href="index.html"><img src="img/logo2.png" alt=""></a>				
+				</div>
+			</nav>
+		</div>
+	</header>
+<section class="home_banner_area ">
+		<div class="banner_inner">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-7 col-md-auto present">
+						<div class="banner_content">
+							<h3 class="text-uppercase">Hola!</h3>
+							<h1 class="text-uppercase">Bienvenido a Royal Academy</h1>
+							
+						</div>
+						<div class="d-flex align-items-center">
+								<button class="primary_btn" data-toggle="modal" data-target="#exampleModalLong"><span>Iniciar Sesion</span></button>
+							</div>
+					</div>
+					<div class="col-lg-5 col-md-auto imag">
+						<div class="home_right_img imag">
+							<img class="" src="{{ url_for('static',filename='img/home-right.png')}}" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================ End Home Banner Area =================-->
+
 
 
 <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -56,9 +97,7 @@
 					</div>
 					<button class="btn btn-lg btn-primary btn-block btn-signin" id="idLogueate" type="submit" value="logueate" >Ingresar</button>
 				</form><!-- /form -->
-				<a href="#" class="forgot-password">
-				   Olvidaste tu contraseña?
-				</a>
+				
 				<div class="clsMain">
 		
 				</div>
@@ -67,13 +106,6 @@
 	</div>
 </div>
 
-
-<div class="clsMain">
-	<!-- Button trigger modal -->
-
-  
-  <!-- Modal -->
-</div>
 
 
 </body>
