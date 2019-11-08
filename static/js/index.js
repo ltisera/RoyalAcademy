@@ -4,13 +4,19 @@ $(document).ready(function(){
 });
 
 $(document).on('click', "#idLogueate", function() {
-    $.ajax({
-        url: 'login',
-        type: 'POST',
-        data: {"username": $("#idTxtUssr").val(),
-                "password": $("#idTxtPass").val()
-            },
-        success:function(response){console.log(response)},
-        error:function(response){console.log("MAL")}
+    $.post("login", $("#loginform").serialize(), function(response){
+        var resultado = response;
+			switch(resultado){
+			case '1':
+				console.log("soy un alumno, redireccion")
+				window.location.href = "alumno";
+				break;
+			case '2':
+				window.location.href = "docente";
+				break
+			default:
+				$("#respuestalogin").html(resultado)
+				break;
+			}
     });
 });

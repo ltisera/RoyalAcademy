@@ -176,19 +176,20 @@ def login():
     if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
         usuarioDevuelto = ldao.iniciarSesion(request.form['email'], request.form['password'])
         print(usuarioDevuelto)
-        session['username'] = usuarioDevuelto['id']
         if(usuarioDevuelto):
+            session['username'] = usuarioDevuelto['id']
             if(usuarioDevuelto['tipoUsuario'] == 'alumno'):
-                return redirect(url_for('alumno'))
+                return "1"
             if(usuarioDevuelto['tipoUsuario'] == 'profesor'):
-                return redirect(url_for('docente'))
+                return "2"
             if(usuarioDevuelto['tipoUsuario'] == 'ag'):
                 return redirect(url_for('ag'))
         else: 
-            return redirect(url_for('registro'))
+            print("pasa por aca cuando hay clave incorrecta")
+            return "Usuario o clave incorrecta"
         
                 
-    return jsonify(usuarioDevuelto),200
+    return "Error mas critico"
 
 
 @app.route('/logout', methods=['GET', 'POST'])
